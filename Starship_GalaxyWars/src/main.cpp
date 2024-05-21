@@ -1,18 +1,30 @@
-#include <Arduino.h>
+#include "timerISR.h"
+#include "helper.h"
+#include "periph.h"
+#include "serialATmega.h"
+#include "Globals.h"
 
-// put function declarations here:
-int myFunction(int, int);
+void TimerISR() 
+{
+  for ( uint32_t i = 0; i < NUM_TASKS; i++ ) 
+  {
+    if ( gTasks[i].m_elapsedTime == gTasks[i].m_period )
+    {           
+      gTasks[i].m_state = gTasks[i].m_TickFunction(gTasks[i].m_state);
+      gTasks[i].m_elapsedTime = 0;
+    }
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+    gTasks[i].m_elapsedTime += PERIOD_GCD;
+  }
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
+int main() 
+{
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  TimerSet(PERIOD_GCD);
+  TimerOn();
+
+  while (1) {}
+
+  return 0;
 }
