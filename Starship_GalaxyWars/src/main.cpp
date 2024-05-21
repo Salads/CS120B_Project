@@ -4,6 +4,8 @@
 #include "SerialMonitor.h"
 #include "Globals.h"
 
+Task gTasks[NUM_TASKS];
+
 void TimerISR()
 {
 	for (uint32_t i = 0; i < NUM_TASKS; i++)
@@ -23,9 +25,7 @@ int main()
 	TimerSet(PERIOD_GCD);
 	TimerOn();
 
-	while (1)
-	{
-	}
+	while (1){}
 
 	return 0;
 }
