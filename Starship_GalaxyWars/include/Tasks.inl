@@ -1,9 +1,9 @@
 #include "Tasks.h"
-#include "DisplayClient.h"
+#include "ST7735SClient.h"
 
 int Tick_Render(int state)
 {
-	static DisplayClient displayClient;
+	static ST7735SClient displayClient;
 
 	switch(state) // transitions
 	{

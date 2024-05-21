@@ -2,7 +2,7 @@
 
 #include "Globals.h"
 #include "Task.h"
-#include "DisplayClient.h"
+#include "ST7735SClient.h"
 
 #define NUM_TASKS 1
 #define PERIOD_GCD 1
