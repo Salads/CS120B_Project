@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "Task.h"
+#include "DisplayClient.h"
 
 #define NUM_TASKS 0
 #define PERIOD_GCD 1
