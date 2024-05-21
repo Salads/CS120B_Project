@@ -4,7 +4,7 @@
 #include "Task.h"
 #include "DisplayClient.h"
 
-#define NUM_TASKS 0
+#define NUM_TASKS 1
 #define PERIOD_GCD 1
 
 enum TS_Joystick {TS_JOYSTICK_INIT, TS_JOYSTICK_SAMPLE};
@@ -18,3 +18,6 @@ FORCE_INLINE int Tick_Buttons(int state);
 FORCE_INLINE int Tick_Update(int state);
 FORCE_INLINE int Tick_Audio(int state);
 FORCE_INLINE int Tick_Render(int state);
+
+
+#include "Tasks.inl"
