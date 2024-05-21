@@ -4,6 +4,9 @@
 #include <avr/interrupt.h>
 #include "Defines.h"
 
+// TODO(Darrell): something like printf? 
+// TODO(Darrell): Macro magic to take out serial monitor printing? (it's slow)
+
 FORCE_INLINE void Serial_Init(int baud);
 FORCE_INLINE void Serial_PrintChar(char ch);
 FORCE_INLINE void Serial_PrintLine(char *str);
@@ -22,8 +25,7 @@ void Serial_Init(int baud)
 // sends a char
 void Serial_PrintChar(char ch)
 {
-	while ((UCSR0A & (1 << UDRE0)) == 0)
-		;
+	while ((UCSR0A & (1 << UDRE0)) == 0);
 	UDR0 = ch;
 }
 
