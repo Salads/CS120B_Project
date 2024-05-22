@@ -23,7 +23,7 @@
 #define ST7735S_PIN_RESET PORTC4
 #define ST7735S_PIN_CS    PORTC5
 
-enum ST7735SCommands
+enum ST7735SCommands : uint8_t
 {
 	// System Functions
 	NOP       = 0x00,
@@ -84,6 +84,18 @@ enum ST7735SCommands
 	GMCTRN1   = 0xe1, /* Gamma '-'Polarity Correction Characteristics Setting */
 	GCV       = 0xfc, /* Gate Pump Clock Frequency Variable */
 };
+
+struct color565_t 
+{
+    union {
+        struct {
+            uint16_t r:5;
+            uint16_t g:6;
+            uint16_t b:5;
+        } __attribute__((packed));
+        uint8_t u[2];
+    };
+} __attribute__((packed)) ;
 
 /* columns: 1 = # of params, 2 = command, 3 .. = params */
 static uint8_t init_cmd[] = {

@@ -3,8 +3,6 @@
 
 int Tick_Render(int state)
 {
-	static ST7735SClient displayClient;
-
 	switch(state) // transitions
 	{
 		case TS_RENDER_INIT: state = TS_RENDER_DORENDER; break;
