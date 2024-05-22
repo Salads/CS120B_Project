@@ -1,7 +1,6 @@
 #include "timerISR.h"
-#include "helper.h"
 #include "periph.h"
-#include "spiAVR.h"
+#include "SPIUtil.h"
 #include "SerialMonitor.h"
 #include "Globals.h"
 #include "Tasks.h"

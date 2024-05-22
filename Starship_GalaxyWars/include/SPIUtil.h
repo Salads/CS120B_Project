@@ -1,11 +1,9 @@
-#ifndef SPIAVR_H
-#define SPIAVR_H
+#pragma once
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "helper.h"
-
+#include "BitUtil.h"
 
 //B5 should always be SCK(spi clock) and B3 should always be MOSI. If you are using an
 //SPI peripheral that sends data back to the arduino, you will need to use B4 as the MISO pin.
@@ -26,21 +24,5 @@
 #define PIN_MOSI                  PORTB3 // SHOULD ALWAYS BE B3 (11) ON THE ARDUINO
 #define PIN_SS                    PORTB2 // Always B2 (10)
 
-
-//If SS is on a different port, make sure to change the init to take that into account.
-void SPI_INIT(){
-    DDRB |= (1 << PIN_SCK) | (1 << PIN_MOSI) | (1 << PIN_SS); //initialize your pins. 
-    SPCR |= (1 << SPE) | (1 << MSTR); //initialize SPI coomunication
-}
-
-void SPI_SEND(char data)
-{
-    PORTB = SetBit(PORTB, PIN_SS, 0);
-    
-    SPDR = data; //set data that you want to transmit
-    while (!(SPSR & (1 << SPIF)));// wait until done transmitting
-
-    PORTB = SetBit(PORTB, PIN_SS, 1);
-}
-
-#endif /* SPIAVR_H */
+void SPI_INIT();
+void SPI_SEND(char data);

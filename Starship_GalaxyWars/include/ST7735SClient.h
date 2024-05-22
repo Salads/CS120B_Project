@@ -1,8 +1,7 @@
 #pragma once
 
 #include "ST7735S.h"
-#include "helper.h"
-#include "spiAVR.h"
+#include "SPIUtil.h"
 
 #define SCREEN_HEIGHT 160
 #define SCREEN_WIDTH  128
