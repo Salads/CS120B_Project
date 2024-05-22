@@ -1,3 +1,5 @@
+#pragma once 
+
 #include "ST7735SClient.h"
 #include "SerialMonitor.h"
 
@@ -31,7 +33,6 @@ void ST7735SClient::SetRegion(uint8_t rowStart, uint8_t rowEnd, uint8_t colStart
 {
 	if(rowEnd >= m_screenWidth - 1 || colEnd >= m_screenHeight - 1)
 	{
-		Serial_PrintLine("bad set region args");
 		return;
 	}
 
@@ -54,14 +55,11 @@ void ST7735SClient::SetRegion(uint8_t rowStart, uint8_t rowEnd, uint8_t colStart
 	m_screenRegion = {xMin, xMax, yMin, yMax};
 }
 
-void ST7735SClient::FillScreen(uint8_t r, uint8_t g, uint8_t b)
+void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 {
 	// TODO(Darrell): Different Color Formats
 
 	SendCommand(RAMWR);
-
-	Serial_PrintLine(m_screenRegion.m_startX); Serial_PrintLine(m_screenRegion.m_endX);
-	Serial_PrintLine(m_screenRegion.m_startY); Serial_PrintLine(m_screenRegion.m_endY);
 
 	for(int y = m_screenRegion.m_startY; y < m_screenRegion.m_endY; y++)
 	{

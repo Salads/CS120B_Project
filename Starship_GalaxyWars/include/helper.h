@@ -1,10 +1,11 @@
+#ifndef HELPER_H
+#define HELPER_H
+
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 //#include <avr/signal.h>
 #include <util/delay.h>
-
-#ifndef HELPER_H
-#define HELPER_H
 
 //Functionality - finds the greatest common divisor of two values
 //Parameter: Two long int's to find their GCD

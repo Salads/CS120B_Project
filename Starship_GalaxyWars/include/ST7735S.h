@@ -85,39 +85,3 @@ enum ST7735SCommands : uint8_t
 	GCV       = 0xfc, /* Gate Pump Clock Frequency Variable */
 };
 
-/* columns: 1 = # of params, 2 = command, 3 .. = params */
-static uint8_t init_cmd[] = {
-    1, SWRESET, /* software reset */
-    1,  SLPOUT, /* sleep out, turn off sleep mode */
-	1, DISPOFF,  /*  output from frame mem disabled */
-    4, FRMCTR1, 0x00, 0b111111, 0b111111, /* frame frequency normal mode (highest frame rate in normal mode) */
-    4, FRMCTR2, 0b1111, 0x01, 0x01, /* frame frequency idle mode */
-    7, FRMCTR3, 0x05, 0x3c, 0x3c, 0x05, 0x3c, 0x3c,  /* frame freq partial mode: 1-3 dot inv, 4-6 col inv */
-    2,  INVCTR, 0x03, /* display inversion control: 3-bit 0=dot, 1=col */
-
-    4,  PWCTR1, 0b11111100, 0x08, 0b10, /* power control */
-    2,  PWCTR2, 0xc0,
-    3,  PWCTR3, 0x0d, 0x00,
-    3,  PWCTR4, 0x8d, 0x2a,
-    3,  PWCTR5, 0x8d, 0xee, /* partial */
-
-	/* display brightness and gamma */
-    2,     GCV, 0b11011000, /* auto gate pump freq, max power save */
-    2, NVFCTR1, 0b01000000, /* automatic adjust gate pumping clock for saving power consumption */
-	2,  VMCTR1, 0b001111,  /* VCOM voltage setting */
-    2, VMOFCTR, 0b10000, /* ligthness of black color 0-0x1f */
-    2,  GAMSET, 0x08, /* gamma 1, 2, 4, 8 */
-
-    2,  MADCTL, 0b01100000, /* row oder, col order, row colum xchange, vert refr order, rgb/bgr, hor refr order, 0, 0 */
-    2,  COLMOD, 0x05, /* 3=12bit, 5=16-bit, 6=18-bit  pixel color mode */
-    17, GMCTRP1,0x02, 0x1c, 0x07, 0x12, 0x37, 0x32, 0x29, 0x2c,
-                0x29, 0x25, 0x2b, 0x39, 0x00, 0x01, 0x03, 0x10,
-    17, GMCTRN1,0x03, 0x1d, 0x07, 0x06, 0x2E, 0x2C, 0x29, 0x2c,
-                0x2e, 0x2e, 0x37, 0x3f, 0x00, 0x00, 0x02, 0x10,
-    5,   CASET, 0, 0, 0, ST7735S_SCREEN_HEIGHT - 1,
-    5,   RASET, 0, 0, 0, ST7735S_SCREEN_WIDTH  - 1,
-    1,   INVON, /* display inversion on/off */
-    1,  IDMOFF, /* idle mode off */
-    1,   NORON,  /* normal display mode on */
-    1,  DISPON,  /* recover from display off, output from frame mem enabled */
-};
