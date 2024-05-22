@@ -33,6 +33,7 @@ public:
 	FORCE_INLINE void Initialize();
 	FORCE_INLINE void SetRegion(uint8_t rowStart, uint8_t rowEnd, uint8_t colStart, uint8_t colEnd);
 	FORCE_INLINE void FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b);
+	FORCE_INLINE void FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b, uint8_t* data);
 
 private:
 	FORCE_INLINE void SendCommand(uint8_t);

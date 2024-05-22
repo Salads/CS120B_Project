@@ -72,6 +72,11 @@ void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 	}
 }
 
+void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b, uint8_t* data)
+{
+	
+}
+
 void ST7735SClient::SetHardwareResetPin(bool val)
 {
 	PORTB = SetBit(PORTB, PORTB4, val);
