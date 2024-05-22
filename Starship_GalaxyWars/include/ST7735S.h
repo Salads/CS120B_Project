@@ -85,18 +85,6 @@ enum ST7735SCommands : uint8_t
 	GCV       = 0xfc, /* Gate Pump Clock Frequency Variable */
 };
 
-struct color565_t 
-{
-    union {
-        struct {
-            uint16_t r:5;
-            uint16_t g:6;
-            uint16_t b:5;
-        } __attribute__((packed));
-        uint8_t u[2];
-    };
-} __attribute__((packed)) ;
-
 /* columns: 1 = # of params, 2 = command, 3 .. = params */
 static uint8_t init_cmd[] = {
     1, SWRESET, /* software reset */

@@ -36,6 +36,7 @@ void SPI_INIT(){
 void SPI_SEND(char data)
 {
     PORTB = SetBit(PORTB, PIN_SS, 0);
+    
     SPDR = data; //set data that you want to transmit
     while (!(SPSR & (1 << SPIF)));// wait until done transmitting
 
