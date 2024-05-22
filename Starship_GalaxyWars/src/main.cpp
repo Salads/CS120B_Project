@@ -42,8 +42,18 @@ int main()
 
 	ST7735SClient client;
 	client.Initialize();
-	client.SetRegion(14, 114, 40, 120);
+	
 	client.FillScreen(0, 255, 0);
+
+	client.SetRegion(32, 96, 32, 128);
+	client.FillScreen(255, 0, 0);
+
+	client.SetRegion(44, 84, 44, 116);
+	client.FillScreen(0, 0, 255);
+
+	client.SetRegion(56, 72, 56, 104);
+	client.FillScreen(255, 165, 0);
+
 
 	gTasks[0] = {TS_RENDER_INIT, PERIOD_GCD, PERIOD_GCD, &Tick_Render};
 
