@@ -1,4 +1,6 @@
+
 #include "Entity.h"
+#include "Globals.h"
 
 bool Entity::GetCollides(Entity &other)
 {

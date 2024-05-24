@@ -17,9 +17,9 @@ uint8_t* ConvertRGB24DataTo12(uint8_t* src)
     uint8_t* resultData = new uint8_t[destSize];
 
     for (int i = 0; i < srcSize; i++)
-    [
-
-    ]
+    {
+        
+    }
 
     return resultData;
 }

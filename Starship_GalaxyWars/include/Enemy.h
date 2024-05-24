@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Globals.h"
+#include "Types.h"
 #include "Combatant.h"
 
 class Enemy : public Combatant
