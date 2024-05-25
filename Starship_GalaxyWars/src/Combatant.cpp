@@ -1,5 +1,10 @@
 #include "Combatant.h"
 
+Combatant::Combatant()
+{
+	
+}
+
 bool Combatant::GetIsAlive()
 {
 	return m_hp > 0;

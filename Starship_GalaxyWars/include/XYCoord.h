@@ -4,9 +4,9 @@
 
 struct XYCoord 
 {
-    uint8_t x1;
-    uint8_t y1;
+    XYCoord() {};
+    XYCoord(uint8_t x, uint8_t y) {m_x = x; m_y = y;};
 
-    uint8_t x2;
-    uint8_t y2;
+    uint8_t m_x;
+    uint8_t m_y;
 };

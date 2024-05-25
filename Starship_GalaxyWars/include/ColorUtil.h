@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Globals.h"
-
 // This file contains the interface for conveniently converting full 24bit RGB color into a 4-4-4 12bit color
 
 // Maps a value from a source range to another range.

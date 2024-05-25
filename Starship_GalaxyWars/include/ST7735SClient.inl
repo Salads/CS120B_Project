@@ -8,6 +8,13 @@ ST7735SClient::ST7735SClient()
 	m_screenRegion = { 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT };
 }
 
+ST7735SClient& ST7735SClient::Get()
+{
+	static ST7735SClient instance;
+	if(!instance.GetIsInitialized()) {instance.Initialize();}
+	return instance;
+}
+
 void ST7735SClient::Initialize()
 {
 	// Hardware Reset
@@ -27,18 +34,25 @@ void ST7735SClient::Initialize()
 	//_delay_ms(200);
 	SendCommand(DISPON); // Turn on Display
 	//_delay_ms(200);
+
+	// Clear screen and draw background
+	ScreenRegion fullScreenRegion;
+	SetRegion(fullScreenRegion);
+	FillCurrentScreenRegion(255, 255, 255);
+
+	m_initialized = true;
 }
 
-void ST7735SClient::SetRegion(uint8_t rowStart, uint8_t rowEnd, uint8_t colStart, uint8_t colEnd)
+void ST7735SClient::SetRegion(ScreenRegion& region)
 {
-	if(rowEnd >= m_screenWidth - 1 || colEnd >= m_screenHeight - 1)
+	if(region.m_endX >= m_screenWidth - 1 || region.m_endY >= m_screenHeight - 1)
 	{
 		return;
 	}
 
 	// Set Column
-	uint8_t xMin = rowStart;
-	uint8_t xMax = rowEnd;
+	uint8_t xMin = region.m_startX;
+	uint8_t xMax = region.m_endX;
 	SendCommand(CASET);
 	SendData(0); SendData(xMin); // col start
 	SendData(0); SendData(xMax); // col end 
@@ -46,8 +60,8 @@ void ST7735SClient::SetRegion(uint8_t rowStart, uint8_t rowEnd, uint8_t colStart
 	// _delay_ms(500);
 
 	// Set Row
-	uint8_t yMin = colStart;
-	uint8_t yMax = colEnd;
+	uint8_t yMin = region.m_startY;
+	uint8_t yMax = region.m_endY;
 	SendCommand(RASET);
 	SendData(0); SendData(yMin); // row start (high, low)
 	SendData(0); SendData(yMax); // row end (high, low)

@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Globals.h"
 #include "Task.h"
 #include "ST7735SClient.h"
 
 #define NUM_TASKS 1
-#define PERIOD_GCD 1
+#define PERIOD_GCD 1000
 
 enum TS_Joystick {TS_JOYSTICK_INIT, TS_JOYSTICK_SAMPLE};
 enum TS_Buttons  {TS_BUTTONS_INIT,  TS_BUTTONS_SAMPLE };

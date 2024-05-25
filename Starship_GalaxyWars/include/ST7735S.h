@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Globals.h"
-
 // oh boy, here comes the pain
 
 // [0-7] PORTD (8bit)
