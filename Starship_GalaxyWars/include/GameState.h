@@ -10,6 +10,6 @@ public:
 private:
     uint8_t  m_score;  
     uint32_t m_timeElapsedMS; 
-    //Enemy*   m_enemies;
+    Enemy*   m_enemies;
 
 };
