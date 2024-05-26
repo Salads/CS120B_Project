@@ -8,6 +8,16 @@ Entity::Entity()
 	m_position = XYCoord(0,0);
 }
 
+uint16_t Entity::GetTextureDataSize()
+{
+	return m_textureDataSize;
+}
+
+uint8_t* Entity::GetTextureData()
+{
+	return m_textureData;
+}
+
 uint8_t Entity::GetWidth()
 {
 	return m_width;

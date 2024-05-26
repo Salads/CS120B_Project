@@ -22,23 +22,20 @@ int Tick_Render(int state)
 		{
 			GameState& gameState = GameState::Get();
 			ST7735SClient& renderer = ST7735SClient::Get();
-			for(int i = 0; i < gameState.m_numEnemies; i++)
+			for(int i = 0; i < 1; i++)
 			{
 				Enemy* enemy = gameState.m_enemies[i];
 				if(enemy->GetRenderDirty())
 				{
-					// Render over previous position with background color.
-					ScreenRegion lastRegion = enemy->GetLastRenderRegion();
-					renderer.SetRegion(lastRegion);
-					renderer.FillCurrentScreenRegion(255, 255, 255);
-
-					// Render new position
-					ScreenRegion newRegion = enemy->GetRenderRegion();
-					renderer.SetRegion(newRegion);
-					renderer.FillCurrentScreenRegion(120, 120, 0);
-					
+					renderer.RenderEntity(enemy);
 					enemy->SetRenderDirty(false);
 				}
+			}
+
+			if(gameState.m_player->GetRenderDirty())
+			{
+				renderer.RenderEntity(gameState.m_player);
+				gameState.m_player->SetRenderDirty(false);
 			}
 
 		} break;

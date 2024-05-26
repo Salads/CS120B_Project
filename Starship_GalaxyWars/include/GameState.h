@@ -2,6 +2,7 @@
 #define GAMESTATE_H
 
 #include "Enemy.h"
+#include "Player.h"
 
 class GameState
 {
@@ -17,6 +18,8 @@ public:
     uint32_t m_timeElapsedMS; 
     Enemy**  m_enemies; // An array of POINTERS, to Enemies.
     uint8_t  m_numEnemies = 0;
+
+    Player*  m_player;
 };
 
 #include "GameState.inl"

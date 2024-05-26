@@ -3,6 +3,7 @@
 #include "ST7735S.h"
 #include "SPIUtil.h"
 #include "ScreenRegion.h"
+#include "Entity.h"
 
 enum PixelFormat : uint8_t
 {
@@ -20,7 +21,8 @@ public:
 	FORCE_INLINE void Initialize();
 	FORCE_INLINE void SetRegion(ScreenRegion& region);
 	FORCE_INLINE void FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b);
-	FORCE_INLINE void FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b, uint8_t* data);
+	FORCE_INLINE void FillCurrentScreenRegion(uint8_t* data, uint16_t dataSize);
+	FORCE_INLINE void RenderEntity(Entity* entity);
 	FORCE_INLINE bool GetIsInitialized() {return m_initialized;}
 
 private:

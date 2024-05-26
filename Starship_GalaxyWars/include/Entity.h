@@ -9,7 +9,8 @@ class Entity
 public:
 	Entity();
 	bool GetCollides(Entity &other);
-	//virtual uint8_t* GetTextureData() = 0;
+	uint8_t* GetTextureData();
+	uint16_t GetTextureDataSize();
 
 	void SetPosition(uint8_t x, uint8_t y);
 	void SetRenderDirty(bool dirty);
@@ -34,4 +35,5 @@ protected:
 	// entity size. There's also no texture stretching.
 	// Will probably crash if you mismatch texture data size with entity size.
 	uint8_t* m_textureData;
+	uint16_t m_textureDataSize;
 };

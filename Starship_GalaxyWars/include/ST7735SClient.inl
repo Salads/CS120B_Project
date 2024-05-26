@@ -2,6 +2,7 @@
 
 #include "ST7735SClient.h"
 #include "SerialMonitor.h"
+#include "Entity.h"
 
 ST7735SClient::ST7735SClient()
 {
@@ -30,7 +31,7 @@ void ST7735SClient::Initialize()
 	SendCommand(IDMOFF); // Disable Idle Mode
 	//_delay_ms(500);
 	SendCommand(COLMOD); // Set Pixel Format
-	SendData(PixelFormat_18BitPixels);
+	SendData(PixelFormat_16BitPixels);
 	//_delay_ms(200);
 	SendCommand(DISPON); // Turn on Display
 	//_delay_ms(200);
@@ -86,9 +87,31 @@ void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 	}
 }
 
-void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b, uint8_t* data)
+void ST7735SClient::RenderEntity(Entity* entity)
 {
-	
+	// Render over previous position with background color.
+	ScreenRegion lastRegion = entity->GetLastRenderRegion();
+	SetRegion(lastRegion);
+	FillCurrentScreenRegion(255, 255, 255);
+
+	// Render new position
+	ScreenRegion newRegion = entity->GetRenderRegion();
+	SetRegion(newRegion);
+	FillCurrentScreenRegion(entity->GetTextureData(), entity->GetTextureDataSize());
+}
+
+void ST7735SClient::FillCurrentScreenRegion(uint8_t* data, uint16_t dataSize)
+{
+	uint16_t arrSize = dataSize;
+	Serial_PrintLine(arrSize);
+	if (arrSize <= 0) {return;}
+
+	SendCommand(RAMWR);
+	for(uint16_t i = 0; i < arrSize; i++)
+	{
+		Serial_PrintLine(*data, 16);
+		SendData(*data++);
+	}
 }
 
 void ST7735SClient::SetHardwareResetPin(bool val)

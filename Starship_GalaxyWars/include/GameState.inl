@@ -2,6 +2,7 @@
 
 #include "GameState.h"
 #include "Fly.h"
+#include "Player.h"
 
 GameState::GameState()
 {
@@ -31,6 +32,9 @@ void GameState::Initialize()
 		// Anchor point is top-left because this is early prototype. Or maybe i wont care at all.
 		newEnemy->SetPosition(dWidth / 2 - (newEnemy->GetWidth() / 2) + (dWidth * i), 10);
 	}
+
+	m_player = new Player();
+	m_player->SetPosition(64, 100);
 
 	m_initialized = true;
 }
