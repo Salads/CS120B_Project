@@ -26,4 +26,9 @@ protected:
 
 	XYCoord m_position;
 	XYCoord m_lastPosition;
+
+	// There's no data integrity checking between texture data and
+	// entity size. There's also no texture stretching.
+	// Will probably crash if you mismatch texture data size with entity size.
+	uint8_t* m_textureData;
 };

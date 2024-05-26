@@ -6,7 +6,7 @@
 class Enemy : public Combatant
 {
 public:
-	Enemy();
+
 private:
 	
 };
