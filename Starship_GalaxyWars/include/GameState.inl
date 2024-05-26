@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameState.h"
+#include "Fly.h"
 
 GameState::GameState()
 {
@@ -22,20 +23,13 @@ void GameState::Initialize()
 	// Spawn Enemies
 	for (int i = 0; i < K_MAX_ENEMIES; i++)
 	{
-		Enemy* newEnemy = new Enemy();
+		Fly* newEnemy = new Fly();
 		m_enemies[i] = newEnemy;
+
+		uint8_t dWidth = SCREEN_WIDTH / K_MAX_ENEMIES; // screen div for max enemies
 		
-		// This isn't tied with anything, just for first demo purposes
-		// Display Res: 128x160
 		// Anchor point is top-left because this is early prototype. Or maybe i wont care at all.
-		if(i == 0)
-		{
-			newEnemy->SetPosition(0 + 32 + 10, 20);
-		}
-		if(i == 1)
-		{
-			newEnemy->SetPosition(128 - 32 - 10, 20);
-		}
+		newEnemy->SetPosition(dWidth / 2 - (newEnemy->GetWidth() / 2) + (dWidth * i), 10);
 	}
 
 	m_initialized = true;

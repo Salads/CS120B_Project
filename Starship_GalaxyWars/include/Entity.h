@@ -16,6 +16,9 @@ public:
 	bool GetRenderDirty() {return m_renderDirty;}
 	ScreenRegion GetLastRenderRegion();
 	ScreenRegion GetRenderRegion();
+
+	uint8_t GetWidth();
+	uint8_t GetHeight();
 	
 protected:
 

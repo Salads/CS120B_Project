@@ -8,6 +8,16 @@ Entity::Entity()
 	m_position = XYCoord(0,0);
 }
 
+uint8_t Entity::GetWidth()
+{
+	return m_width;
+}
+
+uint8_t Entity::GetHeight()
+{
+	return m_height;
+}
+
 bool Entity::GetCollides(Entity &other)
 {
 	// simple "box" collision checking
