@@ -13,7 +13,7 @@ uint16_t Entity::GetTextureDataSize()
 	return m_textureDataSize;
 }
 
-uint8_t* Entity::GetTextureData()
+uint16_t* Entity::GetTextureData()
 {
 	return m_textureData;
 }
@@ -62,9 +62,9 @@ void Entity::SetRenderDirty(bool dirty)
 ScreenRegion Entity::GetLastRenderRegion()
 {
 	ScreenRegion result(
-		m_lastPosition.m_x,
+		m_lastPosition.m_x + 1,
 		m_lastPosition.m_x + m_width,
-		m_lastPosition.m_y,
+		m_lastPosition.m_y + 1,
 		m_lastPosition.m_y + m_height
 	);
 
@@ -74,9 +74,9 @@ ScreenRegion Entity::GetLastRenderRegion()
 ScreenRegion Entity::GetRenderRegion()
 {
 	ScreenRegion result(
-		m_position.m_x,
+		m_position.m_x + 1,
 		m_position.m_x + m_width,
-		m_position.m_y,
+		m_position.m_y + 1,
 		m_position.m_y + m_height
 	);
 
