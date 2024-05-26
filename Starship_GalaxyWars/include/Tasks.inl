@@ -5,6 +5,7 @@
 #include "ScreenRegion.h"
 #include "GameState.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 int Tick_Render(int state)
 {
@@ -22,7 +23,7 @@ int Tick_Render(int state)
 		{
 			GameState& gameState = GameState::Get();
 			ST7735SClient& renderer = ST7735SClient::Get();
-			for(int i = 0; i < 1; i++)
+			for(int i = 0; i < gameState.m_numEnemies; i++)
 			{
 				Enemy* enemy = gameState.m_enemies[i];
 				if(enemy->GetRenderDirty())
@@ -37,6 +38,11 @@ int Tick_Render(int state)
 				renderer.RenderEntity(gameState.m_player);
 				gameState.m_player->SetRenderDirty(false);
 			}
+
+			// Bullet* newBullet = new Bullet(BulletType_PlayerNormal);
+			// newBullet->SetPosition(10, 10);
+			// renderer.RenderEntity(newBullet);
+			// delete newBullet;
 
 		} break;
 		default: break;
