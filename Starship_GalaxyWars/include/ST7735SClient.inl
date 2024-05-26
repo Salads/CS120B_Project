@@ -39,7 +39,7 @@ void ST7735SClient::Initialize()
 	// Clear screen and draw background
 	ScreenRegion fullScreenRegion;
 	SetRegion(fullScreenRegion);
-	FillCurrentScreenRegion(255, 255, 255);
+	FillCurrentScreenRegion(m_backgroundColor);
 
 	m_initialized = true;
 }
@@ -72,8 +72,6 @@ void ST7735SClient::SetRegion(ScreenRegion& region)
 
 void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 {
-	// TODO(Darrell): Different Color Formats
-
 	SendCommand(RAMWR);
 
 	for(int y = m_screenRegion.m_startY; y < m_screenRegion.m_endY; y++)
@@ -87,12 +85,17 @@ void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 	}
 }
 
+void ST7735SClient::FillCurrentScreenRegion(uint16_t color)
+{
+	FillCurrentScreenRegion(color & 0b1111100000000000 >> 11, color & 0b0000011111100000 >> 5, color & 0b0000000000011111);
+}
+
 void ST7735SClient::RenderEntity(Entity* entity)
 {
 	// Render over previous position with background color.
 	ScreenRegion lastRegion = entity->GetLastRenderRegion();
 	SetRegion(lastRegion);
-	FillCurrentScreenRegion(255, 255, 255);
+	FillCurrentScreenRegion(m_backgroundColor);
 
 	// Render new position
 	ScreenRegion newRegion = entity->GetRenderRegion();
@@ -112,7 +115,7 @@ void ST7735SClient::FillCurrentScreenRegion(uint16_t* data, uint16_t dataSize)
 	uint16_t arrSize = dataSize;
 	if (arrSize <= 0) {return;}
 
-	Serial_Print("Data Addr: "); Serial_PrintLine((int)data);
+	//Serial_Print("Data Addr: "); Serial_PrintLine((int)data);
 
 	SendCommand(RAMWR);
 	for(uint16_t i = 0; i < arrSize; i++)

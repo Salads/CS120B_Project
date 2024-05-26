@@ -21,6 +21,7 @@ public:
 	FORCE_INLINE void Initialize();
 	FORCE_INLINE void SetRegion(ScreenRegion& region);
 	FORCE_INLINE void FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b);
+	FORCE_INLINE void FillCurrentScreenRegion(uint16_t color);
 	FORCE_INLINE void FillCurrentScreenRegion(uint16_t* data, uint16_t dataSize);
 	FORCE_INLINE void RenderEntity(Entity* entity);
 	FORCE_INLINE bool GetIsInitialized() {return m_initialized;}
@@ -35,6 +36,8 @@ private:
 	PixelFormat 		m_pixelFormat = PixelFormat_18BitPixels; // This is the default pixel format
 	uint8_t             m_screenWidth = SCREEN_WIDTH;
 	uint8_t             m_screenHeight = SCREEN_HEIGHT;
+
+	uint16_t            m_backgroundColor = 0x00;
 
 	ScreenRegion        m_screenRegion;
 };
