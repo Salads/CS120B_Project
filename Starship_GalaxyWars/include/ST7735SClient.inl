@@ -100,17 +100,35 @@ void ST7735SClient::RenderEntity(Entity* entity)
 	FillCurrentScreenRegion(entity->GetTextureData(), entity->GetTextureDataSize());
 }
 
-void ST7735SClient::FillCurrentScreenRegion(uint8_t* data, uint16_t dataSize)
+unsigned char reverse(unsigned char b) {
+   b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+   b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+   b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+   return b;
+}
+
+void ST7735SClient::FillCurrentScreenRegion(uint16_t* data, uint16_t dataSize)
 {
 	uint16_t arrSize = dataSize;
-	Serial_PrintLine(arrSize);
 	if (arrSize <= 0) {return;}
+
+	Serial_Print("Data Addr: "); Serial_PrintLine((int)data);
 
 	SendCommand(RAMWR);
 	for(uint16_t i = 0; i < arrSize; i++)
 	{
-		Serial_PrintLine(*data, 16);
-		SendData(*data++);
+		uint16_t pixel = data[i];
+		uint8_t red   = (pixel & 0b1111100000000000) >> 11;
+		uint8_t green = (pixel & 0b0000011111100000) >> 5;
+		uint8_t blue  = (pixel & 0b0000000000011111) >> 0;
+
+		uint8_t sendByte = 0x00;
+
+		sendByte = (blue << 3) | (green & 0b111000) >> 3;
+		SendData(sendByte);
+
+		sendByte = (green & 0b000111 << 5) | red;
+		SendData(sendByte);
 	}
 }
 
