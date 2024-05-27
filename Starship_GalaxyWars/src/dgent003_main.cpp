@@ -3,14 +3,16 @@
 #include "SPIUtil.h"
 #include "SerialMonitor.h"
 #include "Tasks.h"
+#include "GameState.h"
 
 Task gTasks[NUM_TASKS];
 
 void TimerISR()
 {
-	for (uint32_t i = 0; i < NUM_TASKS; i++)
+	GameState::Get().m_timeMS++;
+	for (uint8_t i = 0; i < NUM_TASKS; i++)
 	{
-		if (gTasks[i].m_elapsedTime == gTasks[i].m_period)
+		if (gTasks[i].m_elapsedTime >= gTasks[i].m_period)
 		{
 			gTasks[i].m_state = gTasks[i].m_TickFunction(gTasks[i].m_state);
 			gTasks[i].m_elapsedTime = 0;
@@ -46,7 +48,10 @@ int main()
 
 	SPI_INIT();
 
-	gTasks[0] = {TS_RENDER_INIT, PERIOD_GCD, PERIOD_GCD, &Tick_Render};
+	gTasks[0] = {TS_BUTTONS_INIT, PERIOD_BUTTONS, PERIOD_BUTTONS, &Tick_Buttons};
+	gTasks[1] = {TS_RENDER_INIT , PERIOD_RENDER , PERIOD_RENDER , &Tick_Render};
+
+	gTasks[NUM_TASKS - 1] = {TS_TIMING_INIT, PERIOD_TIMING, PERIOD_TIMING, &Tick_Timing};
 
 	TimerSet(PERIOD_GCD); 
 	TimerOn();
