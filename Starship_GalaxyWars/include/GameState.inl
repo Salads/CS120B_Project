@@ -10,6 +10,21 @@ GameState::GameState()
 	m_bullets = new Bullet*[K_MAX_BULLETS];
 }
 
+void GameState::AddBullet(Bullet* newBullet)
+{
+	m_bullets[m_numBullets] = newBullet;
+	m_numBullets++;
+}
+
+void GameState::DeleteBullet(uint8_t bulletIdx)
+{
+	if(m_numBullets < bulletIdx) return;
+
+	delete m_bullets[bulletIdx];
+	m_bullets[bulletIdx] = m_bullets[m_numBullets - 1];
+	m_numBullets--;
+}
+
 GameState& GameState::Get()
 {
 	static GameState m_instance;
@@ -22,24 +37,22 @@ GameState& GameState::Get()
 // 16Mhz, which translates to an oscillation interavl of 60 something fractional
 // nanoseconds. This means it's possible that a ms value happens in real life, but not 
 // our timer. But, the hope is that we don't need necessarily a exactly precise ms.
-double GameState::GetDeltaTime()
+void GameState::UpdateDeltaTime()
 {
-	double dtSeconds = 0.0;
-
 	uint32_t timePassedMS = 0;
 	// timeMS has overflown, so we'll 
-	if (m_lastFrameMS > m_timeMS)
+	if (m_lastFrameTimeMS > m_currentTimeMS)
 	{
-		uint32_t leftOver = UINT32_MAX - m_lastFrameMS;
-		timePassedMS = leftOver + m_timeMS;
+		uint32_t leftOver = UINT32_MAX - m_lastFrameTimeMS;
+		timePassedMS = leftOver + m_currentTimeMS;
 	}
 	else
 	{
-		timePassedMS = m_timeMS - m_lastFrameMS;
+		timePassedMS = m_currentTimeMS - m_lastFrameTimeMS;
 	}
 
-	dtSeconds = timePassedMS * 1000;
-	return dtSeconds;
+	m_deltaTimeMS = timePassedMS;
+	m_lastFrameTimeMS = m_currentTimeMS;
 }
 
 void GameState::Initialize()

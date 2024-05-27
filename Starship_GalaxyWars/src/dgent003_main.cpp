@@ -1,4 +1,4 @@
-#include "timerISR.h"
+#include "TimerISR.h"
 #include "periph.h"
 #include "SPIUtil.h"
 #include "SerialMonitor.h"
@@ -9,7 +9,7 @@ Task gTasks[NUM_TASKS];
 
 void TimerISR()
 {
-	GameState::Get().m_timeMS++;
+	GameState::Get().m_currentTimeMS++;
 	for (uint8_t i = 0; i < NUM_TASKS; i++)
 	{
 		if (gTasks[i].m_elapsedTime >= gTasks[i].m_period)
@@ -38,18 +38,11 @@ int main()
 	DDRB = 0xFF; PORTB = 0;
 	DDRC = 0xFF; PORTC = 0;
 
-#if false
-	while(1)
-	{
-		Serial_PrintLine((PIND >> 7) & 0x01);
-		_delay_ms(50);
-	}
-#endif
-
 	SPI_INIT();
 
 	gTasks[0] = {TS_BUTTONS_INIT, PERIOD_BUTTONS, PERIOD_BUTTONS, &Tick_Buttons};
-	gTasks[1] = {TS_RENDER_INIT , PERIOD_RENDER , PERIOD_RENDER , &Tick_Render};
+	gTasks[1] = {TS_UPDATE_INIT , PERIOD_UPDATE , PERIOD_UPDATE , &Tick_Update};
+	gTasks[2] = {TS_RENDER_INIT , PERIOD_RENDER , PERIOD_RENDER , &Tick_Render};
 
 	gTasks[NUM_TASKS - 1] = {TS_TIMING_INIT, PERIOD_TIMING, PERIOD_TIMING, &Tick_Timing};
 

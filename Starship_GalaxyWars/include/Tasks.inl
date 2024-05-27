@@ -39,6 +39,16 @@ int Tick_Render(int state)
 				gameState.m_player->SetRenderDirty(false);
 			}
 
+			for(int i = 0; i < gameState.m_numBullets; i++)
+			{
+				Bullet* bullet = gameState.m_bullets[i];
+				if(bullet->GetRenderDirty())
+				{
+					renderer.RenderEntity(bullet, false);
+					bullet->SetRenderDirty(false);
+				}
+			}
+
 		} break;
 		default: break;
 	}
@@ -89,7 +99,82 @@ int Tick_Update(int state)
 	switch (state)
 	{
 	case TS_UPDATE_INIT: break;
-	case TS_UPDATE_DOUPDATE: break;
+	case TS_UPDATE_DOUPDATE: 
+	{
+		GameState& gameState = GameState::Get();
+
+		// Update Gamestate with Input
+		if(gameState.m_fireButton && 
+			(gameState.m_timeSinceLastFireMS >= K_PLAYER_BULLET_FIREINTERVAL) &&
+			 gameState.m_numBullets < K_MAX_BULLETS)
+		{
+			Debug_PrintLine("Pew Pew!");
+			gameState.m_timeSinceLastFireMS = 0;
+
+			Bullet* newBullet = new Bullet(BulletType_PlayerNormal);
+			XYCoord spawnPos = gameState.m_player->GetPosition();
+			spawnPos.m_x += (gameState.m_player->GetWidth() / 2) - 1;
+			spawnPos.m_y -= 5;
+			newBullet->SetPosition(spawnPos);
+			gameState.AddBullet(newBullet);
+			
+		}
+		else
+		{
+			gameState.m_timeSinceLastFireMS += gameState.m_deltaTimeMS;
+			// Debug_PrintLine("SinceLastFire: %d, FireDown: %d, NumBullets: %d", 
+			// 	gameState.m_timeSinceLastFireMS, 
+			// 	gameState.m_numBullets,
+			// 	gameState.m_fireButton);
+		}
+
+		// Update Moving Entities
+			// Enemies
+			static bool b = true;
+			for (uint8_t i = 0; i < gameState.m_numEnemies; i++)
+			{
+				Enemy* enemy = gameState.m_enemies[i];
+				uint8_t mul = (b ? 1 : -1);
+				XYCoord curPos = enemy->GetPosition();
+				curPos.m_y = curPos.m_y + (mul * 25);
+				enemy->SetPosition(curPos);
+			}
+			b = !b;
+
+			// Bullets
+			static bool b2 = false;
+			for(uint8_t bIdx = 0; bIdx < gameState.m_numBullets; bIdx++)
+			{
+				Bullet* bullet = gameState.m_bullets[bIdx];
+				float dY = (float)K_BULLET_SPEED * gameState.m_deltaTimeMS;
+				XYCoord currentPosition = bullet->GetPosition();
+				if(currentPosition.m_y - dY <= 2)
+				{
+					bullet->SetIsMarkedForDeletion(true);
+					Serial_PrintLine("Mark Delete Bullet");
+				}
+				else
+				{
+					bullet->SetPosition(currentPosition.m_x, currentPosition.m_y - dY);
+				}
+			}
+			b2 = !b2;
+
+
+		// Delete to-be-deleted entities
+		
+			// Bullets
+			for(uint8_t i = 0; i < gameState.m_numBullets; i++)
+			{
+				Bullet* bullet = gameState.m_bullets[i];
+				if(bullet->GetIsMarkedForDeletion())
+				{
+					gameState.DeleteBullet(i);
+					i -= 1;
+				}
+			}
+
+	} break;
 	default: break;
 	}
 
@@ -132,8 +217,7 @@ int Tick_Timing(int state)
 	case TS_TIMING_INIT: break;
 	case TS_TIMING_UPDATE:
 	{
-		GameState& gameState = GameState::Get();
-		gameState.m_lastFrameMS = gameState.m_timeMS;
+		GameState::Get().UpdateDeltaTime();
 	} break;
 	default: break;
 	}

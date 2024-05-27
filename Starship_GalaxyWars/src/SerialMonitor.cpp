@@ -1,4 +1,6 @@
 #include "SerialMonitor.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
 void Serial_Init(int baud)
 {
@@ -11,13 +13,13 @@ void Serial_Init(int baud)
 }
 
 // sends a char
-void Serial_PrintChar(char ch)
+void Serial_PrintChar(const char ch)
 {
 	while ((UCSR0A & (1 << UDRE0)) == 0);
 	UDR0 = ch;
 }
 
-void Serial_Print(char *str)
+void Serial_Print(const char *str)
 {
 	for (int i; str[i] != '\0'; i++)
 	{
@@ -26,7 +28,7 @@ void Serial_Print(char *str)
 }
 
 // sends a string
-void Serial_PrintLine(char *str)
+void Serial_PrintLine(const char *str)
 {
 	for (int i; str[i] != '\0'; i++)
 	{
@@ -64,4 +66,28 @@ void Serial_PrintLine(long num, int base)
 	}
 
 	Serial_PrintLine(str); // print from str to end of arr
+}
+
+void Debug_Print(const char* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+
+	char strBuffer[DEBUGPRINT_MAXCHARS];
+	vsnprintf(strBuffer, DEBUGPRINT_MAXCHARS, format, args);
+	va_end(args);
+
+	Serial_Print(strBuffer);
+}
+
+void Debug_PrintLine(const char* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+
+	char strBuffer[DEBUGPRINT_MAXCHARS];
+	vsnprintf(strBuffer, DEBUGPRINT_MAXCHARS, format, args);
+	va_end(args);
+
+	Serial_PrintLine(strBuffer);
 }

@@ -21,7 +21,6 @@ Player::Player()
 {
 	m_textureData = texture_player_red;
 	m_textureDataSize = ArraySize(texture_player_red);
-	//Serial_Print("Player Texture Bytes: "); Serial_PrintLine(m_textureDataSize);
 	m_width = 14;
 	m_height = 12;
 }

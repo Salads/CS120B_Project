@@ -9,7 +9,7 @@ uint16_t texture_enemy_bullet [] =
 // 'player_bullet', 2x4px
 uint16_t texture_player_bullet [] = 
 {
-	0xfe, 0xc0, 0xfe, 0xc0, 0xfe, 0xc0, 0xfe, 0xc0, 0xfb, 0x40, 0xfb, 0x40, 0xfb, 0x40, 0xfb, 0x40
+	0xfec0, 0xfec0, 0xfec0, 0xfec0, 0xfb40, 0xfb40, 0xfb40, 0xfb40
 };
 
 // 'player_nanoslice', 16x5px
@@ -35,17 +35,19 @@ Bullet::Bullet(BulletType type)
 			m_textureData = texture_player_bullet;
 			m_textureDataSize = ArraySize(texture_player_bullet);
 			m_width = 2;
-			m_height = 4;
+			m_height = 7;
 			break;
 		case BulletType_PlayerNanoSlice:
 			m_textureData = texture_player_nanoslice;
 			m_textureDataSize = ArraySize(texture_player_nanoslice);
 			m_width = 16;
 			m_height = 5;
+			break;
 		case BulletType_EnemyNormal:
 			m_textureData = texture_enemy_bullet;
 			m_textureDataSize = ArraySize(texture_enemy_bullet);
 			m_width = 2;
 			m_height = 4;
+			break;
 	}
 }

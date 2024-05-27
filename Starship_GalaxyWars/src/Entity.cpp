@@ -1,11 +1,39 @@
 
 #include "Entity.h"
 #include "ScreenRegion.h"
+#include "ST7735SClient.h"
 
 Entity::Entity()
 {
-	m_lastPosition = XYCoord(0, 0);
+	m_lastRenderedPosition = XYCoord(0, 0);
 	m_position = XYCoord(0,0);
+}
+
+Entity::~Entity()
+{
+	// Have the renderer clear our current region with background color
+	ST7735SClient& renderer = ST7735SClient::Get();
+	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+}
+
+bool Entity::GetIsMarkedForDeletion()
+{
+	return m_markedForDelete;
+}
+
+void Entity::SetIsMarkedForDeletion(bool shouldDelete)
+{
+	m_markedForDelete = shouldDelete;
+}
+
+XYCoord Entity::GetPosition()
+{
+	return m_position;
+}
+
+void Entity::SetLastRenderedPosition(ScreenRegion region)
+{
+	m_lastRenderedPosition = XYCoord(region.m_startX, region.m_startY);
 }
 
 uint16_t Entity::GetTextureDataSize()
@@ -48,9 +76,15 @@ bool Entity::GetCollides(Entity &other)
 
 void Entity::SetPosition(uint8_t x, uint8_t y)
 {
-	m_renderDirty = true;
-	m_lastPosition = m_position;
+	m_lastRenderedPosition = m_position;
 	m_position = XYCoord(x, y);
+	m_renderDirty = true;
+}
+
+void Entity::SetPosition(XYCoord newPosition)
+{
+	m_lastRenderedPosition = m_position;
+	m_position = newPosition;
 	m_renderDirty = true;
 }
 
@@ -62,10 +96,10 @@ void Entity::SetRenderDirty(bool dirty)
 ScreenRegion Entity::GetLastRenderRegion()
 {
 	ScreenRegion result(
-		m_lastPosition.m_x + 1,
-		m_lastPosition.m_x + m_width,
-		m_lastPosition.m_y + 1,
-		m_lastPosition.m_y + m_height
+		m_lastRenderedPosition.m_x + 1,
+		m_lastRenderedPosition.m_x + m_width,
+		m_lastRenderedPosition.m_y + 1,
+		m_lastRenderedPosition.m_y + m_height
 	);
 
 	return result;

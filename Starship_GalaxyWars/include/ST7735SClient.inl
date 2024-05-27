@@ -91,7 +91,7 @@ void ST7735SClient::FillCurrentScreenRegion(uint16_t color)
 	FillCurrentScreenRegion(color & 0b1111100000000000 >> 11, color & 0b0000011111100000 >> 5, color & 0b0000000000011111);
 }
 
-void ST7735SClient::RenderEntity(Entity* entity)
+void ST7735SClient::RenderEntity(Entity* entity, bool debugRegions)
 {
 	// Render over previous position with background color.
 	ScreenRegion lastRegion = entity->GetLastRenderRegion();
@@ -102,13 +102,15 @@ void ST7735SClient::RenderEntity(Entity* entity)
 	ScreenRegion newRegion = entity->GetRenderRegion();
 	SetRegion(newRegion);
 	FillCurrentScreenRegion(entity->GetTextureData(), entity->GetTextureDataSize());
-}
 
-unsigned char reverse(unsigned char b) {
-   b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
-   b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
-   b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
-   return b;
+	if(debugRegions)
+	{
+		Debug_PrintLine("{%-3d, %-3d, %-3d, %-3d} -> {%-3d, %-3d, %-3d, %-3d}", 
+			lastRegion.m_startX, lastRegion.m_endX,
+			lastRegion.m_startY, lastRegion.m_endY,
+			newRegion.m_startX , newRegion.m_endX,
+			newRegion.m_startY , newRegion.m_endY);
+	}
 }
 
 void ST7735SClient::FillCurrentScreenRegion(uint16_t* data, uint16_t dataSize)

@@ -3,10 +3,10 @@
 #include "Task.h"
 #include "ST7735SClient.h"
 
-#define NUM_TASKS 3
-#define PERIOD_GCD 300
-#define PERIOD_RENDER   1
-#define PERIOD_UPDATE   1
+#define NUM_TASKS 4
+#define PERIOD_GCD 1
+#define PERIOD_RENDER   200
+#define PERIOD_UPDATE   200
 #define PERIOD_BUTTONS  1
 #define PERIOD_JOYSTICK 1
 #define PERIOD_TIMING   1

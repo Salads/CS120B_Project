@@ -3,7 +3,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "BitUtil.h"
+#include "Utility.h"
 
 //B5 should always be SCK(spi clock) and B3 should always be MOSI. If you are using an
 //SPI peripheral that sends data back to the arduino, you will need to use B4 as the MISO pin.

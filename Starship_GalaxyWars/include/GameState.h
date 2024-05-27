@@ -12,7 +12,10 @@ public:
     FORCE_INLINE static GameState& Get();
 
     FORCE_INLINE void Initialize();
-    FORCE_INLINE double GetDeltaTime();
+    FORCE_INLINE void UpdateDeltaTime();
+
+    FORCE_INLINE void AddBullet(Bullet* newBullet);
+    FORCE_INLINE void DeleteBullet(uint8_t bulletIdx);
 
 public:
     bool      m_initialized = false;
@@ -26,8 +29,10 @@ public:
     Bullet**  m_bullets;
     uint8_t   m_numBullets;
 
-    uint32_t  m_lastFrameMS = 0;
-    uint32_t  m_timeMS = 0;
+    uint32_t  m_lastFrameTimeMS = 0;
+    uint32_t  m_currentTimeMS   = 0;
+    uint32_t  m_deltaTimeMS     = 0;
+    uint32_t  m_timeSinceLastFireMS = 0;
 };
 
 #include "GameState.inl"
