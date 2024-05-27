@@ -11,8 +11,15 @@ Entity::Entity()
 
 Entity::~Entity()
 {
+	
+}
+
+void Entity::ClearFromDisplay()
+{
 	// Have the renderer clear our current region with background color
 	ST7735SClient& renderer = ST7735SClient::Get();
+	ScreenRegion currentRegion = GetRenderRegion();
+	renderer.SetRegion(currentRegion);
 	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
 }
 

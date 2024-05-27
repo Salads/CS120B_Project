@@ -142,13 +142,13 @@ int Tick_Update(int state)
 			b = !b;
 
 			// Bullets
-			static bool b2 = false;
 			for(uint8_t bIdx = 0; bIdx < gameState.m_numBullets; bIdx++)
 			{
 				Bullet* bullet = gameState.m_bullets[bIdx];
 				float dY = (float)K_BULLET_SPEED * gameState.m_deltaTimeMS;
 				XYCoord currentPosition = bullet->GetPosition();
-				if(currentPosition.m_y - dY <= 2)
+
+				if(currentPosition.m_y <= 1 || dY >= currentPosition.m_y || currentPosition.m_y - dY <= 0)
 				{
 					bullet->SetIsMarkedForDeletion(true);
 					Serial_PrintLine("Mark Delete Bullet");
@@ -158,7 +158,6 @@ int Tick_Update(int state)
 					bullet->SetPosition(currentPosition.m_x, currentPosition.m_y - dY);
 				}
 			}
-			b2 = !b2;
 
 
 		// Delete to-be-deleted entities
@@ -169,6 +168,7 @@ int Tick_Update(int state)
 				Bullet* bullet = gameState.m_bullets[i];
 				if(bullet->GetIsMarkedForDeletion())
 				{
+					bullet->ClearFromDisplay();
 					gameState.DeleteBullet(i);
 					i -= 1;
 				}

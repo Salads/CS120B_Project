@@ -18,6 +18,7 @@ public:
 	void SetLastRenderedPosition(ScreenRegion region);
 	void SetRenderDirty(bool dirty);
 	bool GetRenderDirty() {return m_renderDirty;}
+	void ClearFromDisplay();
 	ScreenRegion GetLastRenderRegion();
 	ScreenRegion GetRenderRegion();
 
