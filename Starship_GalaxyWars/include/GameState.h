@@ -21,11 +21,11 @@ public:
 
 public:
     bool              m_initialized = false;
-    uint8_t           m_score;  
     Enemy**           m_enemies; // An array of POINTERS, to Enemies.
     uint8_t           m_numEnemies = 0;
  
     Player*           m_player;
+    uint8_t           m_score = 0;
  
     bool              m_fireButton = false;
     JoystickDirection m_joystickDirection = JD_CENTER;

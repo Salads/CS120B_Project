@@ -6,7 +6,7 @@
 class Enemy : public Combatant
 {
 public:
-
-private:
-	
+	uint8_t GetScoreValue();
+protected:
+	uint8_t m_scoreValue = 1;
 };

@@ -12,7 +12,7 @@ public:
 	bool 	GetIsAlive();
 	void 	TakeDamage(uint8_t damage);
 	void 	FireBullet();
-private:
+protected:
 	uint8_t m_hp = 1;
 	uint8_t m_damage = 1;
 };

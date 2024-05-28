@@ -25,4 +25,6 @@ Fly::Fly()
 	m_textureDataSize = ArraySize(texture_enemy_fly);
 	m_width = 16;
 	m_height = 15;
+
+	m_scoreValue = 1;
 }

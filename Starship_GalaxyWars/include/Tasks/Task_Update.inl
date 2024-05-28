@@ -69,6 +69,8 @@ int Tick_Update(int state)
 					{
 						enemy->SetIsMarkedForDeletion(true);
 						bullet->SetIsMarkedForDeletion(true);
+						gameState.m_score += enemy->GetScoreValue();
+						Debug_PrintLine("New Score: %d", gameState.m_score);
 					}
 				}
 
@@ -95,7 +97,7 @@ int Tick_Update(int state)
 				Enemy* enemy = gameState.m_enemies[i];
 				uint8_t mul = (b ? 1 : -1);
 				XYCoord curPos = enemy->GetPosition();
-				curPos.m_x = curPos.m_x + (mul * 10);
+				curPos.m_x = curPos.m_x + (mul * 5);
 				enemy->SetPosition(curPos);
 			}
 			b = !b;
