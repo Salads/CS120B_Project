@@ -23,7 +23,6 @@ int Tick_Update(int state)
 			(gameState.m_timeSinceLastFireMS >= K_PLAYER_BULLET_FIREINTERVAL) &&
 			 gameState.m_numBullets < K_MAX_BULLETS)
 		{
-			Debug_PrintLine("Pew Pew!");
 			gameState.m_timeSinceLastFireMS = 0;
 
 			Bullet* newBullet = new Bullet(BulletType_PlayerNormal);
@@ -37,10 +36,6 @@ int Tick_Update(int state)
 		else
 		{
 			gameState.m_timeSinceLastFireMS += gameState.m_deltaTimeMS;
-			// Debug_PrintLine("SinceLastFire: %d, FireDown: %d, NumBullets: %d", 
-			// 	gameState.m_timeSinceLastFireMS, 
-			// 	gameState.m_numBullets,
-			// 	gameState.m_fireButton);
 		}
 
 		// Update Moving Entities
@@ -59,18 +54,6 @@ int Tick_Update(int state)
 				player->SetPosition(currentPosition.m_x + dX, currentPosition.m_y);
 			}
 
-			// Enemies
-			static bool b = true;
-			for (uint8_t i = 0; i < gameState.m_numEnemies; i++)
-			{
-				Enemy* enemy = gameState.m_enemies[i];
-				uint8_t mul = (b ? 1 : -1);
-				XYCoord curPos = enemy->GetPosition();
-				curPos.m_y = curPos.m_y + (mul * 25);
-				enemy->SetPosition(curPos);
-			}
-			b = !b;
-
 			// Bullets
 			for(uint8_t bIdx = 0; bIdx < gameState.m_numBullets; bIdx++)
 			{
@@ -78,16 +61,44 @@ int Tick_Update(int state)
 				float dY = (float)K_BULLET_SPEED * gameState.m_deltaTimeMS;
 				XYCoord currentPosition = bullet->GetPosition();
 
-				if(currentPosition.m_y <= 1 || dY >= currentPosition.m_y || currentPosition.m_y - dY <= 0)
-				{
-					bullet->SetIsMarkedForDeletion(true);
-					Serial_PrintLine("Mark Delete Bullet");
+				// Check for entity collision
+				for(uint8_t eIdx = 0; eIdx < gameState.m_numEnemies; eIdx++)
+				{	
+					Enemy* enemy = gameState.m_enemies[eIdx];
+					if(bullet->GetCollides(*enemy))
+					{
+						enemy->SetIsMarkedForDeletion(true);
+						bullet->SetIsMarkedForDeletion(true);
+					}
 				}
-				else
+
+				// Check if bullet is out of play area
+				if (!bullet->GetIsMarkedForDeletion())
 				{
-					bullet->SetPosition(currentPosition.m_x, currentPosition.m_y - dY);
+					if(currentPosition.m_y <= 1 || dY >= currentPosition.m_y || currentPosition.m_y - dY <= 0)
+					{
+						bullet->SetIsMarkedForDeletion(true);
+					}
+					else
+					{
+						bullet->SetPosition(currentPosition.m_x, currentPosition.m_y - dY);
+					}
 				}
+
+				
 			}
+
+			// Enemies
+			static bool b = true;
+			for (uint8_t i = 0; i < gameState.m_numEnemies; i++)
+			{
+				Enemy* enemy = gameState.m_enemies[i];
+				uint8_t mul = (b ? 1 : -1);
+				XYCoord curPos = enemy->GetPosition();
+				curPos.m_x = curPos.m_x + (mul * 10);
+				enemy->SetPosition(curPos);
+			}
+			b = !b;
 
 
 		// Delete to-be-deleted entities
@@ -98,8 +109,18 @@ int Tick_Update(int state)
 				Bullet* bullet = gameState.m_bullets[i];
 				if(bullet->GetIsMarkedForDeletion())
 				{
-					bullet->ClearFromDisplay();
 					gameState.DeleteBullet(i);
+					i -= 1;
+				}
+			}
+
+			// Enemies
+			for(uint8_t i = 0; i < gameState.m_numEnemies; i++)
+			{
+				Enemy* enemy = gameState.m_enemies[i];
+				if(enemy->GetIsMarkedForDeletion())
+				{
+					gameState.DeleteEnemy(i);
 					i -= 1;
 				}
 			}

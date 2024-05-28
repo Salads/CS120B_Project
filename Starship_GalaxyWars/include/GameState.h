@@ -17,6 +17,7 @@ public:
 
     FORCE_INLINE void AddBullet(Bullet* newBullet);
     FORCE_INLINE void DeleteBullet(uint8_t bulletIdx);
+    FORCE_INLINE void DeleteEnemy(uint8_t enemyIdx);
 
 public:
     bool              m_initialized = false;

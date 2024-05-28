@@ -18,11 +18,20 @@ void GameState::AddBullet(Bullet* newBullet)
 
 void GameState::DeleteBullet(uint8_t bulletIdx)
 {
-	if(m_numBullets < bulletIdx) return;
+	if(m_numBullets <= bulletIdx) return;
 
 	delete m_bullets[bulletIdx];
 	m_bullets[bulletIdx] = m_bullets[m_numBullets - 1];
 	m_numBullets--;
+}
+
+void GameState::DeleteEnemy(uint8_t enemyIdx)
+{
+	if(m_numEnemies <= enemyIdx) return;
+
+	delete m_enemies[enemyIdx];
+	m_enemies[enemyIdx] = m_enemies[m_numEnemies - 1];
+	m_numEnemies--;
 }
 
 GameState& GameState::Get()
