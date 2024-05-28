@@ -31,6 +31,10 @@ bool Entity::GetIsMarkedForDeletion()
 void Entity::SetIsMarkedForDeletion(bool shouldDelete)
 {
 	m_markedForDelete = shouldDelete;
+	if(m_markedForDelete)
+	{
+		ClearFromDisplay();
+	}
 }
 
 XYCoord Entity::GetPosition()
@@ -67,18 +71,18 @@ bool Entity::GetCollides(Entity &other)
 {
 	// simple "box" collision checking
 	// it's just an arcade game
-	uint8_t this_x1 = m_position.m_x;
-	uint8_t this_x2 = m_position.m_x + m_width;
-	uint8_t this_y1 = m_position.m_y;
-	uint8_t this_y2 = m_position.m_y + m_height;
+	uint8_t this_x1 = m_position.m_x; 			 // left edge
+	uint8_t this_x2 = m_position.m_x + m_width;  // right edge
+	uint8_t this_y1 = m_position.m_y;            // top edge
+	uint8_t this_y2 = m_position.m_y + m_height; // bottom edge
 
-	uint8_t other_x1 = other.m_position.m_x;
-	uint8_t other_x2 = other.m_position.m_x + other.m_width;
-	uint8_t other_y1 = other.m_position.m_y;
-	uint8_t other_y2 = other.m_position.m_y + other.m_height;
+	uint8_t other_x1 = other.m_position.m_x;                  	// left edge
+	uint8_t other_x2 = other.m_position.m_x + other.m_width;	// right edge
+	uint8_t other_y1 = other.m_position.m_y;					// top edge
+	uint8_t other_y2 = other.m_position.m_y + other.m_height;	// bottom edge
 
-	return (this_x1 < other_x1 && other_x1 < this_x2) || (other_x1 < this_x1 && this_x1 < other_x2) || 
-		   (this_y1 < other_y1 && other_y1 < this_y2) || (other_y1 < this_y1 && this_y1 < other_y2);
+	return (this_x1 <= other_x2 && this_x2 >= other_x1) &&
+		   (this_y1 <= other_y2 && this_y2 >= other_y1);
 }
 
 void Entity::SetPosition(uint8_t x, uint8_t y)
