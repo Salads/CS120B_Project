@@ -44,6 +44,21 @@ int Tick_Update(int state)
 		}
 
 		// Update Moving Entities
+			// Player
+			if(gameState.m_joystickDirection != JD_CENTER)
+			{
+				Player* player = gameState.m_player;
+				float dX = (float)K_PLAYER_SPEED * gameState.m_deltaTimeMS;
+				XYCoord currentPosition = player->GetPosition();
+
+				if(gameState.m_joystickDirection == JD_LEFT)
+				{
+					dX *= -1;
+				}
+				
+				player->SetPosition(currentPosition.m_x + dX, currentPosition.m_y);
+			}
+
 			// Enemies
 			static bool b = true;
 			for (uint8_t i = 0; i < gameState.m_numEnemies; i++)

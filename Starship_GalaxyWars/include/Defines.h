@@ -14,6 +14,6 @@
 
 #define K_MAX_ENEMIES 2
 #define K_BULLET_SPEED 3
-#define K_PLAYER_SPEED 15
+#define K_PLAYER_SPEED 5
 #define K_ENEMY_SPEED  10
 #define K_MAX_BULLETS  10

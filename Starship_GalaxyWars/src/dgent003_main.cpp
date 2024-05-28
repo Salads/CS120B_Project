@@ -1,5 +1,5 @@
 #include "TimerISR.h"
-#include "periph.h"
+#include "Periph.h"
 #include "SPIUtil.h"
 #include "SerialMonitor.h"
 #include "Tasks/Tasks.h"
@@ -39,10 +39,12 @@ int main()
 	DDRC = 0xFF; PORTC = 0;
 
 	SPI_INIT();
+	InitializeADC();
 
-	gTasks[0] = {TS_BUTTONS_INIT, PERIOD_BUTTONS, PERIOD_BUTTONS, &Tick_Buttons};
-	gTasks[1] = {TS_UPDATE_INIT , PERIOD_UPDATE , PERIOD_UPDATE , &Tick_Update};
-	gTasks[2] = {TS_RENDER_INIT , PERIOD_RENDER , PERIOD_RENDER , &Tick_Render};
+	gTasks[0] = {TS_BUTTONS_INIT , PERIOD_BUTTONS , PERIOD_BUTTONS , &Tick_Buttons};
+	gTasks[1] = {TS_JOYSTICK_INIT, PERIOD_JOYSTICK, PERIOD_JOYSTICK, &Tick_Joystick};
+	gTasks[2] = {TS_UPDATE_INIT  , PERIOD_UPDATE  , PERIOD_UPDATE  , &Tick_Update};
+	gTasks[3] = {TS_RENDER_INIT  , PERIOD_RENDER  , PERIOD_RENDER  , &Tick_Render};
 
 	gTasks[NUM_TASKS - 1] = {TS_TIMING_INIT, PERIOD_TIMING, PERIOD_TIMING, &Tick_Timing};
 

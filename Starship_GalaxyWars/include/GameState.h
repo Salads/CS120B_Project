@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "JoystickDirection.h"
 
 class GameState
 {
@@ -18,21 +19,23 @@ public:
     FORCE_INLINE void DeleteBullet(uint8_t bulletIdx);
 
 public:
-    bool      m_initialized = false;
-    uint8_t   m_score;  
-    Enemy**   m_enemies; // An array of POINTERS, to Enemies.
-    uint8_t   m_numEnemies = 0;
+    bool              m_initialized = false;
+    uint8_t           m_score;  
+    Enemy**           m_enemies; // An array of POINTERS, to Enemies.
+    uint8_t           m_numEnemies = 0;
  
-    Player*   m_player;
+    Player*           m_player;
  
-    bool      m_fireButton = false;
-    Bullet**  m_bullets;
-    uint8_t   m_numBullets;
+    bool              m_fireButton = false;
+    JoystickDirection m_joystickDirection = JD_CENTER;
 
-    uint32_t  m_lastFrameTimeMS = 0;
-    uint32_t  m_currentTimeMS   = 0;
-    uint32_t  m_deltaTimeMS     = 0;
-    uint32_t  m_timeSinceLastFireMS = 0;
+    Bullet**          m_bullets;
+    uint8_t           m_numBullets;
+    
+    uint32_t          m_lastFrameTimeMS = 0;
+    uint32_t          m_currentTimeMS   = 0;
+    uint32_t          m_deltaTimeMS     = 0;
+    uint32_t          m_timeSinceLastFireMS = 0;
 };
 
 #include "GameState.inl"

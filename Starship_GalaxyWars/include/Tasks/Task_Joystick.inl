@@ -1,5 +1,6 @@
 #include "Tasks/Tasks.h"
 #include "JoystickDirection.h"
+#include "Periph.h"
 
 int Tick_Joystick(int state)
 {
@@ -15,7 +16,12 @@ int Tick_Joystick(int state)
 	case TS_JOYSTICK_INIT: break;
 	case TS_JOYSTICK_SAMPLE:
 	{
-		
+		GameState& gameState = GameState::Get();
+		uint32_t joystickValue = ReadADC(0);
+		if(joystickValue < 2) {gameState.m_joystickDirection = JD_LEFT;}
+		else if(joystickValue > 5) {gameState.m_joystickDirection = JD_RIGHT;}
+		else {gameState.m_joystickDirection = JD_CENTER;}
+
 	} break;
 	default: break;
 	}
