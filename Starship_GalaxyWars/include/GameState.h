@@ -5,24 +5,24 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "JoystickDirection.h"
+#include "GameLevel.h"
+#include "MenuLevel.h"
 
 class GameState
 {
 public:
-    GameState();
+    FORCE_INLINE GameState();
     FORCE_INLINE static GameState& Get();
 
     FORCE_INLINE void Initialize();
     FORCE_INLINE void UpdateDeltaTime();
 
-    FORCE_INLINE void AddBullet(Bullet* newBullet);
-    FORCE_INLINE void DeleteBullet(uint8_t bulletIdx);
-    FORCE_INLINE void DeleteEnemy(uint8_t enemyIdx);
-
 public:
     bool              m_initialized = false;
     Enemy**           m_enemies; // An array of POINTERS, to Enemies.
     uint8_t           m_numEnemies = 0;
+
+    Level*            m_currentLevel;
  
     Player*           m_player;
     uint8_t           m_score = 0;
@@ -33,6 +33,7 @@ public:
     Bullet**          m_bullets;
     uint8_t           m_numBullets;
     
+    // Timing
     uint32_t          m_lastFrameTimeMS = 0;
     uint32_t          m_currentTimeMS   = 0;
     uint32_t          m_deltaTimeMS     = 0;

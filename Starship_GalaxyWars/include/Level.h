@@ -28,4 +28,5 @@ public:
 	virtual DoneReason GetDoneReason();
 public:
 	LevelType m_type;
+	bool      m_initialized = false;
 };

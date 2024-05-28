@@ -11,6 +11,12 @@ public:
 	GameLevel();
 	void Update();
 	void Render();
+	virtual void InitializeEnemies();
+
+	void AddBullet(Bullet* newBullet);
+    void DeleteBullet(uint8_t bulletIdx);
+    void DeleteEnemy(uint8_t enemyIdx);
+	Enemy* CreateEnemyFromType(EntityType type);
 
 private:
 	void UpdateEnemies();

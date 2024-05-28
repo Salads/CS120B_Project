@@ -18,32 +18,7 @@ int Tick_Render(int state)
 		case TS_RENDER_DORENDER:
 		{
 			GameState& gameState = GameState::Get();
-			ST7735SClient& renderer = ST7735SClient::Get();
-			for(int i = 0; i < gameState.m_numEnemies; i++)
-			{
-				Enemy* enemy = gameState.m_enemies[i];
-				if(enemy->GetRenderDirty())
-				{
-					renderer.RenderEntity(enemy);
-					enemy->SetRenderDirty(false);
-				}
-			}
-
-			if(gameState.m_player->GetRenderDirty())
-			{
-				renderer.RenderEntity(gameState.m_player);
-				gameState.m_player->SetRenderDirty(false);
-			}
-
-			for(int i = 0; i < gameState.m_numBullets; i++)
-			{
-				Bullet* bullet = gameState.m_bullets[i];
-				if(bullet->GetRenderDirty())
-				{
-					renderer.RenderEntity(bullet, false);
-					bullet->SetRenderDirty(false);
-				}
-			}
+			gameState.m_currentLevel->Render();
 
 		} break;
 		default: break;
