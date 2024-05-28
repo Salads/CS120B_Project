@@ -4,6 +4,17 @@
 #include "XYCoord.h"
 #include "ScreenRegion.h"
 
+// To easily identify what entity type we're looking at.
+enum EntityType : uint8_t
+{
+	EntityType_None, // Not initialized!
+	EntityType_Fly,
+	EntityType_GreenMonster,
+	EntityType_Crab,
+	EntityType_Player,
+	EntityType_Bullet,
+};
+
 class Entity
 {
 public:
