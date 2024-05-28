@@ -2,7 +2,7 @@
 #include "periph.h"
 #include "SPIUtil.h"
 #include "SerialMonitor.h"
-#include "Tasks.h"
+#include "Tasks/Tasks.h"
 #include "GameState.h"
 
 Task gTasks[NUM_TASKS];
