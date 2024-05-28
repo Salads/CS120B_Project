@@ -85,8 +85,11 @@ bool Entity::GetCollides(Entity &other)
 		   (this_y1 <= other_y2 && this_y2 >= other_y1);
 }
 
-void Entity::SetPosition(uint8_t x, uint8_t y)
+void Entity::SetPosition(int16_t x, int16_t y)
 {
+	x = clamp(x, 1, SCREEN_WIDTH - m_width - 2);
+	y = clamp(y, 1, SCREEN_HEIGHT - m_height - 2);
+
 	m_lastRenderedPosition = m_position;
 	m_position = XYCoord(x, y);
 	m_renderDirty = true;
@@ -94,6 +97,9 @@ void Entity::SetPosition(uint8_t x, uint8_t y)
 
 void Entity::SetPosition(XYCoord newPosition)
 {
+	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 2);
+	newPosition.m_y = clamp(newPosition.m_y, 1, SCREEN_HEIGHT - m_height - 2);
+
 	m_lastRenderedPosition = m_position;
 	m_position = newPosition;
 	m_renderDirty = true;

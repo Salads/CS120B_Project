@@ -24,7 +24,7 @@ public:
 	uint16_t* GetTextureData();
 	uint16_t GetTextureDataSize();
 
-	void SetPosition(uint8_t x, uint8_t y);
+	void SetPosition(int16_t x, int16_t y);
 	void SetPosition(XYCoord newPosition);
 	void SetLastRenderedPosition(ScreenRegion region);
 	void SetRenderDirty(bool dirty);

@@ -1,6 +1,7 @@
 #include "Tasks/Tasks.h"
 #include "GameState.h"
 #include "Bullet.h"
+#include "Utility.h"
 
 int Tick_Update(int state)
 {
