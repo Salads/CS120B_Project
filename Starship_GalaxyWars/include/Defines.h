@@ -9,8 +9,11 @@
 #define TIMER2_VAL   250
 #define K_PLAYER_BULLET_FIREINTERVAL SecondsToMS(0.0025)
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 160
+// Weird screen size, but I incremented 1by1 on each dimension till the screen filled. /shrug
+#define SCREEN_WIDTH 130
+#define SCREEN_HEIGHT 131
+#define TOP_HUD_HEIGHT    10 // Reserve some space for HUD
+#define BOTTOM_HUD_HEIGHT 10 // Reserve some space for HUD
 
 #define K_MAX_ENEMIES 2
 #define K_BULLET_SPEED 3

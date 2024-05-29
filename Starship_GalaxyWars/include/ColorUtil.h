@@ -7,3 +7,5 @@
 FORCE_INLINE uint8_t RangeMap(uint8_t srcRangeStart, uint8_t srcRangeEnd, uint8_t destRangeStart, uint8_t destRangeEnd, uint8_t srcVal);
 
 FORCE_INLINE uint8_t* ConvertRGB24DataTo12(uint8_t* src);
+
+#include "ColorUtil.inl"

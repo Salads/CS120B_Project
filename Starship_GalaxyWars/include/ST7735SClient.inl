@@ -3,6 +3,7 @@
 #include "ST7735SClient.h"
 #include "SerialMonitor.h"
 #include "Entity.h"
+#include "ColorUtil.h"
 
 ST7735SClient::ST7735SClient()
 {
@@ -47,9 +48,10 @@ void ST7735SClient::Initialize()
 
 void ST7735SClient::SetRegion(ScreenRegion& region)
 {
-	if(region.m_endX >= m_screenWidth - 1 || region.m_endY >= m_screenHeight - 1)
+	if(region.m_endX > m_screenWidth - 1 || region.m_endY > m_screenHeight - 1)
 	{
-		return;
+		region.m_endX = m_screenWidth - 1;
+		region.m_endY = m_screenHeight - 1;
 	}
 
 	// Set Column
@@ -75,13 +77,19 @@ void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 {
 	SendCommand(RAMWR);
 
+	r = RangeMap(0, 255, 0, 0b11111,  r);
+	g = RangeMap(0, 255, 0, 0b111111, g);
+	b = RangeMap(0, 255, 0, 0b11111,  b);
+
+	uint16_t color = 0;
+	color = (r << 11 | g << 5 | b);
+
 	for(int y = m_screenRegion.m_startY; y < m_screenRegion.m_endY; y++)
 	{
 		for(int x = m_screenRegion.m_startX; x < m_screenRegion.m_endX; x++)
 		{
-			SendData(r);
-			SendData(g);
-			SendData(b);
+			SendData(color >> 8);
+			SendData(color);
 		}
 	}
 }

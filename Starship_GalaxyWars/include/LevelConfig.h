@@ -3,5 +3,6 @@
 #include "Entity.h"
 #include <stdint.h>
 
-extern EntityType kLevel1Enemies[10];
+#define LVL1_NUMENEMIES 5
+extern EntityType kLevel1Enemies[LVL1_NUMENEMIES];
 extern uint8_t kNumLevel1Enemies;

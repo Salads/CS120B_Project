@@ -1,4 +1,7 @@
 #include "ColorUtil.h"
+#include <stdint.h>
+#include "Defines.h"
+#include "Utility.h"
 
 uint8_t RangeMap(uint8_t srcRangeStart, uint8_t srcRangeEnd, uint8_t destRangeStart, uint8_t destRangeEnd, uint8_t srcVal)
 {
@@ -10,16 +13,16 @@ uint8_t RangeMap(uint8_t srcRangeStart, uint8_t srcRangeEnd, uint8_t destRangeSt
     return newVal;
 }
 
-uint8_t* ConvertRGB24DataTo12(uint8_t* src)
-{
-    uint32_t srcSize = ArraySize(src);
-    uint32_t destSize = ceil((float)srcSize / 2.0);
-    uint8_t* resultData = new uint8_t[destSize];
+// uint8_t* ConvertRGB24DataTo12(uint8_t* src)
+// {
+//     uint32_t srcSize = ArraySize(src);
+//     uint32_t destSize = ceil((float)srcSize / 2.0);
+//     uint8_t* resultData = new uint8_t[destSize];
 
-    for (int i = 0; i < srcSize; i++)
-    {
+//     for (int i = 0; i < srcSize; i++)
+//     {
         
-    }
+//     }
 
-    return resultData;
-}
+//     return resultData;
+// }

@@ -12,8 +12,10 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
     InitializeEnemiesFromTypeArray(enemiesArray, numEnemies);
 
     m_player = new Player();
-    //m_player->SetPosition((SCREEN_WIDTH / 2) - (m_player->GetWidth() / 2), SCREEN_HEIGHT - m_player->GetHeight()*2 - 15);
-    m_player->SetPosition(64, 100);
+    m_player->SetPosition((SCREEN_WIDTH / 2) - (m_player->GetWidth() / 2), SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_player->GetHeight() - 1);
+    m_player->SetRenderDirty(true);
+
+    Debug_PrintLine("Player Start Pos: %d, %d", m_player->GetPosition().m_x, m_player->GetPosition().m_y);
 
     m_initialized = true;
 }
@@ -32,7 +34,7 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
     Debug_PrintLine("# Enemies: %d", m_numEnemies);
 
     uint8_t yStart = 15;
-    uint8_t slotWidth = 20;
+    uint8_t slotWidth = 25;
     uint8_t enemiesPerRow = (SCREEN_WIDTH - 3) / slotWidth;
 
     // Go through each entity type and lay them out on the screen 1 by 1.
@@ -43,7 +45,7 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
         // Set initial position of the enemy. 
         // We'll just lay them out side by side in rows
         uint8_t xPosIdx = i % enemiesPerRow;
-        uint8_t xPos = 3 + (xPosIdx * slotWidth);
+        uint8_t xPos = 3 + (slotWidth / m_enemies[i]->GetWidth()) + (xPosIdx * slotWidth);
 
         uint8_t yPosIdx = i / enemiesPerRow;
         uint8_t yPos = yStart + (yPosIdx * slotWidth);
