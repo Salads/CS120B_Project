@@ -40,8 +40,6 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
     uint8_t minSlotWidth = 25;
     uint8_t enemiesPerRow = min((SCREEN_WIDTH - 2) / minSlotWidth, numEnemies);
     uint8_t slotWidth = max(minSlotWidth, (SCREEN_WIDTH - 2) / numEnemies);
-
-    uint8_t rowsBeforeLeftover = numEnemies / enemiesPerRow;
     uint8_t rowLeftOverAmt = numEnemies % enemiesPerRow;
 
     // Go through each entity type and lay them out on the screen 1 by 1.
