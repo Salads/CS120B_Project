@@ -4,7 +4,7 @@
 #include "XYCoord.h"
 #include "Entity.h"
 
-struct GUIItem : public Entity
+struct GUIItem : public TextRenderObject
 {
 public:
 	GUIItem() = delete;

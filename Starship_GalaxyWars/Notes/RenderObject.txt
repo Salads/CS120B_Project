@@ -1,0 +1,21 @@
+BaseRenderObject
+    - Has things for basic rendering of some region
+    - Actualy Render functino is abstract (sigular, tiled)
+    - Has no data member for saving texture data
+
+SimpleRenderObject : BaseRenderObject
+    - Has a singular texture variable
+    - Renders a box of color out. (Texture or otherwise)
+
+
+TextRenderObject : BaseRenderObject
+    - Primarily used for text rendering. At the moment no other uses.
+    - Has an array of textures to render out.
+    - Each texture element is rendered to the right of the previous element.
+    - Custom sets base size members to the total sum of all child textures.
+    - Position is just the position of the first element in the texture array
+    - Has custom render function that renders out each child texture, with it's respective regions
+
+
+In any of the derived classes above, should have a unified interface.
+If any other functions would be useful, make them private to the class.

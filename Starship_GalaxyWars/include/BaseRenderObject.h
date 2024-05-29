@@ -4,12 +4,13 @@
 #include "XYCoord.h"
 #include "ScreenRegion.h"
 
-class RenderObject
+class BaseRenderObject
 {
 public:
     uint16_t* GetTextureData();
 	uint16_t GetTextureDataSize();
 
+	virtual void Render() = 0;
 	void SetPosition(int16_t x, int16_t y);
 	void SetPosition(XYCoord newPosition);
 	void SetLastRenderedPosition(ScreenRegion region);
@@ -23,6 +24,9 @@ public:
 	uint8_t GetHeight();
 
 	XYCoord GetPosition();
+
+protected:
+    virtual void UpdateSize() = 0;
 protected:
     bool m_renderDirty = false;
 

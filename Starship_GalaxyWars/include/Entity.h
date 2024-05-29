@@ -3,7 +3,7 @@
 #include "Types.h"
 #include "XYCoord.h"
 #include "ScreenRegion.h"
-#include "RenderObject.h"
+#include "SimpleRenderObject.h"
 
 // To easily identify what entity type we're looking at.
 enum EntityType : uint8_t
@@ -16,7 +16,7 @@ enum EntityType : uint8_t
 	EntityType_Bullet,
 };
 
-class Entity : public RenderObject
+class Entity : public SimpleRenderObject
 {
 public:
 	Entity();

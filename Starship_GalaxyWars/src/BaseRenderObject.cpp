@@ -1,7 +1,7 @@
-#include "RenderObject.h"
+#include "BaseRenderObject.h"
 #include "ST7735SClient.h"
 
-void RenderObject::ClearFromDisplay()
+void BaseRenderObject::ClearFromDisplay()
 {
 	// Have the renderer clear our current region with background color
 	ST7735SClient& renderer = ST7735SClient::Get();
@@ -10,37 +10,37 @@ void RenderObject::ClearFromDisplay()
 	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
 }
 
-XYCoord RenderObject::GetPosition()
+XYCoord BaseRenderObject::GetPosition()
 {
 	return m_position;
 }
 
-void RenderObject::SetLastRenderedPosition(ScreenRegion region)
+void BaseRenderObject::SetLastRenderedPosition(ScreenRegion region)
 {
 	m_lastRenderedPosition = XYCoord(region.m_startX, region.m_startY);
 }
 
-uint16_t RenderObject::GetTextureDataSize()
+uint16_t BaseRenderObject::GetTextureDataSize()
 {
 	return m_textureDataSize;
 }
 
-uint16_t* RenderObject::GetTextureData()
+uint16_t* BaseRenderObject::GetTextureData()
 {
 	return m_textureData;
 }
 
-uint8_t RenderObject::GetWidth()
+uint8_t BaseRenderObject::GetWidth()
 {
 	return m_width;
 }
 
-uint8_t RenderObject::GetHeight()
+uint8_t BaseRenderObject::GetHeight()
 {
 	return m_height;
 }
 
-void RenderObject::SetPosition(int16_t x, int16_t y)
+void BaseRenderObject::SetPosition(int16_t x, int16_t y)
 {
 	x = clamp(x, 0, SCREEN_WIDTH - m_width - 1);
 	y = clamp(y, 0, SCREEN_HEIGHT - m_height - 1);
@@ -50,7 +50,7 @@ void RenderObject::SetPosition(int16_t x, int16_t y)
 	m_renderDirty = true;
 }
 
-void RenderObject::SetPosition(XYCoord newPosition)
+void BaseRenderObject::SetPosition(XYCoord newPosition)
 {
 	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
 	newPosition.m_y = clamp(newPosition.m_y, TOP_HUD_HEIGHT, SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_height);
@@ -60,12 +60,12 @@ void RenderObject::SetPosition(XYCoord newPosition)
 	m_renderDirty = true;
 }
 
-void RenderObject::SetRenderDirty(bool dirty)
+void BaseRenderObject::SetRenderDirty(bool dirty)
 {
 	m_renderDirty = dirty;
 }
 
-ScreenRegion RenderObject::GetLastRenderRegion()
+ScreenRegion BaseRenderObject::GetLastRenderRegion()
 {
 	ScreenRegion result(
 		m_lastRenderedPosition.m_x + 1,
@@ -77,7 +77,7 @@ ScreenRegion RenderObject::GetLastRenderRegion()
 	return result;
 }
 
-ScreenRegion RenderObject::GetRenderRegion()
+ScreenRegion BaseRenderObject::GetRenderRegion()
 {
 	ScreenRegion result(
 		m_position.m_x + 1,
