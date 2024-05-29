@@ -57,7 +57,6 @@ protected:
 	uint16_t  m_textureDataSize;
 
 	bool      m_markedForDelete = false;
-	bool      m_lastRenderInitialized = false;
 
 	// Working with integers at faster update rates, we end up with
 	// "move" deltas like .10 pixels and so on. This is used to accumulate 

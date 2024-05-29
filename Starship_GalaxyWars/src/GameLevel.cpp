@@ -17,6 +17,9 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 
     Debug_PrintLine("Player Start Pos: %d, %d", m_player->GetPosition().m_x, m_player->GetPosition().m_y);
 
+    m_guiScoreLabel = new GUIItem(&kScoreTextTexture);
+    m_guiScoreLabel->SetPosition(2, 0);
+
     m_initialized = true;
 }
 
@@ -299,4 +302,10 @@ void GameLevel::Render()
 			bullet->SetRenderDirty(false);
 		}
 	}
+
+    if(m_guiScoreLabel->GetRenderDirty())
+    {
+        renderer.RenderEntity(m_guiScoreLabel, false);
+        m_guiScoreLabel->SetRenderDirty(false);
+    }
 }

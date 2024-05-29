@@ -1,10 +1,11 @@
 #pragma once
 
 #include <stdint.h>
+#include "GUIItem.h"
 
-struct MenuWindow
+struct GUIMenu
 {
-	MenuWindow();
+	GUIMenu();
 
 public:
 	uint8_t m_selectedIdx = 0;

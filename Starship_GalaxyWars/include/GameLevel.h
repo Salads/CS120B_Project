@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "GUIItem.h"
 
 struct GameLevel : public Level
 {
@@ -23,13 +24,15 @@ private:
 	void UpdateBullets();
 
 public:
-	Player*  m_player;
+	Player*   m_player;
 
-	Enemy**  m_enemies;
-	uint8_t  m_numEnemies = 0;
+	Enemy**   m_enemies;
+	uint8_t   m_numEnemies = 0;
 
-	Bullet** m_bullets;
-	uint8_t  m_numBullets = 0;
+	Bullet**  m_bullets;
+	uint8_t   m_numBullets = 0;
 
-	bool     m_isGameOver = false;
+	GUIItem*  m_guiScoreLabel;
+
+	bool      m_isGameOver = false;
 };

@@ -87,8 +87,8 @@ bool Entity::GetCollides(Entity &other)
 
 void Entity::SetPosition(int16_t x, int16_t y)
 {
-	x = clamp(x, 1, SCREEN_WIDTH - m_width - 1);
-	y = clamp(y, TOP_HUD_HEIGHT, SCREEN_HEIGHT - m_height);
+	x = clamp(x, 0, SCREEN_WIDTH - m_width - 1);
+	y = clamp(y, 0, SCREEN_HEIGHT - m_height - 1);
 
 	m_lastRenderedPosition = m_position;
 	m_position = XYCoord(x, y);
