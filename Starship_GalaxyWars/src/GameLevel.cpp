@@ -17,7 +17,7 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 
     Debug_PrintLine("Player Start Pos: %d, %d", m_player->GetPosition().m_x, m_player->GetPosition().m_y);
 
-    m_guiScoreLabel = new GUIItem(&kScoreTextTexture);
+    m_guiScoreLabel = new GUIItem(&kTextTextureScore);
     m_guiScoreLabel->SetPosition(2, 0);
 
     m_initialized = true;

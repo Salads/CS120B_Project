@@ -25,7 +25,7 @@ const uint16_t kTextureScore [] PROGMEM =
 	0x0000, 0x0000, 0x0000
 };
 
-TextTexture kScoreTextTexture = 
+TextTexture kTextTextureScore = 
 {
 	kTextureScore,
 	ArraySize(kTextureScore),

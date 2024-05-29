@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "TextTexture.h"
 
-extern TextTexture kScoreTextTexture;
+extern TextTexture kTextTextureScore;
 extern TextTexture kTextTextureNum0;
 extern TextTexture kTextTextureNum1;
 extern TextTexture kTextTextureNum2;
