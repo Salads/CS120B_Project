@@ -184,7 +184,8 @@ TextTexture kTextTextureNum9 =
 
 // Array of all bitmaps for convenience. (Total bytes used to store images in PROGMEM = 720)
 const int kTexture_allArray_LEN = 9;
-const uint16_t* kTexture_allArray[9] = {
+const uint16_t* kTexture_allArray[9] = 
+{
 	kTexture_2,
 	kTexture_3,
 	kTexture_4,
