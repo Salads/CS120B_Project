@@ -87,8 +87,8 @@ bool Entity::GetCollides(Entity &other)
 
 void Entity::SetPosition(int16_t x, int16_t y)
 {
-	x = clamp(x, 1, SCREEN_WIDTH - m_width - 2);
-	y = clamp(y, 1, SCREEN_HEIGHT - m_height - 2);
+	x = clamp(x, 1, SCREEN_WIDTH - m_width - 1);
+	y = clamp(y, TOP_HUD_HEIGHT, SCREEN_HEIGHT - m_height);
 
 	m_lastRenderedPosition = m_position;
 	m_position = XYCoord(x, y);
@@ -97,8 +97,8 @@ void Entity::SetPosition(int16_t x, int16_t y)
 
 void Entity::SetPosition(XYCoord newPosition)
 {
-	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 2);
-	newPosition.m_y = clamp(newPosition.m_y, 1, SCREEN_HEIGHT - m_height - 2);
+	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
+	newPosition.m_y = clamp(newPosition.m_y, TOP_HUD_HEIGHT, SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_height);
 
 	m_lastRenderedPosition = m_position;
 	m_position = newPosition;
@@ -116,7 +116,7 @@ ScreenRegion Entity::GetLastRenderRegion()
 		m_lastRenderedPosition.m_x + 1,
 		m_lastRenderedPosition.m_x + m_width,
 		m_lastRenderedPosition.m_y + 1,
-		m_lastRenderedPosition.m_y + m_height
+		m_lastRenderedPosition.m_y + m_height + 2
 	);
 
 	return result;
@@ -128,7 +128,7 @@ ScreenRegion Entity::GetRenderRegion()
 		m_position.m_x + 1,
 		m_position.m_x + m_width,
 		m_position.m_y + 1,
-		m_position.m_y + m_height
+		m_position.m_y + m_height + 2
 	);
 
 	return result;

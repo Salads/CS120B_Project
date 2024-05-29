@@ -156,7 +156,7 @@ void GameLevel::Update()
             // Check if bullet is out of play area
             if (!bullet->GetIsMarkedForDeletion())
             {
-                if(currentPosition.m_y <= 1 || dY >= currentPosition.m_y || currentPosition.m_y - dY <= 0)
+                if(currentPosition.m_y <= TOP_HUD_HEIGHT || currentPosition.m_y - dY <= TOP_HUD_HEIGHT)
                 {
                     bullet->SetIsMarkedForDeletion(true);
                 }
