@@ -8,15 +8,15 @@
 struct GameLevel : public Level
 {
 public:
-	GameLevel();
+	GameLevel(EntityType* enemiesArray, uint8_t numEnemies);
 	void Update();
 	void Render();
-	virtual void InitializeEnemies();
 
 	void AddBullet(Bullet* newBullet);
     void DeleteBullet(uint8_t bulletIdx);
     void DeleteEnemy(uint8_t enemyIdx);
 	Enemy* CreateEnemyFromType(EntityType type);
+	void InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies);
 
 private:
 	void UpdateEnemies();
@@ -32,6 +32,4 @@ public:
 	uint8_t  m_numBullets = 0;
 
 	bool     m_isGameOver = false;
-
-	
 };

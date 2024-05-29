@@ -2,9 +2,56 @@
 #include "GameState.h"
 #include "ST7735SClient.h"
 
-GameLevel::GameLevel()
+GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 {
 	m_type = LevelType_Game;
+
+    m_bullets = new Bullet*[K_MAX_BULLETS];
+    m_numBullets = 0;
+
+    InitializeEnemiesFromTypeArray(enemiesArray, numEnemies);
+
+    m_player = new Player();
+    //m_player->SetPosition((SCREEN_WIDTH / 2) - (m_player->GetWidth() / 2), SCREEN_HEIGHT - m_player->GetHeight()*2 - 15);
+    m_player->SetPosition(64, 100);
+
+    m_initialized = true;
+}
+
+void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies)
+{
+    if(numEnemies <= 0)
+    {
+        // TODO(Darrell): Debug log message - game level empty enemies array
+        return;
+    }
+
+    m_numEnemies = numEnemies;
+    m_enemies = new Enemy*[numEnemies];
+
+    Debug_PrintLine("# Enemies: %d", m_numEnemies);
+
+    uint8_t yStart = 15;
+    uint8_t slotWidth = 20;
+    uint8_t enemiesPerRow = (SCREEN_WIDTH - 3) / slotWidth;
+
+    // Go through each entity type and lay them out on the screen 1 by 1.
+    for (uint8_t i = 0; i < numEnemies; i++)
+    {
+        m_enemies[i] = CreateEnemyFromType(enemyArray[i]);
+
+        // Set initial position of the enemy. 
+        // We'll just lay them out side by side in rows
+        uint8_t xPosIdx = i % enemiesPerRow;
+        uint8_t xPos = 3 + (xPosIdx * slotWidth);
+
+        uint8_t yPosIdx = i / enemiesPerRow;
+        uint8_t yPos = yStart + (yPosIdx * slotWidth);
+
+        Debug_PrintLine("New Enemy at: %d, %d", xPos, yPos);
+
+        m_enemies[i]->SetPosition(xPos, yPos);
+    }
 }
 
 Enemy* GameLevel::CreateEnemyFromType(EntityType type)
@@ -160,7 +207,6 @@ void GameLevel::Update()
 
 void GameLevel::Render()
 {
-	GameState& gameState = GameState::Get();
 	ST7735SClient& renderer = ST7735SClient::Get();
 	for(int i = 0; i < m_numEnemies; i++)
 	{

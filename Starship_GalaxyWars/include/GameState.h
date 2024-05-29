@@ -19,19 +19,13 @@ public:
 
 public:
     bool              m_initialized = false;
-    Enemy**           m_enemies; // An array of POINTERS, to Enemies.
-    uint8_t           m_numEnemies = 0;
 
     Level*            m_currentLevel;
  
-    Player*           m_player;
     uint8_t           m_score = 0;
  
     bool              m_fireButton = false;
     JoystickDirection m_joystickDirection = JD_CENTER;
-
-    Bullet**          m_bullets;
-    uint8_t           m_numBullets;
     
     // Timing
     uint32_t          m_lastFrameTimeMS = 0;

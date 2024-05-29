@@ -4,10 +4,11 @@
 #include "Fly.h"
 #include "Player.h"
 
+#include "LevelConfig.h"
+
 GameState::GameState()
 {
-	m_enemies = new Enemy*[K_MAX_ENEMIES];
-	m_bullets = new Bullet*[K_MAX_BULLETS];
+	m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
 }
 
 GameState& GameState::Get()
@@ -42,23 +43,5 @@ void GameState::UpdateDeltaTime()
 
 void GameState::Initialize()
 {
-	m_numEnemies = K_MAX_ENEMIES;
-	m_numBullets = 0;
-
-	// Spawn Enemies
-	for (int i = 0; i < K_MAX_ENEMIES; i++)
-	{
-		Fly* newEnemy = new Fly();
-		m_enemies[i] = newEnemy;
-
-		uint8_t dWidth = SCREEN_WIDTH / K_MAX_ENEMIES; // screen div for max enemies
-		
-		// Anchor point is top-left because this is early prototype. Or maybe i wont care at all.
-		newEnemy->SetPosition(dWidth / 2 - (newEnemy->GetWidth() / 2) + (dWidth * i), 10);
-	}
-
-	m_player = new Player();
-	m_player->SetPosition(64, 100);
-
 	m_initialized = true;
 }
