@@ -35,7 +35,7 @@ int main()
 
 	DDRD = 0x00; PORTD = 0xFF;
 	DDRB = 0xFF; PORTB = 0;
-	DDRC = 0xFF; PORTC = 0;
+	DDRC = 0x00; PORTC = 0xFF;
 
 	SPI_INIT();
 	InitializeADC();
