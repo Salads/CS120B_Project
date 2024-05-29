@@ -38,6 +38,9 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
     uint8_t enemiesPerRow = min((SCREEN_WIDTH - 2) / minSlotWidth, numEnemies);
     uint8_t slotWidth = max(minSlotWidth, (SCREEN_WIDTH - 2) / numEnemies);
 
+    uint8_t rowsBeforeLeftover = numEnemies / enemiesPerRow;
+    uint8_t rowLeftOverAmt = numEnemies % enemiesPerRow;
+
     // Go through each entity type and lay them out on the screen 1 by 1.
     for (uint8_t i = 0; i < numEnemies; i++)
     {
@@ -45,15 +48,75 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
 
         // Set initial position of the enemy. 
         // We'll just lay them out side by side in rows
-        uint8_t xPosIdx = i % enemiesPerRow;
-        uint8_t xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (xPosIdx * slotWidth);
 
-        uint8_t yPosIdx = i / enemiesPerRow;
-        uint8_t yPos = yStart + (yPosIdx * slotWidth);
+        uint8_t numLeftOver = numEnemies - i;
+        if(rowLeftOverAmt > 0 && i >= 5)
+        {
+            for(uint8_t j = i; j < numEnemies; j++)
+            {
+                m_enemies[j] = CreateEnemyFromType(enemyArray[j]);
+            }
 
-        Debug_PrintLine("New Enemy at: %d, %d", xPos, yPos);
+            // Last row can't fill all slots, so we'll have special cases for them
+            // assume can't have more than 5. (fly enemy is max 5)
 
-        m_enemies[i]->SetPosition(xPos, yPos);
+            // I know this is SHIT code. The WORST code. DISGUSTING
+            // ... but i got like 2 days before deadline and there's more important goals.
+            if(numLeftOver == 1)
+            {
+                uint8_t xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (2 * slotWidth);
+                uint8_t yPos = yStart + ((i / enemiesPerRow) * slotWidth);
+                m_enemies[i]->SetPosition(xPos, yPos);
+            }
+            else if(numLeftOver == 2)
+            {
+                uint8_t xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (1 * slotWidth);
+                uint8_t yPos = yStart + ((i / enemiesPerRow) * slotWidth);
+                m_enemies[i]->SetPosition(xPos, yPos);
+
+                xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (3 * slotWidth);
+                m_enemies[i + 1]->SetPosition(xPos, yPos);
+            }
+            else if(numLeftOver == 3)
+            {
+                uint8_t xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (0 * slotWidth);
+                uint8_t yPos = yStart + ((i / enemiesPerRow) * slotWidth);
+                m_enemies[i]->SetPosition(xPos, yPos);
+
+                xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (2 * slotWidth);
+                m_enemies[i + 1]->SetPosition(xPos, yPos);
+
+                xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (4 * slotWidth);
+                m_enemies[i + 2]->SetPosition(xPos, yPos);
+            }
+            else if(numLeftOver == 4)
+            {
+                uint8_t xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (0 * slotWidth);
+                uint8_t yPos = yStart + ((i / enemiesPerRow) * slotWidth);
+                m_enemies[i]->SetPosition(xPos, yPos);
+
+                xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (1 * slotWidth);
+                m_enemies[i + 1]->SetPosition(xPos, yPos);
+
+                xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (3 * slotWidth);
+                m_enemies[i + 2]->SetPosition(xPos, yPos);
+
+                xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (4 * slotWidth);
+                m_enemies[i + 3]->SetPosition(xPos, yPos);
+            }
+
+            break; // we handled all cases here
+        }
+        else
+        {
+            uint8_t xPosIdx = i % enemiesPerRow;
+            uint8_t xPos = 3 + (slotWidth / 2) - (m_enemies[i]->GetWidth() / 2) + (xPosIdx * slotWidth);
+
+            uint8_t yPosIdx = i / enemiesPerRow;
+            uint8_t yPos = yStart + (yPosIdx * slotWidth);
+
+            m_enemies[i]->SetPosition(xPos, yPos);
+        }
     }
 }
 
