@@ -4,6 +4,7 @@
 #include "SerialMonitor.h"
 #include "Entity.h"
 #include "ColorUtil.h"
+#include <avr/pgmspace.h>
 
 ST7735SClient::ST7735SClient()
 {
@@ -127,7 +128,7 @@ void ST7735SClient::FillCurrentScreenRegion(const uint16_t* data, uint16_t dataS
 			SendData(sendByte);
 		*/
 
-		uint16_t pixel = data[i];
+		uint16_t pixel = pgm_read_word(data + i);
 		SendData(pixel >> 8);
 		SendData(pixel);
 	}
