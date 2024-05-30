@@ -1,17 +1,17 @@
 #pragma once
 
 #include <stdint.h>
-#include "TextTexture.h"
+#include "Texture.h"
 
-extern TextTexture kTextTextureScore;
-extern TextTexture kTextTextureNum0;
-extern TextTexture kTextTextureNum1;
-extern TextTexture kTextTextureNum2;
-extern TextTexture kTextTextureNum3;
-extern TextTexture kTextTextureNum4;
-extern TextTexture kTextTextureNum5;
-extern TextTexture kTextTextureNum6;
-extern TextTexture kTextTextureNum7;
-extern TextTexture kTextTextureNum8;
-extern TextTexture kTextTextureNum9;
+extern Texture kTextTextureScore; 
+extern Texture kTextTextureNum0;
+extern Texture kTextTextureNum1;
+extern Texture kTextTextureNum2;
+extern Texture kTextTextureNum3;
+extern Texture kTextTextureNum4;
+extern Texture kTextTextureNum5;
+extern Texture kTextTextureNum6;
+extern Texture kTextTextureNum7;
+extern Texture kTextTextureNum8;
+extern Texture kTextTextureNum9;
 

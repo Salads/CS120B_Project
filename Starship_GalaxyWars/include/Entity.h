@@ -20,6 +20,7 @@ class Entity : public SimpleRenderObject
 {
 public:
 	Entity();
+	Entity(Texture& texture);
 	~Entity();
 	bool GetCollides(Entity &other);
 	

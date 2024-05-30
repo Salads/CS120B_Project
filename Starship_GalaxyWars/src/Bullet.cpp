@@ -1,19 +1,20 @@
 #include "Bullet.h"
+#include <avr/pgmspace.h>
 
 // 'enemy_bullet', 2x4px
-uint16_t texture_enemy_bullet [] = 
+const uint16_t texture_enemy_bullet [] PROGMEM = 
 {
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe8, 0xe4, 0xe8, 0xe4, 0xe8, 0xe4, 0xe8, 0xe4
 };
 
 // 'player_bullet', 2x4px
-uint16_t texture_player_bullet [] = 
+const uint16_t texture_player_bullet [] PROGMEM = 
 {
 	0xfec0, 0xfec0, 0xfec0, 0xfec0, 0xfb40, 0xfb40, 0xfb40, 0xfb40
 };
 
 // 'player_nanoslice', 16x5px
-uint16_t texture_player_nanoslice [] = 
+const uint16_t texture_player_nanoslice [] PROGMEM = 
 {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf8, 0x1b, 0xf8, 0x1b, 0xf8, 0x1b, 0xf8, 0x1b, 
 	0xf8, 0x1b, 0xf8, 0x1b, 0xf8, 0x1b, 0xf8, 0x1b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -28,24 +29,25 @@ uint16_t texture_player_nanoslice [] =
 };
 
 Bullet::Bullet(BulletType type)
+	: Entity()
 {
 	switch(type)
 	{
 		case BulletType_PlayerNormal:
-			m_textureData = texture_player_bullet;
-			m_textureDataSize = ArraySize(texture_player_bullet);
+			m_texture = texture_player_bullet;
+			m_textureSize = ArraySize(texture_player_bullet);
 			m_width = 2;
 			m_height = 7;
 			break;
 		case BulletType_PlayerNanoSlice:
-			m_textureData = texture_player_nanoslice;
-			m_textureDataSize = ArraySize(texture_player_nanoslice);
+			m_texture = texture_player_nanoslice;
+			m_textureSize = ArraySize(texture_player_nanoslice);
 			m_width = 16;
 			m_height = 5;
 			break;
 		case BulletType_EnemyNormal:
-			m_textureData = texture_enemy_bullet;
-			m_textureDataSize = ArraySize(texture_enemy_bullet);
+			m_texture = texture_enemy_bullet;
+			m_textureSize = ArraySize(texture_enemy_bullet);
 			m_width = 2;
 			m_height = 4;
 			break;

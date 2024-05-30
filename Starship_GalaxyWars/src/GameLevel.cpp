@@ -1,6 +1,8 @@
 #include "GameLevel.h"
 #include "GameState.h"
 #include "ST7735SClient.h"
+#include "Player.h"
+#include "Bullet.h"
 
 GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 {
@@ -16,9 +18,6 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
     m_player->SetRenderDirty(true);
 
     Debug_PrintLine("Player Start Pos: %d, %d", m_player->GetPosition().m_x, m_player->GetPosition().m_y);
-
-    m_guiScoreLabel = new GUIItem(&kTextTextureScore);
-    m_guiScoreLabel->SetPosition(2, 0);
 
     m_initialized = true;
 }
@@ -280,14 +279,14 @@ void GameLevel::Render()
 		Enemy* enemy = m_enemies[i];
 		if(enemy->GetRenderDirty())
 		{
-			renderer.RenderEntity(enemy);
+			enemy->Render();
 			enemy->SetRenderDirty(false);
 		}
 	}
 
 	if(m_player->GetRenderDirty())
 	{
-		renderer.RenderEntity(m_player);
+		m_player->Render();
 		m_player->SetRenderDirty(false);
 	}
 
@@ -296,14 +295,8 @@ void GameLevel::Render()
 		Bullet* bullet = m_bullets[i];
 		if(bullet->GetRenderDirty())
 		{
-			renderer.RenderEntity(bullet, false);
+			bullet->Render();
 			bullet->SetRenderDirty(false);
 		}
 	}
-
-    if(m_guiScoreLabel->GetRenderDirty())
-    {
-        renderer.RenderEntity(m_guiScoreLabel, false);
-        m_guiScoreLabel->SetRenderDirty(false);
-    }
 }

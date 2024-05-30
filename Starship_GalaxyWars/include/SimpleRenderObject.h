@@ -1,12 +1,16 @@
 #pragma once
 
 #include "BaseRenderObject.h"
+#include "Texture.h"
 #include <stdint.h>
 
 class SimpleRenderObject : public BaseRenderObject
 {
+public:
+    SimpleRenderObject();
+    SimpleRenderObject(Texture& texture);
+    void Render();
 protected:
-private:
-    uint16_t* m_texture;
+    const uint16_t* m_texture;
     uint16_t  m_textureSize;
 };

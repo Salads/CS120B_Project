@@ -1,5 +1,6 @@
 #include "BaseRenderObject.h"
 #include "ST7735SClient.h"
+#include "Texture.h"
 
 void BaseRenderObject::ClearFromDisplay()
 {
@@ -13,21 +14,6 @@ void BaseRenderObject::ClearFromDisplay()
 XYCoord BaseRenderObject::GetPosition()
 {
 	return m_position;
-}
-
-void BaseRenderObject::SetLastRenderedPosition(ScreenRegion region)
-{
-	m_lastRenderedPosition = XYCoord(region.m_startX, region.m_startY);
-}
-
-uint16_t BaseRenderObject::GetTextureDataSize()
-{
-	return m_textureDataSize;
-}
-
-uint16_t* BaseRenderObject::GetTextureData()
-{
-	return m_textureData;
 }
 
 uint8_t BaseRenderObject::GetWidth()

@@ -1,9 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "TextTextures.h"
 
-struct TextTexture
+struct Texture
 {
 	const uint16_t* data;
 	uint16_t  dataSize;

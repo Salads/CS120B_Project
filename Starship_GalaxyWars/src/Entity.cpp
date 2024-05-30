@@ -3,11 +3,11 @@
 #include "ScreenRegion.h"
 #include "ST7735SClient.h"
 
-Entity::Entity()
-{
-	m_lastRenderedPosition = XYCoord(0, 0);
-	m_position = XYCoord(0,0);
-}
+Entity::Entity() {}
+
+Entity::Entity(Texture& texture) 
+	: SimpleRenderObject(texture)
+{}
 
 Entity::~Entity()
 {

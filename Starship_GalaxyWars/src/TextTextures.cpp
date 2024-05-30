@@ -1,3 +1,4 @@
+#include "Texture.h"
 #include "TextTextures.h"
 #include <stdint.h>
 #include "Defines.h"
@@ -25,7 +26,7 @@ const uint16_t kTextureScore [] PROGMEM =
 	0x0000, 0x0000, 0x0000
 };
 
-TextTexture kTextTextureScore = 
+Texture kTextTextureScore = 
 {
 	kTextureScore,
 	ArraySize(kTextureScore),
@@ -112,70 +113,70 @@ const uint16_t kTexture_9 [] PROGMEM = {
 	0x0000, 0x0000, 0x0000, 0xffff, 0xffff, 0xffff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 };
 
-TextTexture kTextTextureNum0 = 
+Texture kTextTextureNum0 = 
 {
 	kTexture_0,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum1 = 
+Texture kTextTextureNum1 = 
 {
 	kTexture_1,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum2 = 
+Texture kTextTextureNum2 = 
 {
 	kTexture_2,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum3 = 
+Texture kTextTextureNum3 = 
 {
 	kTexture_3,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum4 = 
+Texture kTextTextureNum4 = 
 {
 	kTexture_4,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum5 = 
+Texture kTextTextureNum5 = 
 {
 	kTexture_5,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum6 = 
+Texture kTextTextureNum6 = 
 {
 	kTexture_6,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum7 = 
+Texture kTextTextureNum7 = 
 {
 	kTexture_7,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum8 = 
+Texture kTextTextureNum8 = 
 {
 	kTexture_8,
 	ArraySize(kTextureScore),
 	7, 9
 };
 
-TextTexture kTextTextureNum9 = 
+Texture kTextTextureNum9 = 
 {
 	kTexture_9,
 	ArraySize(kTextureScore),
