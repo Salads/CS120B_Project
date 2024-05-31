@@ -1,3 +1,5 @@
+#include "GUIMenuConfig.h"
+#include "GUIMenuConfigs.h"
 
 const GUIMenuConfig kMainMenuConfig = 
 {
