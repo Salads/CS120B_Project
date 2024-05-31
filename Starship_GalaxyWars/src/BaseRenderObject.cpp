@@ -47,7 +47,7 @@ void BaseRenderObject::OnSetPosition()
 void BaseRenderObject::SetPosition(XYCoord newPosition)
 {
 	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
-	newPosition.m_y = clamp(newPosition.m_y, TOP_HUD_HEIGHT, SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_height);
+	newPosition.m_y = clamp(newPosition.m_y, 1, SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_height);
 
 	m_lastRenderedPosition = m_position;
 	m_position = newPosition;
