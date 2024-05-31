@@ -11,7 +11,7 @@
 
 GameState::GameState()
 {
-	m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+	
 }
 
 GameState& GameState::Get()
@@ -35,5 +35,6 @@ void GameState::UpdateDeltaTime()
 void GameState::Initialize()
 {
 	Debug_PrintLine("GameState Initialize");
+	m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
 	m_initialized = true;
 }

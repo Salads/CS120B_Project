@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include "BaseRenderObject.h"
+#include "Texture.h"
 
 struct GUIMenu : public BaseRenderObject
 {
@@ -14,8 +15,8 @@ public:
 	uint8_t m_selectedIdx = 0;
 
 protected:
-	uint16_t* m_backgroundTexture;
-	uint16_t* m_cursorTexture;
+	Texture   m_backgroundTexture;
+	Texture   m_cursorTexture;
 	
 	uint8_t   m_optionXPosition = 0;
 	uint8_t   m_optionYPositions[5];

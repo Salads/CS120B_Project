@@ -22,6 +22,7 @@ public:
 private:
 	void UpdateEnemies();
 	void UpdateBullets();
+	void UpdateScoreText(uint8_t newScore);
 
 public:
 	Player*   		  m_player;
@@ -35,4 +36,5 @@ public:
 	TextRenderObject* m_scoreText;
 
 	bool      		  m_isGameOver = false;
+	bool			  m_initialized = false;
 };

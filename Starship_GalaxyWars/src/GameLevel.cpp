@@ -7,8 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
-
 GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 {
 	m_type = LevelType_Game;
@@ -26,9 +24,6 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 
     m_scoreText = new TextRenderObject();
     m_scoreText->SetPosition(5, 1);
-    m_scoreText->SetText("Score: ");
-
-    m_initialized = true;
 }
 
 void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies)
@@ -170,6 +165,12 @@ void GameLevel::Update()
 {
     GameState& gameState = GameState::Get();
 
+    if(!m_initialized)
+    {
+        UpdateScoreText(gameState.m_score);
+        m_initialized = true;
+    }
+
     // Update Gamestate with Input
     if(gameState.m_fireButton && 
       (gameState.m_timeSinceLastFireMS >= gameState.m_timeNextFireMS) && m_numBullets < K_MAX_BULLETS)
@@ -223,11 +224,7 @@ void GameLevel::Update()
                     enemy->SetIsMarkedForDeletion(true);
                     bullet->SetIsMarkedForDeletion(true);
                     gameState.m_score += enemy->GetScoreValue();
-                    char buffer[8] = "Score: ";
-                    char bufferNum[3];
-                    char result[11];
-                    strcpy(result, strcat(buffer, itoa(gameState.m_score, bufferNum, 10))); 
-                    m_scoreText->SetText(result);
+                    UpdateScoreText(gameState.m_score);
                 }
             }
 
@@ -319,6 +316,13 @@ void GameLevel::Render()
         m_scoreText->Render();
         m_scoreText->SetRenderDirty(false);
     }
+}
 
-    uint32_t endRenderTime = GetTimeMS();
+void GameLevel::UpdateScoreText(uint8_t newScore)
+{
+    char buffer[8] = "Score: ";
+    char bufferNum[3];
+    char result[11];
+    strcpy(result, strcat(buffer, itoa(newScore, bufferNum, 10))); 
+    m_scoreText->SetText(result);
 }
