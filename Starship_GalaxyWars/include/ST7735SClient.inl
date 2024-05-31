@@ -108,26 +108,6 @@ void ST7735SClient::FillCurrentScreenRegion(const uint16_t* data, uint16_t dataS
 	SendCommand(RAMWR);
 	for(uint16_t i = 0; i < arrSize; i++)
 	{
-		/*
-			RGB is actually BGR. Maybe it has to do with endianness.. Oh well.
-			I set MADCTL to use BGR so I don't have to software-convert the pixel data.
-
-			Below code is for when panel is set to RGB(but actually BGR)
-
-			uint16_t pixel = data[i];
-			uint8_t red   = (pixel & 0b1111100000000000) >> 11;
-			uint8_t green = (pixel & 0b0000011111100000) >> 5;
-			uint8_t blue  = (pixel & 0b0000000000011111) >> 0;
-
-			uint8_t sendByte = 0x00;
-
-			sendByte = (blue << 3) | (green & 0b111000) >> 3;
-			SendData(sendByte);
-
-			sendByte = (green & 0b000111 << 5) | red;
-			SendData(sendByte);
-		*/
-
 		uint16_t pixel = pgm_read_word(data + i);
 		SendData(pixel >> 8);
 		SendData(pixel);

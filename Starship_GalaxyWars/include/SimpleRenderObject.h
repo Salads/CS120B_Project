@@ -9,6 +9,7 @@ class SimpleRenderObject : public BaseRenderObject
 public:
     SimpleRenderObject();
     SimpleRenderObject(Texture& texture);
+    void SetTexture(Texture& newTexture);
     void Render();
 protected:
     const uint16_t* m_texture;

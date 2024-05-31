@@ -273,7 +273,6 @@ void GameLevel::Update()
 
 void GameLevel::Render()
 {
-	ST7735SClient& renderer = ST7735SClient::Get();
 	for(int i = 0; i < m_numEnemies; i++)
 	{
 		Enemy* enemy = m_enemies[i];

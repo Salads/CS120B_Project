@@ -7,10 +7,16 @@ SimpleRenderObject::SimpleRenderObject()
 
 SimpleRenderObject::SimpleRenderObject(Texture& texture)
 {
-	m_width = texture.width;
-	m_height = texture.height;
-	m_texture = texture.data;
-	m_textureSize = texture.dataSize;
+	SetTexture(texture);
+}
+
+void SimpleRenderObject::SetTexture(Texture& newTexture)
+{
+	m_width = newTexture.width;
+	m_height = newTexture.height;
+	m_texture = newTexture.data;
+	m_textureSize = newTexture.dataSize;
+	SetRenderDirty(true);
 }
 
 void SimpleRenderObject::Render()
