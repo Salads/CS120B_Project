@@ -3,22 +3,31 @@
 #include <stdint.h>
 #include "BaseRenderObject.h"
 #include "Texture.h"
+#include "GUIMenuConfig.h"
+#include "TextRenderObject.h"
 
 struct GUIMenu : public BaseRenderObject
 {
-	GUIMenu();
-	void SelectPreviousOption();
-	void SelectNextOption();
-	void Render();
+public:
+	GUIMenu(const GUIMenuConfig& config);
+	void 	SelectPreviousOption();
+	void 	SelectNextOption();
+	uint8_t GetSelectedOptionIdx();
+	bool	GetAcceptedSelection();
+	void	Update();
+	void 	Render(bool clearLastPosition = true);
 
 public:
-	uint8_t m_selectedIdx = 0;
 
 protected:
-	Texture   m_backgroundTexture;
-	Texture   m_cursorTexture;
+	uint8_t   			m_selectedIdx = 0;
+	bool				m_acceptedSelection = false;
+
+	Texture   		    m_cursorTexture;
+	SimpleRenderObject* m_cursor;
 	
-	uint8_t   m_optionXPosition = 0;
-	uint8_t   m_optionYPositions[5];
-	uint8_t   m_numOptions = 0;
+	TextRenderObject*   m_textObjects[5];
+	uint8_t   		    m_optionXPosition = 0;
+	uint8_t   		    m_optionYPositions[5];
+	uint8_t   		    m_numOptions = 0;
 };

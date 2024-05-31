@@ -25,7 +25,6 @@ void SimpleRenderObject::Render(bool clearLastPosition)
 	
 	if(clearLastPosition)
 	{
-		
 		// Render over previous position with background color.
 		ScreenRegion lastRegion = GetLastRenderRegion();
 		renderer.SetRegion(lastRegion);

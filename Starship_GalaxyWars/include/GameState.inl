@@ -8,6 +8,7 @@
 #include "SerialMonitor.h"
 #include "LevelConfig.h"
 #include "TimerISR.h"
+#include "MainMenuLevel.h"
 
 GameState::GameState()
 {
@@ -34,7 +35,7 @@ void GameState::UpdateDeltaTime()
 
 void GameState::Initialize()
 {
-	Debug_PrintLine("GameState Initialize");
-	m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+	//m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+	m_currentLevel = new MainMenuLevel();
 	m_initialized = true;
 }

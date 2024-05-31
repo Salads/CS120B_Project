@@ -81,9 +81,6 @@ void TextRenderObject::SetText(const char* newText)
 	m_height = totalHeight;
 
 	UpdateChildPositions();
-
-	SetRenderDirty(true);
-
 }
 
 void TextRenderObject::OnSetPosition()

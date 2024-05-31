@@ -18,6 +18,7 @@ public:
     void DeleteEnemy(uint8_t enemyIdx);
 	Enemy* CreateEnemyFromType(EntityType type);
 	void InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies);
+	DoneReason GetDoneReason();
 
 private:
 	void UpdateEnemies();

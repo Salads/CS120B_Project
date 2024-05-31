@@ -20,8 +20,6 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
     m_player->SetPosition((SCREEN_WIDTH / 2) - (m_player->GetWidth() / 2), SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_player->GetHeight() - 1);
     m_player->SetRenderDirty(true);
 
-    Debug_PrintLine("Player Start Pos: %d, %d", m_player->GetPosition().m_x, m_player->GetPosition().m_y);
-
     m_scoreText = new TextRenderObject();
     m_scoreText->SetPosition(5, 1);
 }
@@ -36,8 +34,6 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
 
     m_numEnemies = numEnemies;
     m_enemies = new Enemy*[numEnemies];
-
-    Debug_PrintLine("# Enemies: %d", m_numEnemies);
 
     uint8_t yStart = 15;
     uint8_t minSlotWidth = 25;
@@ -189,7 +185,6 @@ void GameLevel::Update()
     else
     {
         gameState.m_timeSinceLastFireMS += gameState.m_deltaTimeMS;
-        //Debug_PrintLine("Time Since Fire: %lu, dt: %lu", gameState.m_timeSinceLastFireMS, gameState.m_deltaTimeMS);
     }
 
     // Update Moving Entities
@@ -324,4 +319,9 @@ void GameLevel::UpdateScoreText(uint8_t newScore)
     char result[11];
     strcpy(result, strcat(buffer, itoa(newScore, bufferNum, 10))); 
     m_scoreText->SetText(result);
+}
+
+DoneReason GameLevel::GetDoneReason()
+{
+    return DoneReason_None; // TODO(Darrell): Win conditions for game level
 }

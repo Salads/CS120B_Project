@@ -19,6 +19,13 @@ int Tick_Update(int state)
 	{
 		GameState& gameState = GameState::Get();
 		gameState.m_currentLevel->Update();
+		if(gameState.m_currentLevel->GetDoneReason() == DoneReason_StartGame ||
+			gameState.m_currentLevel->GetDoneReason() == DoneReason_ViewHighScore) // TODO(Darrell): High score level.
+		{
+			delete gameState.m_currentLevel;
+			gameState.m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+		}
+
 	} break;
 	default: break;
 	}
