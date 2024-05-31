@@ -10,7 +10,7 @@ public:
     SimpleRenderObject();
     SimpleRenderObject(Texture& texture);
     void SetTexture(Texture& newTexture);
-    void Render();
+    void Render(bool clearLastPosition = true);
 protected:
     const uint16_t* m_texture;
     uint16_t  m_textureSize;

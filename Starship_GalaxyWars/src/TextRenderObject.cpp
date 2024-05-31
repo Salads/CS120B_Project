@@ -4,11 +4,11 @@
 #include "TextTextures.h"
 #include "ST7735SClient.h"
 
-void TextRenderObject::Render()
+void TextRenderObject::Render(bool clearLastPosition)
 {
 	for(uint8_t i = 0; i < m_textSize; i++)
 	{
-		m_renderObjects[i]->Render();
+		m_renderObjects[i]->Render(clearLastPosition);
 	}
 
 	SetRenderDirty(false);

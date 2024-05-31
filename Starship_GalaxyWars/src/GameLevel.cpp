@@ -218,13 +218,11 @@ void GameLevel::Update()
                     enemy->SetIsMarkedForDeletion(true);
                     bullet->SetIsMarkedForDeletion(true);
                     gameState.m_score += enemy->GetScoreValue();
-                    char buffer[25] = "Score: ";
-                    char bufferNum[25];
-                    char result[25];
+                    char buffer[8] = "Score: ";
+                    char bufferNum[3];
+                    char result[11];
                     strcpy(result, strcat(buffer, itoa(gameState.m_score, bufferNum, 10))); 
                     m_scoreText->SetText(result);
-
-                    Debug_PrintLine("New Text: %s", result);
                 }
             }
 

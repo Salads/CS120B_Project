@@ -19,13 +19,18 @@ void SimpleRenderObject::SetTexture(Texture& newTexture)
 	SetRenderDirty(true);
 }
 
-void SimpleRenderObject::Render()
+void SimpleRenderObject::Render(bool clearLastPosition)
 {
 	ST7735SClient& renderer = ST7735SClient::Get();
-	// Render over previous position with background color.
-	ScreenRegion lastRegion = GetLastRenderRegion();
-	renderer.SetRegion(lastRegion);
-	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+	
+	if(clearLastPosition)
+	{
+		
+		// Render over previous position with background color.
+		ScreenRegion lastRegion = GetLastRenderRegion();
+		renderer.SetRegion(lastRegion);
+		renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+	}
 
 	// Render new position
 	ScreenRegion newRegion = GetRenderRegion();

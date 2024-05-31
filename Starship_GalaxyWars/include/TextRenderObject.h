@@ -10,12 +10,12 @@ extern Texture kFullFontTexture;
 class TextRenderObject : public BaseRenderObject
 {
 public:
-	void Render();
+	void Render(bool clearLastPosition = true);
 	void SetText(const char* newText);
 
 protected:
 	void OnSetPosition();
-	
+
 private:
 	void UpdateChildPositions();
 
