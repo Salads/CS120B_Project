@@ -6,7 +6,6 @@
 #include "Bullet.h"
 #include "JoystickDirection.h"
 #include "GameLevel.h"
-#include "MenuLevel.h"
 
 class GameState
 {
@@ -31,6 +30,7 @@ public:
     uint32_t          m_lastFrameTimeMS = 0;
     uint32_t          m_currentTimeMS   = 0;
     uint32_t          m_deltaTimeMS     = 0;
+    uint32_t          m_timeNextFireMS    = 0;
     uint32_t          m_timeSinceLastFireMS = 0;
 };
 

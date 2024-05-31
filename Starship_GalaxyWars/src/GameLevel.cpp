@@ -3,8 +3,12 @@
 #include "ST7735SClient.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "TimerISR.h"
 #include <string.h>
 #include <stdlib.h>
+
+
+
 GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 {
 	m_type = LevelType_Game;
@@ -168,10 +172,10 @@ void GameLevel::Update()
 
     // Update Gamestate with Input
     if(gameState.m_fireButton && 
-        (gameState.m_timeSinceLastFireMS >= K_PLAYER_BULLET_FIREINTERVAL) &&
-            m_numBullets < K_MAX_BULLETS)
+      (gameState.m_timeSinceLastFireMS >= gameState.m_timeNextFireMS) && m_numBullets < K_MAX_BULLETS)
     {
         gameState.m_timeSinceLastFireMS = 0;
+        gameState.m_timeNextFireMS = K_PLAYER_BULLET_FIREINTERVAL;
 
         Bullet* newBullet = new Bullet(BulletType_PlayerNormal);
         XYCoord spawnPos = m_player->GetPosition();
@@ -184,6 +188,7 @@ void GameLevel::Update()
     else
     {
         gameState.m_timeSinceLastFireMS += gameState.m_deltaTimeMS;
+        //Debug_PrintLine("Time Since Fire: %lu, dt: %lu", gameState.m_timeSinceLastFireMS, gameState.m_deltaTimeMS);
     }
 
     // Update Moving Entities
@@ -243,16 +248,16 @@ void GameLevel::Update()
         }
 
         // Enemies
-        static bool b = true;
-        for (uint8_t i = 0; i < m_numEnemies; i++)
-        {
-            Enemy* enemy = m_enemies[i];
-            uint8_t mul = (b ? 1 : -1);
-            XYCoord curPos = enemy->GetPosition();
-            curPos.m_x = curPos.m_x + (mul * 5);
-            enemy->SetPosition(curPos);
-        }
-        b = !b;
+        // static bool b = true;
+        // for (uint8_t i = 0; i < m_numEnemies; i++)
+        // {
+        //     Enemy* enemy = m_enemies[i];
+        //     uint8_t mul = (b ? 1 : -1);
+        //     XYCoord curPos = enemy->GetPosition();
+        //     curPos.m_x = curPos.m_x + (mul * 5);
+        //     enemy->SetPosition(curPos);
+        // }
+        // b = !b;
 
 
     // Delete to-be-deleted entities
@@ -282,6 +287,7 @@ void GameLevel::Update()
 
 void GameLevel::Render()
 {
+    GameState& gameState = GameState::Get();
 	for(int i = 0; i < m_numEnemies; i++)
 	{
 		Enemy* enemy = m_enemies[i];
@@ -310,8 +316,9 @@ void GameLevel::Render()
 
     if(m_scoreText->GetRenderDirty())
     {
-        Debug_PrintLine("Render Score Text");
         m_scoreText->Render();
         m_scoreText->SetRenderDirty(false);
     }
+
+    uint32_t endRenderTime = GetTimeMS();
 }

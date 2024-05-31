@@ -1,11 +1,12 @@
 #include "TimerISR.h"
 #include "SerialMonitor.h"
-
-volatile unsigned char TimerFlag = 0; // TimerISR() sets this to 1. C programmer should clear to 0.
+#include <util/atomic.h>
 
 // Internal variables for mapping AVR's ISR to our cleaner TimerISR model.
 unsigned long __avr__TimerTop = 1;   // Start count from here, down to 0. Default 1ms
 unsigned long __avr__TimerCount = 0; // Current internal count of 1ms ticks
+
+uint32_t volatile timerMS = 0;
 
 // Set TimerISR() to tick every M ms
 void TimerSet(unsigned long timerPeriod) 
@@ -16,14 +17,23 @@ void TimerSet(unsigned long timerPeriod)
 
 void TimerOn() 
 {
+	SREG   = 0b10000000; // Enable Global Interrupts
+
 	// Task Timer
 	TCCR0A = 0b00000011; // Fast PWM Mode.
-	TCCR0B = 0b00001011; // prescalar 64 (4 microsecond tick)
+	TCCR0B = 0b00001011; // prescalar 64 (4 microsecond tick), or 4 microseconds per timer count increment
 	OCR0A  = 250;        // 1000 microseconds (1ms) / 4 microsecond tick = 250 exactly. 
-						 // 	This will let us have an interrupt every 1 milisecond.
+						 // 	This will let us have an (overflow) interrupt every 1 milisecond.
 	TCNT0  = 0;          // Initialize counter to 0.
-	SREG   = 0b10000000; // Enable Global Interrupts
-	TIMSK0 = 0b00000010; // Enable Compare match interrupt (A), and Overflow Interrupt
+	TIMSK0 = 0b00000010; // Enable Compare match interrupt (A), No Overflow
+
+	// Timer2 
+	TCCR2A = 0b00000010; // CTC
+	TCCR2B = 0b00000011; // prescalar 64 (4 microsecond tick), or 4 microseconds per timer count increment
+	OCR2A  = 250;        // 1000 microseconds (1ms) / 4 microsecond tick = 250 exactly. 
+						 // 	This will let us have an (overflow) interrupt every 1 milisecond.
+	TCNT2  = 0;          // Initialize counter to 0.
+	TIMSK2 = 0b00000010; // Enable Compare match interrupt (A), No Overflow
 }
 
 void TimerOff() 
@@ -40,16 +50,20 @@ ISR(TIMER0_COMPA_vect)
 		TimerISR(); 				// Call the ISR that the user uses
 		__avr__TimerCount = __avr__TimerTop;
 	}
-
 }
 
-// Don't need overflow in Fast PWM mode
-// Further, our period is perfect for 1 ms. 
+ISR(TIMER2_COMPA_vect)
+{
+	timerMS++;
+}
 
-// int TimerOverflow = 0;
+uint32_t GetTimeMS()
+{
+	uint32_t ret;
 
-// ISR(TIMER0_OVF_vect)
-// {
-// 	TimerOverflow++;	/* Increment Timer Overflow count */
-// 	Debug_PrintLine("Timer Overflow: %d", TimerOverflow);
-// }
+	ATOMIC_BLOCK(ATOMIC_FORCEON) 
+	{
+		ret = timerMS;
+	}
+	return ret;
+}

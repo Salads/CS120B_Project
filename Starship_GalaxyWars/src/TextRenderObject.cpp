@@ -19,7 +19,6 @@ void TextRenderObject::Render(bool clearLastPosition)
 void TextRenderObject::SetText(const char* newText)
 {
 	bool textChanged = strcmp(newText, m_text);
-	Debug_PrintLine("changed=%d, old='%s', new='%s'", textChanged, m_text, newText);
 	if (!textChanged) return;
 
 	uint8_t totalWidth = 0;

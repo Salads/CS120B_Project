@@ -8,8 +8,11 @@
 #include <util/delay.h>
 #include "Defines.h"
 
+extern volatile uint32_t timerMS;
+
 void TimerISR(void);
 
 void TimerSet(unsigned long M);
 void TimerOn();
 void TimerOff();
+uint32_t GetTimeMS();

@@ -8,7 +8,6 @@ Task gTasks[NUM_TASKS];
 
 void TimerISR()
 {
-	GameState::Get().m_currentTimeMS++;
 	for (uint8_t i = 0; i < NUM_TASKS; i++)
 	{
 		if (gTasks[i].m_elapsedTime >= gTasks[i].m_period)

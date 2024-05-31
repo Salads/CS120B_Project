@@ -1,10 +1,13 @@
 #pragma once
 
+#include <avr/io.h>
+
 #include "GameState.h"
 #include "Fly.h"
 #include "Player.h"
-
+#include "SerialMonitor.h"
 #include "LevelConfig.h"
+#include "TimerISR.h"
 
 GameState::GameState()
 {
@@ -26,22 +29,24 @@ GameState& GameState::Get()
 void GameState::UpdateDeltaTime()
 {
 	uint32_t timePassedMS = 0;
+	uint32_t currentTimeMS = GetTimeMS();
 	// timeMS has overflown, so we'll 
-	if (m_lastFrameTimeMS > m_currentTimeMS)
+	if (m_lastFrameTimeMS > currentTimeMS)
 	{
 		uint32_t leftOver = UINT32_MAX - m_lastFrameTimeMS;
-		timePassedMS = leftOver + m_currentTimeMS;
+		timePassedMS = leftOver + currentTimeMS;
 	}
 	else
 	{
-		timePassedMS = m_currentTimeMS - m_lastFrameTimeMS;
+		timePassedMS = currentTimeMS - m_lastFrameTimeMS;
 	}
 
 	m_deltaTimeMS = timePassedMS;
-	m_lastFrameTimeMS = m_currentTimeMS;
+	m_lastFrameTimeMS = currentTimeMS;
 }
 
 void GameState::Initialize()
 {
+	Debug_PrintLine("GameState Initialize");
 	m_initialized = true;
 }
