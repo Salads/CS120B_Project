@@ -193,13 +193,13 @@ void GameLevel::Update()
 
     // Update Moving Entities
         // Player
-        if(gameState.m_joystickDirection != JD_CENTER)
+        if(gameState.m_joystickDirectionX != JD_CENTER)
         {
             Player* player = m_player;
             float dX = (float)K_PLAYER_SPEED * gameState.m_deltaTimeMS;
             XYCoord currentPosition = player->GetPosition();
 
-            if(gameState.m_joystickDirection == JD_LEFT)
+            if(gameState.m_joystickDirectionX == JD_LEFT)
             {
                 dX *= -1;
             }

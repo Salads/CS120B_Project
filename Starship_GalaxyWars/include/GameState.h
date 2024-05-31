@@ -24,7 +24,10 @@ public:
     uint8_t           m_score = 0;
  
     bool              m_fireButton = false;
-    JoystickDirection m_joystickDirection = JD_CENTER;
+    // We have two different joystick axis here because I only want to check two directions
+    // when handling ui/gameplay. I'm lazy. :)
+    JoystickDirection m_joystickDirectionY = JD_CENTER;
+    JoystickDirection m_joystickDirectionX = JD_CENTER;
     
     // Timing
     uint32_t          m_lastFrameTimeMS = 0;

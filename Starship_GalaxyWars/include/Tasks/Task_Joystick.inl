@@ -18,9 +18,14 @@ int Tick_Joystick(int state)
 	{
 		GameState& gameState = GameState::Get();
 		uint32_t joystickValue = ReadADC(0);
-		if(joystickValue < 350) {gameState.m_joystickDirection = JD_LEFT;}
-		else if(joystickValue > 700) {gameState.m_joystickDirection = JD_RIGHT;}
-		else {gameState.m_joystickDirection = JD_CENTER;}
+		if(joystickValue < 350) {gameState.m_joystickDirectionX = JD_LEFT;}
+		else if(joystickValue > 700) {gameState.m_joystickDirectionX = JD_RIGHT;}
+		else {gameState.m_joystickDirectionX = JD_CENTER;}
+
+		joystickValue = ReadADC(1);
+		if(joystickValue < 350) {gameState.m_joystickDirectionY = JD_DOWN;}
+		else if(joystickValue > 700) {gameState.m_joystickDirectionY = JD_UP;}
+		else {gameState.m_joystickDirectionY = JD_CENTER;}
 
 	} break;
 	default: break;

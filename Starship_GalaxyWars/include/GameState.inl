@@ -27,7 +27,6 @@ GameState& GameState::Get()
 // I'll just leave it at that, no need to be perfect here.
 void GameState::UpdateDeltaTime()
 {
-	uint32_t timePassedMS = 0;
 	uint32_t currentTimeMS = GetTimeMS();
 	m_deltaTimeMS = currentTimeMS - m_lastFrameTimeMS;
 	m_lastFrameTimeMS = currentTimeMS;
