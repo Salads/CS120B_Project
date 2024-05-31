@@ -3,7 +3,8 @@
 #include "ST7735SClient.h"
 #include "Player.h"
 #include "Bullet.h"
-
+#include <string.h>
+#include <stdlib.h>
 GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 {
 	m_type = LevelType_Game;
@@ -18,6 +19,10 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
     m_player->SetRenderDirty(true);
 
     Debug_PrintLine("Player Start Pos: %d, %d", m_player->GetPosition().m_x, m_player->GetPosition().m_y);
+
+    m_scoreText = new TextRenderObject();
+    m_scoreText->SetPosition(5, 1);
+    m_scoreText->SetText("Score: ");
 
     m_initialized = true;
 }
@@ -213,7 +218,13 @@ void GameLevel::Update()
                     enemy->SetIsMarkedForDeletion(true);
                     bullet->SetIsMarkedForDeletion(true);
                     gameState.m_score += enemy->GetScoreValue();
-                    //Debug_PrintLine("New Score: %d", gameState.m_score);
+                    char buffer[25] = "Score: ";
+                    char bufferNum[25];
+                    char result[25];
+                    strcpy(result, strcat(buffer, itoa(gameState.m_score, bufferNum, 10))); 
+                    m_scoreText->SetText(result);
+
+                    Debug_PrintLine("New Text: %s", result);
                 }
             }
 
@@ -298,4 +309,11 @@ void GameLevel::Render()
 			bullet->SetRenderDirty(false);
 		}
 	}
+
+    if(m_scoreText->GetRenderDirty())
+    {
+        Debug_PrintLine("Render Score Text");
+        m_scoreText->Render();
+        m_scoreText->SetRenderDirty(false);
+    }
 }

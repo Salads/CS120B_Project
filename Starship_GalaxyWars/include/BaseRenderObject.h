@@ -22,6 +22,9 @@ public:
 	XYCoord GetPosition();
 
 protected:
+	virtual void OnSetPosition();
+
+protected:
     bool m_renderDirty = false;
 
 	uint8_t m_width = 25;

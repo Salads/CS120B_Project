@@ -1,0 +1,90 @@
+8-Bit Timer/Counter0 with PWM
+
+- Has two independent output compare units
+- Three independent interrupt sources (TOV0, OCF0A, OCF0B)
+- Clears timer on compare match automatically
+
+The "timer" register iterates up, and when it reaches a value in the compare register,
+generates an interrupt signal. (provided we defined an interrupt)
+
+When this interrupt happens, we know some amount of time has passed.
+
+=====================================================
+== Registers
+=====================================================
+
+-----------------------------------
+-- SETUP
+-----------------------------------
+
+We will use the internal clock, using a "prescalar" which divides a clock signal.
+The other option is to use an external clock with pin T0.
+The clock source MUST be selected for the clock timer to be enabled.
+
+Enable timer module by settin PRTIM0 to 0 (0 by default)
+
+PRR    : Power Reduction Register (Default Value: All bits 0)
+_________________________________
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+| I | T | H | S | V | B | Z | E |
+`````````````````````````````````
+Bit 7 – I: Global Interrupt Enable (Required ON for timer interrupts)
+
+SREG - AVR Status Register
+_______________________________________________________________________
+|   7   |   6    |   5    |   4   |   3    |   2   |    1     |   0   |
+| PRTWI | PRTIM2 | PRTIM0 | ----- | PRTIM1 | PRSPI | PRUSART0 | PRADC |
+```````````````````````````````````````````````````````````````````````
+
+TCCR0A : Timer Control Register (A), (Default Value: All bits 0)
+_____________________________________________________________________________
+|   7    |     6    |    5   |   4    |    3    |    2    |   1   |    0    |
+| COM0A1 |  COM0A0  | COM0B1 | COM0B0 |  -----  |  -----  | WGM01 |  WGM00  |
+`````````````````````````````````````````````````````````````````````````````
+Bits 7:6 – COM0A1:0: Compare Match Output A Mode
+				00 : OCOA disconnected
+				01 : Toggle OC0A on compare match
+				10 : Clear OC0A on compare match
+				11 : Set OC0A on compare match
+
+
+TCCR0B : Timer Control Register (Default Value: All bits 0)
+__________________________________________________________________
+|   7   |    6    |   5   |   4   |   3   |  2   |  1   |   0    |
+| FOC0A |  FOC0B  | ----- | ----- | WGM02 | CS02 | CS01 |  CS00  |
+``````````````````````````````````````````````````````````````````
+Bit 4:3 – WGM13:2: Waveform Generation Mode
+
+Bit 2:0 – CS12:0: Clock Select
+				001 : clk/1 (no prescaling)
+				010 : clk/8
+				011 : clk/64
+				100 : clk/256
+				101 : clk/1024
+				110 : external clk, falling edge (we dont use)
+				111 : external clk, rising edge (we dont use)
+
+TIMSKn : Timer Interrupt Mask Register. Each intterupt is individually masked here.
+___________________________________________________________________
+|   7   |   6   |   5   |   4   |   3   |   2    |   1    |   0   |
+| ----- | ----- | ----- | ----- | ----- | OCIE0B | OCIE0A | TOIE0 |
+```````````````````````````````````````````````````````````````````
+Bits 7..3 – Res: Reserved Bits (always zero)
+Bit 2 – OCIE0B: Timer/Counter0 Output Compare Match B Interrupt Enable
+Bit 1 – OCIE0A: Timer/Counter0 Output Compare Match A Interrupt Enable
+Bit 0 – TOIE0: Timer/Counter0 Overflow Interrupt Enable
+
+PRTIM0 : Bit but be zero to enable timer module
+
+TCNTn  : Timer increment
+
+// These are independent! Can use both for two different intterupts, if we want.
+OCRnA  : Timer watch value (A)
+OCRnB  : Timer watch value (B)
+
+// These are independent as well.
+OCnA   : Timer interrupt (A)
+OCnB   : Timer interrupt (B)
+
+TCCRnA : Dunno
+TCCRnB : Dunno

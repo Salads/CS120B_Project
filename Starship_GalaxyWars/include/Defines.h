@@ -6,7 +6,6 @@
 #define ArraySize(array) (sizeof(array) / sizeof(array[0]))
 #define SecondsToMS(seconds) (seconds*1000)
 
-#define TIMER2_VAL   250
 #define K_PLAYER_BULLET_FIREINTERVAL SecondsToMS(0.0025)
 
 // Weird screen size, but I incremented 1by1 on each dimension till the screen filled. /shrug

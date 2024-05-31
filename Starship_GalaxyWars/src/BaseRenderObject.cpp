@@ -34,6 +34,14 @@ void BaseRenderObject::SetPosition(int16_t x, int16_t y)
 	m_lastRenderedPosition = m_position;
 	m_position = XYCoord(x, y);
 	m_renderDirty = true;
+
+	OnSetPosition();
+}
+
+void BaseRenderObject::OnSetPosition()
+{
+	// Nothing here.
+	// Usefull for text rendering objects, with child objects to render.
 }
 
 void BaseRenderObject::SetPosition(XYCoord newPosition)
@@ -44,6 +52,8 @@ void BaseRenderObject::SetPosition(XYCoord newPosition)
 	m_lastRenderedPosition = m_position;
 	m_position = newPosition;
 	m_renderDirty = true;
+
+	OnSetPosition();
 }
 
 void BaseRenderObject::SetRenderDirty(bool dirty)
