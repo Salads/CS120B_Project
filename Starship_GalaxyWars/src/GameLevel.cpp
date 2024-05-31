@@ -284,7 +284,12 @@ void GameLevel::Update()
 
 void GameLevel::Render()
 {
-    GameState& gameState = GameState::Get();
+    if(m_scoreText->GetRenderDirty())
+    {
+        m_scoreText->Render();
+        m_scoreText->SetRenderDirty(false);
+    }
+    
 	for(int i = 0; i < m_numEnemies; i++)
 	{
 		Enemy* enemy = m_enemies[i];
@@ -310,12 +315,6 @@ void GameLevel::Render()
 			bullet->SetRenderDirty(false);
 		}
 	}
-
-    if(m_scoreText->GetRenderDirty())
-    {
-        m_scoreText->Render();
-        m_scoreText->SetRenderDirty(false);
-    }
 }
 
 void GameLevel::UpdateScoreText(uint8_t newScore)
