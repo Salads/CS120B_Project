@@ -31,11 +31,10 @@ void TextRenderObject::SetText(const char* newText)
 	bool textChanged = strcmp(newText, m_text);
 	if (!textChanged) return;
 
-	uint8_t totalWidth = 0;
+	uint8_t totalWidth  = 0;
 	uint8_t totalHeight = 0;
 
 	uint8_t newLen = strlen(newText);
-
 	if (newLen > m_textSize)
 	{
 		for(uint8_t i = 0; i < newLen; i++)
@@ -51,7 +50,7 @@ void TextRenderObject::SetText(const char* newText)
 			}
 
 			totalWidth += m_renderObjects[i]->GetWidth();
-			totalHeight += m_renderObjects[i]->GetHeight();
+			totalHeight = max(totalHeight, m_renderObjects[i]->GetHeight());
 		}
 	}
 	else if (newLen < m_textSize)
@@ -62,7 +61,7 @@ void TextRenderObject::SetText(const char* newText)
 			m_renderObjects[i]->SetTexture(charTexture);
 
 			totalWidth += m_renderObjects[i]->GetWidth();
-			totalHeight += m_renderObjects[i]->GetHeight();
+			totalHeight = max(totalHeight, m_renderObjects[i]->GetHeight());
 		}
 
 		for(uint8_t i = newLen; i < m_textSize; i++)
@@ -81,7 +80,7 @@ void TextRenderObject::SetText(const char* newText)
 			m_renderObjects[i]->SetTexture(charTexture);
 
 			totalWidth += m_renderObjects[i]->GetWidth();
-			totalHeight += m_renderObjects[i]->GetHeight();
+			totalHeight = max(totalHeight, m_renderObjects[i]->GetHeight());
 		}
 	}
 

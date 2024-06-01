@@ -11,6 +11,10 @@ MainMenuLevel::MainMenuLevel()
 	Debug_PrintLine("MainMenuLevel() - Creating new GUIMenu");
 	m_menu = new GUIMenu(kMainMenuConfig);
 	m_type = LevelType_Menu;
+
+	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu->GetWidth() / 2);
+	uint8_t yMenuPos = (SCREEN_HEIGHT / 4);
+	m_menu->SetPosition(xMenuPos, yMenuPos);
 }
 
 void MainMenuLevel::Update()
