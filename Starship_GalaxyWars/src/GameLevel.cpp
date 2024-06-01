@@ -22,6 +22,7 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 
     m_scoreText = new TextRenderObject();
     m_scoreText->SetPosition(5, 1);
+    m_scoreText->SetPosition(m_scoreText->GetPosition());
 }
 
 GameLevel::~GameLevel()
@@ -133,6 +134,11 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
 
             m_enemies[i]->SetPosition(xPos, yPos);
         }
+    }
+
+    for(uint8_t i = 0; i < m_numEnemies; i++)
+    {
+        m_enemies[i]->SetPosition(m_enemies[i]->GetPosition());
     }
 }
 
