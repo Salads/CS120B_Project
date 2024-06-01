@@ -1,6 +1,7 @@
 #include "GUIMenu.h"
 #include "GameState.h"
 #include <avr/pgmspace.h>
+#include "SerialMonitor.h"
 
 // 'menu_cursor, 5x9px
 const uint16_t texture_cursor [] PROGMEM = 

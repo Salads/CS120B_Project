@@ -24,6 +24,22 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
     m_scoreText->SetPosition(5, 1);
 }
 
+GameLevel::~GameLevel()
+{
+    if(m_player) delete m_player;
+    if(m_scoreText) delete m_scoreText;
+
+    for(int i = 0; i < m_numBullets; i++)
+    {
+        delete m_bullets[i];
+    }
+
+    for(int i = 0; i < m_numEnemies; i++)
+    {
+        delete m_enemies[i];
+    }
+}
+
 void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies)
 {
     if(numEnemies <= 0)
@@ -275,6 +291,11 @@ void GameLevel::Update()
             i -= 1;
         }
     }
+
+    if(m_numEnemies <= 0)
+    {
+        m_doneReason = DoneReason_GameOverVictory;
+    }
 }
 
 void GameLevel::Render()
@@ -323,5 +344,5 @@ void GameLevel::UpdateScoreText(uint8_t newScore)
 
 DoneReason GameLevel::GetDoneReason()
 {
-    return DoneReason_None; // TODO(Darrell): Win conditions for game level
+    return m_doneReason;
 }

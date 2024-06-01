@@ -8,6 +8,7 @@ class SimpleRenderObject : public BaseRenderObject
 {
 public:
     SimpleRenderObject();
+    virtual ~SimpleRenderObject();
     SimpleRenderObject(Texture& texture);
     void SetTexture(Texture& newTexture);
     void Render(bool clearLastPosition = true);

@@ -4,6 +4,16 @@
 #include "TextTextures.h"
 #include "ST7735SClient.h"
 
+TextRenderObject::~TextRenderObject()
+{
+	for(uint8_t i = 0; i < m_textSize; i++)
+	{
+		delete m_renderObjects[i];
+	}
+	
+	m_textSize = 0;
+}
+
 void TextRenderObject::Render(bool clearLastPosition)
 {
 	for(uint8_t i = 0; i < m_textSize; i++)

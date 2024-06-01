@@ -10,6 +10,7 @@ struct GameLevel : public Level
 {
 public:
 	GameLevel(EntityType* enemiesArray, uint8_t numEnemies);
+	~GameLevel();
 	void Update();
 	void Render();
 
@@ -38,4 +39,6 @@ public:
 
 	bool      		  m_isGameOver = false;
 	bool			  m_initialized = false;
+private:
+	DoneReason 		  m_doneReason = DoneReason_None;
 };

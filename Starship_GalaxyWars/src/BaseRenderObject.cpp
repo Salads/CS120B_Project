@@ -2,6 +2,9 @@
 #include "ST7735SClient.h"
 #include "Texture.h"
 
+BaseRenderObject::~BaseRenderObject()
+{}
+
 void BaseRenderObject::ClearFromDisplay()
 {
 	// Have the renderer clear our current region with background color

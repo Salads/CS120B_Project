@@ -5,6 +5,9 @@
 SimpleRenderObject::SimpleRenderObject()
 {}
 
+SimpleRenderObject::~SimpleRenderObject() 
+{}
+
 SimpleRenderObject::SimpleRenderObject(Texture& texture)
 {
 	SetTexture(texture);

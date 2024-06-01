@@ -2,6 +2,35 @@
 #include "GameState.h"
 #include "Bullet.h"
 #include "Utility.h"
+#include "EndScreenLevel.h"
+#include "MainMenuLevel.h"
+
+Level* GetNextLevel(DoneReason completeReason)
+{
+	Level* newLevel;
+	switch(completeReason)
+	{
+		case DoneReason_None:
+			newLevel = new MainMenuLevel(); 
+			break;
+		case DoneReason_StartGame:
+		case DoneReason_ViewHighScore:
+			newLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+			break;
+		case DoneReason_GameOverVictory:
+		case DoneReason_GameOverDefeat:
+			newLevel = new EndScreenLevel();
+			break;
+		case DoneReason_EndScreenDone:
+			// If I don't put this here, this gets optimized out when we go from end screen to main menu. siiiiiigh
+			// It can't be an empty string either. SIIIIIIIGH
+			Debug_PrintLine("Level Cycle done! Reset to main menu...");
+			newLevel = new MainMenuLevel();
+			break;
+	}
+
+	return newLevel;
+}
 
 int Tick_Update(int state)
 {
@@ -19,15 +48,15 @@ int Tick_Update(int state)
 	{
 		GameState& gameState = GameState::Get();
 		gameState.m_currentLevel->Update();
-		if(gameState.m_currentLevel->GetDoneReason() == DoneReason_StartGame ||
-			gameState.m_currentLevel->GetDoneReason() == DoneReason_ViewHighScore) // TODO(Darrell): High score level.
+
+		DoneReason currentDoneReason = gameState.m_currentLevel->GetDoneReason();
+		if (currentDoneReason != DoneReason_None)
 		{
 			delete gameState.m_currentLevel;
-			gameState.m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+			gameState.m_currentLevel = GetNextLevel(currentDoneReason);
 		}
 
 	} break;
-	default: break;
 	}
 
 	return state;

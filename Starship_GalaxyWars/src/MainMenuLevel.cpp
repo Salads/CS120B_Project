@@ -1,9 +1,14 @@
 #include "MainMenuLevel.h"
 #include "GUIMenuConfigs.h"
 #include "GUIMenu.h"
+#include "SerialMonitor.h"
 
 MainMenuLevel::MainMenuLevel()
 {
+	// If I don't put this here, this gets optimized out when we go from end screen to main menu. siiiiiigh
+	// It can't be an empty string either. SIIIIIIIGH
+	// At least it's "loading" code, so it doesn't affect performance.
+	Debug_PrintLine("MainMenuLevel() - Creating new GUIMenu");
 	m_menu = new GUIMenu(kMainMenuConfig);
 	m_type = LevelType_Menu;
 }

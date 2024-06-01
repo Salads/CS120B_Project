@@ -9,6 +9,9 @@ Level::Level()
 	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
 }
 
+Level::~Level()
+{}
+
 void Level::Update()
 {
 

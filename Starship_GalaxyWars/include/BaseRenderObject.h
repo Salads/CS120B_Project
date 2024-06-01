@@ -7,6 +7,7 @@
 class BaseRenderObject
 {
 public:
+	virtual ~BaseRenderObject();
 	virtual void Render(bool clearLastPosition = true) = 0;
 	void SetPosition(int16_t x, int16_t y);
 	void SetPosition(XYCoord newPosition);

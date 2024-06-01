@@ -16,12 +16,16 @@ enum DoneReason : uint8_t
 	DoneReason_GameOverDefeat,
 	DoneReason_StartGame,
 	DoneReason_ViewHighScore,
+	DoneReason_EndScreenDone,
+
+	DoneReason_Unknown
 };
 
 struct Level
 {
 public:
 	Level();
+	virtual ~Level();
 	virtual void Update();
 	virtual void Render();
 	virtual DoneReason GetDoneReason() = 0;
