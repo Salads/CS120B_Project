@@ -2,8 +2,10 @@
 #include "Texture.h"
 #include "ST7735SClient.h"
 
-SimpleRenderObject::SimpleRenderObject()
-{}
+SimpleRenderObject::SimpleRenderObject(BaseRenderObject* parent)
+{
+	m_parent = parent;
+}
 
 SimpleRenderObject::~SimpleRenderObject() 
 {}

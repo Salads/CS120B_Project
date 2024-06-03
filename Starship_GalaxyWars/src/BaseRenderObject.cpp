@@ -2,7 +2,7 @@
 #include "ST7735SClient.h"
 #include "Texture.h"
 
-BaseRenderObject::BaseRenderObject(BaseRenderObject* parent = nullptr)
+BaseRenderObject::BaseRenderObject(BaseRenderObject* parent)
 {
 	m_parent = parent;
 }

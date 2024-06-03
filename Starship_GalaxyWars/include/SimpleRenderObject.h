@@ -7,7 +7,7 @@
 class SimpleRenderObject : public BaseRenderObject
 {
 public:
-    SimpleRenderObject();
+    SimpleRenderObject(BaseRenderObject* parent = nullptr);
     virtual ~SimpleRenderObject();
     SimpleRenderObject(Texture& texture);
     void SetTexture(Texture& newTexture);

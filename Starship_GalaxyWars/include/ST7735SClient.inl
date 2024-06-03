@@ -49,11 +49,8 @@ void ST7735SClient::Initialize()
 
 void ST7735SClient::SetRegion(ScreenRegion& region)
 {
-	if(region.m_endX > m_screenWidth - 1 || region.m_endY > m_screenHeight - 1)
-	{
-		region.m_endX = m_screenWidth - 1;
-		region.m_endY = m_screenHeight - 1;
-	}
+	region.m_endX = clamp(region.m_endX, 0, m_screenWidth - 1);
+	region.m_endY = clamp(region.m_endY, 0, m_screenHeight - 1);
 
 	// Set Column
 	uint8_t xMin = region.m_startX;
@@ -61,8 +58,6 @@ void ST7735SClient::SetRegion(ScreenRegion& region)
 	SendCommand(CASET);
 	SendData(0); SendData(xMin); // col start
 	SendData(0); SendData(xMax); // col end 
-
-	// _delay_ms(500);
 
 	// Set Row
 	uint8_t yMin = region.m_startY;
