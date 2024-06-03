@@ -26,6 +26,8 @@ void SimpleRenderObject::SetTexture(Texture& newTexture)
 
 void SimpleRenderObject::Render(bool clearLastPosition)
 {
+	if(!GetRenderDirty()) {return;}
+
 	ST7735SClient& renderer = ST7735SClient::Get();
 	
 	if(clearLastPosition)
@@ -40,4 +42,6 @@ void SimpleRenderObject::Render(bool clearLastPosition)
 	ScreenRegion newRegion = GetRenderRegion();
 	renderer.SetRegion(newRegion);
 	renderer.FillCurrentScreenRegion(m_texture, m_textureSize);
+
+	SetRenderDirty(false);
 }

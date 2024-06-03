@@ -151,6 +151,7 @@ void GUIMenu::Update()
 
 void GUIMenu::Render(bool clearLastPosition)
 {
+	if(!GetRenderDirty()) {return;}
 	for(uint8_t i = 0; i < m_numOptions; i++)
 	{
 		TextRenderObject* object = m_textObjects[i];
@@ -166,4 +167,6 @@ void GUIMenu::Render(bool clearLastPosition)
 		m_cursor->Render();
 		m_cursor->SetRenderDirty(false);
 	}
+
+	SetRenderDirty(false);
 }

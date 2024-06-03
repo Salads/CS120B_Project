@@ -16,6 +16,8 @@ TextRenderObject::~TextRenderObject()
 
 void TextRenderObject::Render(bool clearLastPosition)
 {
+	if(!GetRenderDirty()) {return;}
+
 	for(uint8_t i = 0; i < m_textSize; i++)
 	{
 		m_renderObjects[i]->Render(clearLastPosition);
