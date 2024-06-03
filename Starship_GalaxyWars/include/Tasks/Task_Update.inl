@@ -27,6 +27,8 @@ Level* GetNextLevel(DoneReason completeReason)
 			Debug_PrintLine("Level Cycle done! Reset to main menu...");
 			newLevel = new MainMenuLevel();
 			break;
+		default:
+			break;
 	}
 
 	return newLevel;

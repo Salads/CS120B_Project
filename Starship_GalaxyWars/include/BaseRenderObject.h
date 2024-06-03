@@ -7,6 +7,7 @@
 class BaseRenderObject
 {
 public:
+	BaseRenderObject(BaseRenderObject* parent = nullptr);
 	virtual ~BaseRenderObject();
 	virtual void Render(bool clearLastPosition = true) = 0;
 	void SetPosition(int16_t x, int16_t y);
@@ -26,12 +27,13 @@ protected:
 	virtual void OnSetPosition();
 
 protected:
-    bool m_renderDirty = false;
+	BaseRenderObject* m_parent = nullptr;
+    bool 			  m_renderDirty = false;
 
-	uint8_t m_width = 25;
-	uint8_t m_height = 25;
+	uint8_t 		  m_width = 25;
+	uint8_t 		  m_height = 25;
 
-	XYCoord m_position;
-	XYCoord m_lastRenderedPosition;
+	XYCoord 		  m_position;
+	XYCoord 		  m_lastRenderedPosition;
 
 };

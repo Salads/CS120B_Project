@@ -2,6 +2,11 @@
 #include "ST7735SClient.h"
 #include "Texture.h"
 
+BaseRenderObject::BaseRenderObject(BaseRenderObject* parent = nullptr)
+{
+	m_parent = parent;
+}
+
 BaseRenderObject::~BaseRenderObject()
 {}
 
@@ -36,7 +41,8 @@ void BaseRenderObject::SetPosition(int16_t x, int16_t y)
 
 	m_lastRenderedPosition = m_position;
 	m_position = XYCoord(x, y);
-	m_renderDirty = true;
+	
+	SetRenderDirty(true);
 
 	OnSetPosition();
 }
@@ -49,12 +55,13 @@ void BaseRenderObject::OnSetPosition()
 
 void BaseRenderObject::SetPosition(XYCoord newPosition)
 {
-	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
-	newPosition.m_y = clamp(newPosition.m_y, 1, SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_height);
+	newPosition.m_x = clamp(newPosition.m_x, 0, SCREEN_WIDTH - m_width - 1);
+	newPosition.m_y = clamp(newPosition.m_y, 0, SCREEN_HEIGHT - m_height - 1);
 
 	m_lastRenderedPosition = m_position;
 	m_position = newPosition;
-	m_renderDirty = true;
+	
+	SetRenderDirty(true);
 
 	OnSetPosition();
 }
@@ -62,15 +69,20 @@ void BaseRenderObject::SetPosition(XYCoord newPosition)
 void BaseRenderObject::SetRenderDirty(bool dirty)
 {
 	m_renderDirty = dirty;
+
+	if(m_renderDirty && m_parent != nullptr)
+	{
+		m_parent->SetRenderDirty(m_renderDirty);
+	}
 }
 
 ScreenRegion BaseRenderObject::GetLastRenderRegion()
 {
 	ScreenRegion result(
-		m_lastRenderedPosition.m_x + 1,
-		m_lastRenderedPosition.m_x + m_width,
-		m_lastRenderedPosition.m_y + 1,
-		m_lastRenderedPosition.m_y + m_height + 2
+		m_lastRenderedPosition.m_x,
+		m_lastRenderedPosition.m_x + m_width - 1,
+		m_lastRenderedPosition.m_y,
+		m_lastRenderedPosition.m_y + m_height - 1
 	);
 
 	return result;
@@ -79,10 +91,10 @@ ScreenRegion BaseRenderObject::GetLastRenderRegion()
 ScreenRegion BaseRenderObject::GetRenderRegion()
 {
 	ScreenRegion result(
-		m_position.m_x + 1,
-		m_position.m_x + m_width,
-		m_position.m_y + 1,
-		m_position.m_y + m_height + 2
+		m_position.m_x,
+		m_position.m_x + m_width - 1,
+		m_position.m_y,
+		m_position.m_y + m_height - 1
 	);
 
 	return result;
