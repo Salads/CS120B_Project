@@ -50,6 +50,15 @@ int Tick_Update(int state)
 	case TS_UPDATE_DOUPDATE: 
 	{
 		GameState& gameState = GameState::Get();
+		if(gameState.m_currentLevel == nullptr)
+		{
+			#if DEBUG_SCREENSIZE
+				gameState.m_currentLevel = new DebugLevel_ScreenSize();
+			#else
+				gameState.m_currentLevel = new MainMenuLevel();
+			#endif
+		}
+
 		gameState.m_currentLevel->Update();
 
 		DoneReason currentDoneReason = gameState.m_currentLevel->GetDoneReason();

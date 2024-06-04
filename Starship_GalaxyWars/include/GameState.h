@@ -19,7 +19,7 @@ public:
 public:
     bool              m_initialized = false;
 
-    Level*            m_currentLevel;
+    Level*            m_currentLevel = nullptr;
  
     uint8_t           m_score = 0;
  

@@ -36,10 +36,5 @@ void GameState::UpdateDeltaTime()
 
 void GameState::Initialize()
 {
-#if DEBUG_SCREENSIZE
-	m_currentLevel = new DebugLevel_ScreenSize();
-#else
-	m_currentLevel = new MainMenuLevel();
-#endif
 	m_initialized = true;
 }
