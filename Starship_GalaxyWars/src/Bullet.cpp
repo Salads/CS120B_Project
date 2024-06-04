@@ -37,7 +37,7 @@ Bullet::Bullet(BulletType type)
 			m_texture = texture_player_bullet;
 			m_textureSize = ArraySize(texture_player_bullet);
 			m_width = 2;
-			m_height = 7;
+			m_height = 4;
 			break;
 		case BulletType_PlayerNanoSlice:
 			m_texture = texture_player_nanoslice;

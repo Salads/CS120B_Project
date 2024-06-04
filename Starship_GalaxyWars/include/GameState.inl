@@ -34,7 +34,7 @@ void GameState::UpdateDeltaTime()
 	m_lastFrameTimeMS = currentTimeMS;
 }
 
-#define DEBUG_SCREENSIZE true
+#define DEBUG_SCREENSIZE false
 void GameState::Initialize()
 {
 #if DEBUG_SCREENSIZE
