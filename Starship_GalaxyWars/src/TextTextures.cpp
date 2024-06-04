@@ -685,6 +685,6 @@ Texture GetCharTexture(char ch)
 	uint8_t textureIdx = ch - 32;
 	const uint8_t* textureData = allArray[textureIdx];
 
-	Texture result = {textureData, 9, 7, 9, TextureFormat_1Bit}; 
+	Texture result = {textureData, 8, 7, 9, TextureFormat_1Bit}; 
 	return result;
 }
