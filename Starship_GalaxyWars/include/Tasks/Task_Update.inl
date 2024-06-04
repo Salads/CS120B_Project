@@ -5,6 +5,7 @@
 #include "EndScreenLevel.h"
 #include "MainMenuLevel.h"
 #include "DebugLevel_ScreenSize.h"
+#include "DebugLevel_Region.h"
 
 Level* GetNextLevel(DoneReason completeReason)
 {
@@ -54,6 +55,8 @@ int Tick_Update(int state)
 		{
 			#if DEBUG_SCREENSIZE
 				gameState.m_currentLevel = new DebugLevel_ScreenSize();
+			#elif DEBUG_REGIONS
+				gameState.m_currentLevel = new DebugLevel_Region();
 			#else
 				gameState.m_currentLevel = new MainMenuLevel();
 			#endif

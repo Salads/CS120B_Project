@@ -49,6 +49,9 @@ void ST7735SClient::Initialize()
 
 void ST7735SClient::SetRegion(ScreenRegion& region)
 {
+
+	region.m_startX = clamp(region.m_startX, 1, m_screenWidth - 1);
+	region.m_startY = clamp(region.m_startY, 1, m_screenHeight - 1);
 	region.m_endX = clamp(region.m_endX, 1, m_screenWidth - 1);
 	region.m_endY = clamp(region.m_endY, 1, m_screenHeight - 1);
 
@@ -104,7 +107,7 @@ void ST7735SClient::FillCurrentScreenRegion(const uint16_t* data, uint16_t dataS
 	if (arrSize <= 0) {return;}
 
 	SendCommand(RAMWR);
-	for(uint16_t i = 0; i <= arrSize; i++)
+	for(uint16_t i = 0; i < arrSize; i++)
 	{
 		uint16_t pixel = pgm_read_word(data + i);
 		SendData(pixel >> 8);

@@ -46,8 +46,8 @@ uint8_t BaseRenderObject::GetHeight()
 
 void BaseRenderObject::SetPosition(int16_t x, int16_t y)
 {
-	x = clamp(x, 0, SCREEN_WIDTH - m_width - 1);
-	y = clamp(y, 0, SCREEN_HEIGHT - m_height - 1);
+	x = clamp(x, 1, SCREEN_WIDTH - m_width - 1);
+	y = clamp(y, 1, SCREEN_HEIGHT - m_height - 1);
 
 	if(GetInitialized())
 	{
@@ -74,8 +74,8 @@ void BaseRenderObject::OnSetPosition()
 
 void BaseRenderObject::SetPosition(XYCoord newPosition)
 {
-	newPosition.m_x = clamp(newPosition.m_x, 0, SCREEN_WIDTH - m_width - 1);
-	newPosition.m_y = clamp(newPosition.m_y, 0, SCREEN_HEIGHT - m_height - 1);
+	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
+	newPosition.m_y = clamp(newPosition.m_y, 1, SCREEN_HEIGHT - m_height - 1);
 
 	if(GetInitialized())
 	{

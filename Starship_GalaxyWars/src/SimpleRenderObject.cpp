@@ -40,6 +40,13 @@ void SimpleRenderObject::Render(bool clearLastPosition)
 
 	// Render new position
 	ScreenRegion newRegion = GetRenderRegion();
+
+	#if DEBUG_REGIONS
+	Debug_PrintLine("Region - x=[%d,%d], y=[%d,%d]", 
+		newRegion.m_startX, newRegion.m_endX,
+		newRegion.m_startY, newRegion.m_endY);
+	#endif
+
 	renderer.SetRegion(newRegion);
 	renderer.FillCurrentScreenRegion(m_texture, m_textureSize);
 
