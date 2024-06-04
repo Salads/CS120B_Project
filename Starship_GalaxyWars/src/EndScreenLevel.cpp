@@ -17,6 +17,19 @@ EndScreenLevel::EndScreenLevel()
 	m_menu->SetPosition(xMenuPos, yMenuPos);
 }
 
+EndScreenLevel::~EndScreenLevel()
+{
+	if(m_label)
+	{
+		delete m_label;
+	}
+
+	if(m_menu)
+	{
+		delete m_menu;
+	}
+}
+
 void EndScreenLevel::Update()
 {
 	m_menu->Update();

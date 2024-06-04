@@ -17,6 +17,14 @@ MainMenuLevel::MainMenuLevel()
 	m_menu->SetPosition(xMenuPos, yMenuPos);
 }
 
+MainMenuLevel::~MainMenuLevel()
+{
+	if(m_menu)
+	{
+		delete m_menu;
+	}
+}
+
 void MainMenuLevel::Update()
 {
 	m_menu->Update();

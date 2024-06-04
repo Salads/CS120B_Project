@@ -10,6 +10,7 @@ struct GUIMenu : public BaseRenderObject
 {
 public:
 	GUIMenu(const GUIMenuConfig& config);
+	~GUIMenu();
 	void 	SelectPreviousOption();
 	void 	SelectNextOption();
 	uint8_t GetSelectedOptionIdx();

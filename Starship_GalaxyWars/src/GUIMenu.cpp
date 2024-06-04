@@ -54,6 +54,22 @@ GUIMenu::GUIMenu(const GUIMenuConfig& config)
 	SetRenderDirty(true);
 }
 
+GUIMenu::~GUIMenu()
+{
+	for (uint8_t i = 0; i < m_numOptions; i++)
+	{
+		if(m_textObjects[i])
+		{
+			delete m_textObjects[i];
+		}
+	}
+
+	if(m_cursor)
+	{
+		delete m_cursor;
+	}
+}
+
 uint8_t GUIMenu::GetCursorLessSpace()
 {
 	return m_largestOptionWidth;

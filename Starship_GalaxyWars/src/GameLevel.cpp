@@ -35,10 +35,14 @@ GameLevel::~GameLevel()
         delete m_bullets[i];
     }
 
+    delete m_bullets;
+
     for(int i = 0; i < m_numEnemies; i++)
     {
         delete m_enemies[i];
     }
+
+    delete m_enemies;
 }
 
 void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies)

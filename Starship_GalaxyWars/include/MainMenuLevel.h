@@ -7,6 +7,7 @@ class MainMenuLevel : public Level
 {
 public:
 	MainMenuLevel();
+	~MainMenuLevel();
 	void Update();
 	void Render();
 	DoneReason GetDoneReason();
