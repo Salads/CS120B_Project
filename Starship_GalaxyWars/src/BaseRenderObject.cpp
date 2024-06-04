@@ -76,6 +76,7 @@ void BaseRenderObject::SetRenderDirty(bool dirty)
 	}
 }
 
+// Screen region on the ST7735S is from range [1,SCREEN_DIM)
 ScreenRegion BaseRenderObject::GetLastRenderRegion()
 {
 	ScreenRegion result(

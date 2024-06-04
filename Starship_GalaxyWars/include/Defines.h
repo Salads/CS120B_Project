@@ -10,7 +10,7 @@
 
 // Weird screen size, but I incremented 1by1 on each dimension till the screen filled. /shrug
 #define SCREEN_WIDTH 130
-#define SCREEN_HEIGHT 131
+#define SCREEN_HEIGHT 130
 #define TOP_HUD_HEIGHT    10 // Reserve some space for HUD
 #define BOTTOM_HUD_HEIGHT 10 // Reserve some space for HUD
 

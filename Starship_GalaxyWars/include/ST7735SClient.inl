@@ -49,8 +49,8 @@ void ST7735SClient::Initialize()
 
 void ST7735SClient::SetRegion(ScreenRegion& region)
 {
-	region.m_endX = clamp(region.m_endX, 0, m_screenWidth - 1);
-	region.m_endY = clamp(region.m_endY, 0, m_screenHeight - 1);
+	region.m_endX = clamp(region.m_endX, 1, m_screenWidth - 1);
+	region.m_endY = clamp(region.m_endY, 1, m_screenHeight - 1);
 
 	// Set Column
 	uint8_t xMin = region.m_startX;
@@ -80,9 +80,12 @@ void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 	uint16_t color = 0;
 	color = (r << 11 | g << 5 | b);
 
-	for(int y = m_screenRegion.m_startY; y < m_screenRegion.m_endY; y++)
+	uint16_t y = 0;
+	uint16_t x = 0;
+
+	for(y = m_screenRegion.m_startY; y <= m_screenRegion.m_endY; y++)
 	{
-		for(int x = m_screenRegion.m_startX; x < m_screenRegion.m_endX; x++)
+		for(x = m_screenRegion.m_startX; x <= m_screenRegion.m_endX; x++)
 		{
 			SendData(color >> 8);
 			SendData(color);
@@ -101,7 +104,7 @@ void ST7735SClient::FillCurrentScreenRegion(const uint16_t* data, uint16_t dataS
 	if (arrSize <= 0) {return;}
 
 	SendCommand(RAMWR);
-	for(uint16_t i = 0; i < arrSize; i++)
+	for(uint16_t i = 0; i <= arrSize; i++)
 	{
 		uint16_t pixel = pgm_read_word(data + i);
 		SendData(pixel >> 8);

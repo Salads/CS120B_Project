@@ -9,6 +9,7 @@
 #include "LevelConfig.h"
 #include "TimerISR.h"
 #include "MainMenuLevel.h"
+#include "DebugLevel_ScreenSize.h"
 
 GameState::GameState()
 {
@@ -33,9 +34,14 @@ void GameState::UpdateDeltaTime()
 	m_lastFrameTimeMS = currentTimeMS;
 }
 
+#define DEBUG_SCREENSIZE true
 void GameState::Initialize()
 {
-	//m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+#if DEBUG_SCREENSIZE
+	m_currentLevel = new DebugLevel_ScreenSize();
+#else
 	m_currentLevel = new MainMenuLevel();
+#endif
+	//m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
 	m_initialized = true;
 }

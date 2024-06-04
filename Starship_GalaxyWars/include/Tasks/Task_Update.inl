@@ -4,6 +4,7 @@
 #include "Utility.h"
 #include "EndScreenLevel.h"
 #include "MainMenuLevel.h"
+#include "DebugLevel_ScreenSize.h"
 
 Level* GetNextLevel(DoneReason completeReason)
 {
