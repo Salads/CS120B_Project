@@ -47,13 +47,11 @@ void EndScreenLevel::Render()
 	if(m_label->GetRenderDirty())
 	{
 		m_label->Render();
-		m_label->SetRenderDirty(false);
 	}
 
 	if(m_menu->GetRenderDirty())
 	{
 		m_menu->Render();
-		m_menu->SetRenderDirty(false);
 	}
 }
 

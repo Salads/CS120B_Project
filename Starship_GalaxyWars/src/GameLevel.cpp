@@ -316,7 +316,6 @@ void GameLevel::Render()
     if(m_scoreText->GetRenderDirty())
     {
         m_scoreText->Render();
-        m_scoreText->SetRenderDirty(false);
     }
     
 	for(int i = 0; i < m_numEnemies; i++)
@@ -325,14 +324,12 @@ void GameLevel::Render()
 		if(enemy->GetRenderDirty())
 		{
 			enemy->Render();
-			enemy->SetRenderDirty(false);
 		}
 	}
 
 	if(m_player->GetRenderDirty())
 	{
 		m_player->Render();
-		m_player->SetRenderDirty(false);
 	}
 
 	for(int i = 0; i < m_numBullets; i++)
@@ -341,7 +338,6 @@ void GameLevel::Render()
 		if(bullet->GetRenderDirty())
 		{
 			bullet->Render();
-			bullet->SetRenderDirty(false);
 		}
 	}
 }

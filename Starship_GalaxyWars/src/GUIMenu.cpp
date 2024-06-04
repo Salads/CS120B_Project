@@ -166,14 +166,12 @@ void GUIMenu::Render(bool clearLastPosition)
 		if(object->GetRenderDirty() || GetRenderDirty())
 		{
 			object->Render();
-			object->SetRenderDirty(false);
 		}
 	}
 
 	if(m_cursor->GetRenderDirty())
 	{
 		m_cursor->Render();
-		m_cursor->SetRenderDirty(false);
 	}
 
 	SetRenderDirty(false);

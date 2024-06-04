@@ -51,7 +51,6 @@ void MainMenuLevel::Render()
 	if(m_menu->GetRenderDirty())
 	{
 		m_menu->Render();
-		m_menu->SetRenderDirty(false);
 	}
 }
 
