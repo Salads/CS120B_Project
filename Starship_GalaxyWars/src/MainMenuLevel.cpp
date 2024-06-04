@@ -2,6 +2,7 @@
 #include "GUIMenuConfigs.h"
 #include "GUIMenu.h"
 #include "SerialMonitor.h"
+#include "GameState.h"
 
 MainMenuLevel::MainMenuLevel()
 {
@@ -16,6 +17,9 @@ MainMenuLevel::MainMenuLevel()
 	uint8_t yMenuPos = (SCREEN_HEIGHT / 4);
 	m_menu->SetPosition(xMenuPos, yMenuPos);
 	m_menu->SetInitialized();
+
+	GameState& gameState = GameState::Get();
+	gameState.m_score = 0;
 }
 
 MainMenuLevel::~MainMenuLevel()
