@@ -21,9 +21,14 @@ int Tick_Buttons(int state)
 		// Output: DDR=1, PORT=0
 		// PINx: Read Input
 		// PORTx: Set Output
-
+		static bool lastButtonDown = false;
 		bool isButtonDown = GetBit(PIND, PIND7);
-		GameState::Get().m_fireButton = isButtonDown;
+
+		GameState& gameState = GameState::Get();
+		gameState.m_fireButton = isButtonDown;
+		gameState.m_fireButtonHeld = isButtonDown && lastButtonDown;
+
+		lastButtonDown = isButtonDown;
 
 	} break;
 	default: break;

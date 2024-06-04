@@ -138,7 +138,6 @@ void GUIMenu::Update()
 	static JoystickDirection lastDirection = JD_CENTER; // bad
 	GameState& gameState = GameState::Get();
 
-
 	if(!m_acceptedSelection)
 	{
 		if(lastDirection == JD_CENTER && gameState.m_joystickDirectionY == JD_DOWN)
@@ -150,7 +149,7 @@ void GUIMenu::Update()
 			SelectPreviousOption();
 		}
 
-		if(gameState.m_fireButton)
+		if(gameState.m_fireButton && !gameState.m_fireButtonHeld) // only "fresh" on downs
 		{
 			m_acceptedSelection = true;
 		}
