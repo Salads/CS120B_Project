@@ -23,10 +23,11 @@ const uint16_t texture_enemy_fly [] PROGMEM =
 
 Fly::Fly()
 {
-	m_texture = texture_enemy_fly;
-	m_textureSize = ArraySize(texture_enemy_fly);
+	m_textureData = (const uint8_t*)texture_enemy_fly;
+	m_textureDataSize = ArraySize(texture_enemy_fly);
 	m_width = 16;
 	m_height = 15;
+	m_textureFormat = TextureFormat_16Bit;
 
 	m_scoreValue = 1;
 }

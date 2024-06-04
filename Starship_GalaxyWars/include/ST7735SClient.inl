@@ -42,7 +42,7 @@ void ST7735SClient::Initialize()
 	// Clear screen and draw background
 	ScreenRegion fullScreenRegion;
 	SetRegion(fullScreenRegion);
-	FillCurrentScreenRegion(m_backgroundColor);
+	FillCurrentScreenRegionPacked16(m_backgroundColor);
 
 	m_initialized = true;
 }
@@ -72,7 +72,7 @@ void ST7735SClient::SetRegion(ScreenRegion& region)
 	m_screenRegion = {xMin, xMax, yMin, yMax};
 }
 
-void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
+void ST7735SClient::FillCurrentScreenRegionRGB24(uint8_t r, uint8_t g, uint8_t b)
 {
 	SendCommand(RAMWR);
 
@@ -96,23 +96,64 @@ void ST7735SClient::FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b)
 	}
 }
 
-void ST7735SClient::FillCurrentScreenRegion(uint16_t color)
+void ST7735SClient::FillCurrentScreenRegionPacked16(uint16_t color)
 {
-	FillCurrentScreenRegion(color & 0b1111100000000000 >> 11, color & 0b0000011111100000 >> 5, color & 0b0000000000011111);
+	SendCommand(RAMWR);
+
+	uint8_t r = color & 0b1111100000000000 >> 11;
+	uint8_t g = color & 0b0000011111100000 >> 5;
+	uint8_t b = color & 0b0000000000011111;
+	uint16_t newColor = (r >> 11 | g | b << 11);
+
+	for(uint16_t y = m_screenRegion.m_startY; y <= m_screenRegion.m_endY; y++)
+	{
+		for(uint16_t x = m_screenRegion.m_startX; x <= m_screenRegion.m_endX; x++)
+		{
+			SendData(newColor >> 8);
+			SendData(newColor);
+		}
+	}
 }
 
-void ST7735SClient::FillCurrentScreenRegion(const uint16_t* data, uint16_t dataSize)
+void ST7735SClient::FillCurrentScreenRegionTexture(const uint8_t* textureData, uint16_t textureDataSize, TextureFormat textureFormat, uint8_t	width, uint8_t height)
 {
-	uint16_t arrSize = dataSize;
+	uint16_t arrSize = textureDataSize;
 	if (arrSize <= 0) {return;}
 
 	SendCommand(RAMWR);
-	for(uint16_t i = 0; i < arrSize; i++)
+
+	if(textureFormat == TextureFormat_16Bit)
 	{
-		uint16_t pixel = pgm_read_word(data + i);
-		SendData(pixel >> 8);
-		SendData(pixel);
+		for(uint16_t i = 0; i < arrSize; i++)
+		{
+			uint16_t pixel = pgm_read_word(textureData + (i*2));
+			SendData(pixel >> 8);
+			SendData(pixel);
+		}
 	}
+	else if(textureFormat == TextureFormat_1Bit)
+	{
+		uint16_t numPixels = width * height;
+		uint16_t numPixelsProcessed = 0;
+
+		for(uint16_t i = 0; i < arrSize; i++)
+		{
+			if(numPixelsProcessed >= numPixels) break;
+
+			uint8_t byte = pgm_read_byte(textureData + i);
+			for(int8_t j = 7; j >= 0; j--)
+			{
+				if(numPixelsProcessed >= numPixels) break;
+
+				bool pixelWhite = byte & (1 << j);
+				uint16_t pixel = (pixelWhite ? 0xFFFF : m_backgroundColor);
+				SendData(pixel >> 8);
+				SendData(pixel);
+				
+				numPixelsProcessed++;
+			}
+		}
+	}	
 }
 
 void ST7735SClient::SetHardwareResetPin(bool val)

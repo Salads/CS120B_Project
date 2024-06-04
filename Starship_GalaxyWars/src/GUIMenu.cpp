@@ -14,9 +14,10 @@ const uint16_t texture_cursor [] PROGMEM =
 
 const Texture kCursorTexture = 
 {
-	texture_cursor,
+	(uint8_t*)texture_cursor,
 	5*9,
-	5,10
+	5,9,
+	TextureFormat_16Bit
 };
 
 GUIMenu::GUIMenu(const GUIMenuConfig& config)
@@ -189,13 +190,13 @@ void GUIMenu::Render(bool clearLastPosition)
 		// First clear last position
 		ScreenRegion lastRegion = GetLastRenderRegion();
 		renderer.SetRegion(lastRegion);
-		renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+		renderer.FillCurrentScreenRegionPacked16(renderer.m_backgroundColor);
 
 		// Fill new region with white (the border)
 		// This is our current size, including the border
 		ScreenRegion borderRegion = GetRenderRegion();
 		renderer.SetRegion(borderRegion);
-		renderer.FillCurrentScreenRegion(255, 255, 255);
+		renderer.FillCurrentScreenRegionRGB24(255, 255, 255);
 
 		// Now we hollow it out
 		ScreenRegion hollowRegion = borderRegion;
@@ -204,7 +205,7 @@ void GUIMenu::Render(bool clearLastPosition)
 		hollowRegion.m_endX   -= m_borderThickness;
 		hollowRegion.m_endY   -= m_borderThickness;
 		renderer.SetRegion(hollowRegion);
-		renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+		renderer.FillCurrentScreenRegionPacked16(renderer.m_backgroundColor);
 
 		SetRenderDirty(false);
 	}

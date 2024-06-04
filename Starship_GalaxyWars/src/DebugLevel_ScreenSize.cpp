@@ -74,14 +74,14 @@ void DebugLevel_ScreenSize::Render()
 		ScreenRegion background;
 
 		renderer.SetRegion(background);
-		renderer.FillCurrentScreenRegion(0, 0, 0);
+		renderer.FillCurrentScreenRegionRGB24(0, 0, 0);
 
 		background.m_startX = 1;
 		background.m_startY = 1;
 		background.m_endX = m_debugWidth;
 		background.m_endY = m_debugHeight;
 		renderer.SetRegion(background);
-		renderer.FillCurrentScreenRegion(255, 255, 255);
+		renderer.FillCurrentScreenRegionRGB24(255, 255, 255);
 	}
 
 	m_text->Render();

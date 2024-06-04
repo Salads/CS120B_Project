@@ -4,13 +4,7 @@
 #include "SPIUtil.h"
 #include "ScreenRegion.h"
 #include "Entity.h"
-
-enum PixelFormat : uint8_t
-{
-	PixelFormat_12BitPixels = 3, // RGB = (4,4,4)
-	PixelFormat_16BitPixels = 5, // RGB = (5,6,5)
-	PixelFormat_18BitPixels = 6, // RGB = (6,6,6)
-};
+#include "PixelFormat.h"
 
 class ST7735SClient
 {
@@ -20,9 +14,9 @@ public:
 
 	FORCE_INLINE void Initialize();
 	FORCE_INLINE void SetRegion(ScreenRegion& region);
-	FORCE_INLINE void FillCurrentScreenRegion(uint8_t r, uint8_t g, uint8_t b);
-	FORCE_INLINE void FillCurrentScreenRegion(uint16_t color);
-	FORCE_INLINE void FillCurrentScreenRegion(const uint16_t* data, uint16_t dataSize);
+	FORCE_INLINE void FillCurrentScreenRegionRGB24(uint8_t r, uint8_t g, uint8_t b);
+	FORCE_INLINE void FillCurrentScreenRegionPacked16(uint16_t color);
+	FORCE_INLINE void FillCurrentScreenRegionTexture(const uint8_t* textureData, uint16_t textureDataSize, TextureFormat textureFormat, uint8_t	width, uint8_t height);
 	FORCE_INLINE bool GetIsInitialized() {return m_initialized;}
 
 private:

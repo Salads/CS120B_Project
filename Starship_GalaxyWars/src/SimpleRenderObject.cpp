@@ -17,10 +17,12 @@ SimpleRenderObject::SimpleRenderObject(Texture& texture)
 
 void SimpleRenderObject::SetTexture(Texture& newTexture)
 {
-	m_width = newTexture.width;
-	m_height = newTexture.height;
-	m_texture = newTexture.data;
-	m_textureSize = newTexture.dataSize;
+	m_width 		  = newTexture.width;
+	m_height 		  = newTexture.height;
+	m_textureData 	  = newTexture.data;
+	m_textureDataSize = newTexture.dataSize;
+	m_textureFormat   = newTexture.textureFormat;
+
 	SetRenderDirty(true);
 }
 
@@ -35,7 +37,7 @@ void SimpleRenderObject::Render(bool clearLastPosition)
 		// Render over previous position with background color.
 		ScreenRegion lastRegion = GetLastRenderRegion();
 		renderer.SetRegion(lastRegion);
-		renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+		renderer.FillCurrentScreenRegionPacked16(renderer.m_backgroundColor);
 	}
 
 	// Render new position
@@ -48,7 +50,7 @@ void SimpleRenderObject::Render(bool clearLastPosition)
 	#endif
 
 	renderer.SetRegion(newRegion);
-	renderer.FillCurrentScreenRegion(m_texture, m_textureSize);
+	renderer.FillCurrentScreenRegionTexture(m_textureData, m_textureDataSize, m_textureFormat, m_width, m_height);
 
 	SetRenderDirty(false);
 }

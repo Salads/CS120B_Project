@@ -34,22 +34,25 @@ Bullet::Bullet(BulletType type)
 	switch(type)
 	{
 		case BulletType_PlayerNormal:
-			m_texture = texture_player_bullet;
-			m_textureSize = ArraySize(texture_player_bullet);
+			m_textureData = (uint8_t*)texture_player_bullet;
+			m_textureDataSize = ArraySize(texture_player_bullet);
 			m_width = 2;
 			m_height = 4;
+			m_textureFormat = TextureFormat_16Bit;
 			break;
 		case BulletType_PlayerNanoSlice:
-			m_texture = texture_player_nanoslice;
-			m_textureSize = ArraySize(texture_player_nanoslice);
+			m_textureData = (uint8_t*)texture_player_nanoslice;
+			m_textureDataSize = ArraySize(texture_player_nanoslice);
 			m_width = 16;
 			m_height = 5;
+			m_textureFormat = TextureFormat_16Bit;
 			break;
 		case BulletType_EnemyNormal:
-			m_texture = texture_enemy_bullet;
-			m_textureSize = ArraySize(texture_enemy_bullet);
+			m_textureData = (uint8_t*)texture_enemy_bullet;
+			m_textureDataSize = ArraySize(texture_enemy_bullet);
 			m_width = 2;
 			m_height = 4;
+			m_textureFormat = TextureFormat_16Bit;
 			break;
 	}
 }

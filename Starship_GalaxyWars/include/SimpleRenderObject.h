@@ -13,6 +13,7 @@ public:
     void SetTexture(Texture& newTexture);
     void Render(bool clearLastPosition = true);
 protected:
-    const uint16_t* m_texture;
-    uint16_t  m_textureSize;
+    const uint8_t* m_textureData;
+    uint16_t       m_textureDataSize;
+    TextureFormat  m_textureFormat;
 };

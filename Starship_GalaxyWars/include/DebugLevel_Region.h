@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "Bullet.h"
 #include "Fly.h"
+#include "TextRenderObject.h"
 
 #if DEBUG_REGIONS
 class DebugLevel_Region : public Level
@@ -17,5 +18,7 @@ public:
 private:
 	Bullet*	m_bullet;
 	Fly   * m_fly;
+
+	TextRenderObject* m_text;
 };
 #endif

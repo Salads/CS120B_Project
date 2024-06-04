@@ -20,8 +20,9 @@ const uint16_t texture_player_red [] PROGMEM =
 
 Player::Player()
 {
-	m_texture = texture_player_red;
-	m_textureSize = ArraySize(texture_player_red);
+	m_textureData = (const uint8_t*)texture_player_red;
+	m_textureDataSize = ArraySize(texture_player_red);
 	m_width = 14;
 	m_height = 12;
+	m_textureFormat = TextureFormat_16Bit;
 }

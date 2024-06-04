@@ -26,7 +26,7 @@ void BaseRenderObject::ClearFromDisplay()
 	ST7735SClient& renderer = ST7735SClient::Get();
 	ScreenRegion currentRegion = GetRenderRegion();
 	renderer.SetRegion(currentRegion);
-	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+	renderer.FillCurrentScreenRegionPacked16(renderer.m_backgroundColor);
 }
 
 XYCoord BaseRenderObject::GetPosition()

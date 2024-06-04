@@ -6,7 +6,7 @@ Level::Level()
 	ST7735SClient& renderer = ST7735SClient::Get();
 	ScreenRegion fullScreen;
 	renderer.SetRegion(fullScreen);
-	renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+	renderer.FillCurrentScreenRegionPacked16(renderer.m_backgroundColor);
 }
 
 Level::~Level()
