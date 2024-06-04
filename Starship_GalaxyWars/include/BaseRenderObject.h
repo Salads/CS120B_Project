@@ -30,6 +30,7 @@ public:
 
 protected:
 	virtual void OnSetPosition();
+	virtual void OnSetRenderDirty(bool newDirty);
 
 protected:
 	BaseRenderObject* m_parent = nullptr;

@@ -313,32 +313,20 @@ void GameLevel::Update()
 
 void GameLevel::Render()
 {
-    if(m_scoreText->GetRenderDirty())
-    {
-        m_scoreText->Render();
-    }
+    m_scoreText->Render();
     
 	for(int i = 0; i < m_numEnemies; i++)
 	{
 		Enemy* enemy = m_enemies[i];
-		if(enemy->GetRenderDirty())
-		{
-			enemy->Render();
-		}
+		enemy->Render();
 	}
 
-	if(m_player->GetRenderDirty())
-	{
-		m_player->Render();
-	}
+	m_player->Render();
 
 	for(int i = 0; i < m_numBullets; i++)
 	{
 		Bullet* bullet = m_bullets[i];
-		if(bullet->GetRenderDirty())
-		{
-			bullet->Render();
-		}
+		bullet->Render();
 	}
 }
 

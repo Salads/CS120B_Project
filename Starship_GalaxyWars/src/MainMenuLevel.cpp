@@ -48,10 +48,7 @@ void MainMenuLevel::Update()
 
 void MainMenuLevel::Render()
 {
-	if(m_menu->GetRenderDirty())
-	{
-		m_menu->Render();
-	}
+	m_menu->Render();
 }
 
 DoneReason MainMenuLevel::GetDoneReason()

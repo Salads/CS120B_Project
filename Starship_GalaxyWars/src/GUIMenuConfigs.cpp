@@ -4,7 +4,7 @@
 
 const GUIMenuConfig kMainMenuConfig = 
 {
-	{"Start", "View Score"},
+	{"Start", "High Scores"},
 	2,
 };
 

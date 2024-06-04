@@ -19,6 +19,9 @@ public:
 	void	Update();
 	void 	Render(bool clearLastPosition = true);
 
+protected:
+	void OnSetRenderDirty(bool newDirty);
+
 private:
 	void OnSetPosition();
 	void UpdateLayout();
@@ -35,4 +38,7 @@ protected:
 	uint8_t   		    m_optionYPositions[5];
 	uint8_t   		    m_numOptions = 0;
 	uint8_t				m_largestOptionWidth = 0;
+private:
+	const uint8_t		m_borderThickness = 2;
+	const uint8_t		m_borderGap		  = 5;
 };

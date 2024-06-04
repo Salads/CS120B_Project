@@ -75,24 +75,27 @@ void GUIMenu::UpdateLayout()
 	// Options are left-justified
 	uint8_t cursorWidth = m_cursor->GetWidth();
 	uint8_t cursorGap = 5;
-	uint8_t xCursorPos = currentMenuPos.m_x;
+	uint8_t xCursorPos = currentMenuPos.m_x + m_borderThickness + m_borderGap;
 
-	uint8_t yPos = currentMenuPos.m_y;
+	uint8_t yPos = currentMenuPos.m_y + m_borderThickness + m_borderGap;
 	uint8_t xPos = xCursorPos + cursorWidth + cursorGap;
 	m_optionXPosition = xPos;
 
-	m_width  = xPos + m_largestOptionWidth - currentMenuPos.m_x;
-	m_height = yPos - currentMenuPos.m_y;
+	m_width  = m_borderThickness + m_borderGap + cursorWidth + cursorGap + m_largestOptionWidth + m_borderGap + m_borderThickness;
+	m_height = m_borderThickness + m_borderGap; // height without contents, content heights added later
 
 	for(uint8_t i = 0; i < m_numOptions; i++)
 	{
 		m_optionYPositions[i] = yPos;
 		m_textObjects[i]->SetPosition(m_optionXPosition, m_optionYPositions[i]);
 		m_textObjects[i]->SetInitialized();
-		yPos += m_textObjects[i]->GetHeight();
-		
-		m_height += m_textObjects[i]->GetHeight();
+
+		uint8_t objHeight = m_textObjects[i]->GetHeight();
+		yPos += objHeight;
+		m_height += objHeight;
 	}
+
+	m_height += m_borderThickness + m_borderGap; // The bottom extra space
 
 	m_cursor->SetPosition(xCursorPos, m_optionYPositions[m_selectedIdx]);
 	m_cursor->SetInitialized();
@@ -115,7 +118,6 @@ void GUIMenu::SelectPreviousOption()
 	if(m_selectedIdx <= 0) return;
 	m_selectedIdx--;
 	m_cursor->SetPosition(m_optionXPosition - m_cursor->GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
-	SetRenderDirty(true);
 }
 
 void GUIMenu::SelectNextOption()
@@ -123,7 +125,6 @@ void GUIMenu::SelectNextOption()
 	if(m_selectedIdx >= m_numOptions - 1) return;
 	m_selectedIdx++;
 	m_cursor->SetPosition(m_optionXPosition - m_cursor->GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
-	SetRenderDirty(true);
 }
 
 uint8_t GUIMenu::GetSelectedOptionIdx()
@@ -157,22 +158,63 @@ void GUIMenu::Update()
 	lastDirection = gameState.m_joystickDirectionY;
 }
 
+void GUIMenu::OnSetRenderDirty(bool newDirty)
+{
+	// Because of the border rendering, theres a situation where
+	// the background is dirty, but the objects haven't changed, so
+	// technically they are not. 
+	// This causes the background to render, but child objects to be 
+	// not rendered. (blank)
+	// We set all child objects dirty here.
+
+	for(uint8_t i = 0; i < m_numOptions; i++)
+	{
+		m_textObjects[i]->SetRenderDirty(true);
+	}
+
+	m_cursor->SetRenderDirty(true);
+}
+
 void GUIMenu::Render(bool clearLastPosition)
 {
-	if(!GetRenderDirty()) {return;}
+	if(GetRenderDirty())
+	{
+		// Render the "border", which is just 
+		// a white background, then a smaller fill box
+		// to "hollow out" the white background
+		// Could optimize this, but UI isn't updated that much so probably not worth
+
+		ST7735SClient& renderer = ST7735SClient::Get();
+
+		// First clear last position
+		ScreenRegion lastRegion = GetLastRenderRegion();
+		renderer.SetRegion(lastRegion);
+		renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+
+		// Fill new region with white (the border)
+		// This is our current size, including the border
+		ScreenRegion borderRegion = GetRenderRegion();
+		renderer.SetRegion(borderRegion);
+		renderer.FillCurrentScreenRegion(255, 255, 255);
+
+		// Now we hollow it out
+		ScreenRegion hollowRegion = borderRegion;
+		hollowRegion.m_startX += m_borderThickness;
+		hollowRegion.m_startY += m_borderThickness;
+		hollowRegion.m_endX   -= m_borderThickness;
+		hollowRegion.m_endY   -= m_borderThickness;
+		renderer.SetRegion(hollowRegion);
+		renderer.FillCurrentScreenRegion(renderer.m_backgroundColor);
+
+		SetRenderDirty(false);
+	}
+
+	// Now we render the rest of our child objects on top of this.
 	for(uint8_t i = 0; i < m_numOptions; i++)
 	{
 		TextRenderObject* object = m_textObjects[i];
-		if(object->GetRenderDirty() || GetRenderDirty())
-		{
-			object->Render();
-		}
+		object->Render();
 	}
 
-	if(m_cursor->GetRenderDirty())
-	{
-		m_cursor->Render();
-	}
-
-	SetRenderDirty(false);
+	m_cursor->Render();
 }

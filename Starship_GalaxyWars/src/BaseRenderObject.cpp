@@ -72,6 +72,12 @@ void BaseRenderObject::OnSetPosition()
 	// Usefull for text rendering objects, with child objects to render.
 }
 
+void BaseRenderObject::OnSetRenderDirty(bool newDirty)
+{
+	// Nothing here.
+	// Used for objects that have child render objects, so they can set their dirty flags there.
+}
+
 void BaseRenderObject::SetPosition(XYCoord newPosition)
 {
 	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
@@ -96,11 +102,7 @@ void BaseRenderObject::SetPosition(XYCoord newPosition)
 void BaseRenderObject::SetRenderDirty(bool dirty)
 {
 	m_renderDirty = dirty;
-
-	if(m_renderDirty && m_parent != nullptr)
-	{
-		m_parent->SetRenderDirty(m_renderDirty);
-	}
+	OnSetRenderDirty(dirty);
 }
 
 // Screen region on the ST7735S is from range [1,SCREEN_DIM)

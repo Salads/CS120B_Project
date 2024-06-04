@@ -44,15 +44,8 @@ void EndScreenLevel::Update()
 
 void EndScreenLevel::Render()
 {
-	if(m_label->GetRenderDirty())
-	{
-		m_label->Render();
-	}
-
-	if(m_menu->GetRenderDirty())
-	{
-		m_menu->Render();
-	}
+	m_label->Render();
+	m_menu->Render();
 }
 
 DoneReason EndScreenLevel::GetDoneReason()
