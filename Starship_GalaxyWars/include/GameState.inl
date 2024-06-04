@@ -34,7 +34,6 @@ void GameState::UpdateDeltaTime()
 	m_lastFrameTimeMS = currentTimeMS;
 }
 
-#define DEBUG_SCREENSIZE false
 void GameState::Initialize()
 {
 #if DEBUG_SCREENSIZE
@@ -42,6 +41,5 @@ void GameState::Initialize()
 #else
 	m_currentLevel = new MainMenuLevel();
 #endif
-	//m_currentLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
 	m_initialized = true;
 }

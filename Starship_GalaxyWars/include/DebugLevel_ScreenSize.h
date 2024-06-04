@@ -3,6 +3,7 @@
 #include "TextRenderObject.h"
 #include "Level.h"
 
+#if DEBUG_SCREENSIZE
 struct DebugLevel_ScreenSize : public Level
 {
 public:
@@ -18,4 +19,5 @@ private:
 	uint8_t           m_debugWidth  = 0;
 	uint8_t			  m_debugHeight = 0;
 };
+#endif
 

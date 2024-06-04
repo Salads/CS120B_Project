@@ -2,6 +2,8 @@
 
 #include "Utility.h"
 
+#define DEBUG_SCREENSIZE false
+
 #define FORCE_INLINE __attribute__((always_inline)) inline
 #define ArraySize(array) (sizeof(array) / sizeof(array[0]))
 #define SecondsToMS(seconds) (seconds*1000)

@@ -3,6 +3,7 @@
 #include "ST7735SClient.h"
 #include <stdlib.h>
 
+#if DEBUG_SCREENSIZE
 DebugLevel_ScreenSize::DebugLevel_ScreenSize()
 {
 	m_text = new TextRenderObject();
@@ -90,3 +91,4 @@ DoneReason DebugLevel_ScreenSize::GetDoneReason()
 {
 	return DoneReason_None;
 }
+#endif
