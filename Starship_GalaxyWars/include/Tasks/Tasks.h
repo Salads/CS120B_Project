@@ -7,8 +7,8 @@
 #define PERIOD_GCD 1
 #define PERIOD_RENDER   16
 #define PERIOD_UPDATE   16
-#define PERIOD_BUTTONS  20
-#define PERIOD_JOYSTICK 20
+#define PERIOD_BUTTONS  16
+#define PERIOD_JOYSTICK 16
 #define PERIOD_TIMING   1
 
 enum TS_Joystick : uint8_t {TS_JOYSTICK_INIT, TS_JOYSTICK_SAMPLE};

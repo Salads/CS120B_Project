@@ -6,6 +6,7 @@
 #include "MainMenuLevel.h"
 #include "DebugLevel_ScreenSize.h"
 #include "DebugLevel_Region.h"
+#include "HighScoreLevel.h"
 
 Level* GetNextLevel(DoneReason completeReason)
 {
@@ -16,14 +17,17 @@ Level* GetNextLevel(DoneReason completeReason)
 			newLevel = new MainMenuLevel(); 
 			break;
 		case DoneReason_StartGame:
-		case DoneReason_ViewHighScore:
 			newLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+			break;
+		case DoneReason_ViewHighScore:
+			newLevel = new HighScoreLevel();
 			break;
 		case DoneReason_GameOverVictory:
 		case DoneReason_GameOverDefeat:
 			newLevel = new EndScreenLevel();
 			break;
 		case DoneReason_EndScreenDone:
+		case DoneReason_HighScore_GoBack:
 			// If I don't put this here, this gets optimized out when we go from end screen to main menu. siiiiiigh
 			// It can't be an empty string either. SIIIIIIIGH
 			Debug_PrintLine("Level Cycle done! Reset to main menu...");

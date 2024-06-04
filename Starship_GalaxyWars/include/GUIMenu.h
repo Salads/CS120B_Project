@@ -15,6 +15,9 @@ public:
 	void 	SelectNextOption();
 	uint8_t GetSelectedOptionIdx();
 	bool	GetAcceptedSelection();
+
+	void    SetIsDumbList();
+
 	uint8_t GetCursorLessSpace(); // Gets the width of the gap between the text options and left edge of container.
 	void	Update();
 	void 	Render(bool clearLastPosition = true);
@@ -41,4 +44,5 @@ protected:
 private:
 	const uint8_t		m_borderThickness = 2;
 	const uint8_t		m_borderGap		  = 5;
+	bool                m_isDumbList      = false; // If true, 
 };

@@ -16,6 +16,7 @@ enum DoneReason : uint8_t
 	DoneReason_GameOverDefeat,
 	DoneReason_StartGame,
 	DoneReason_ViewHighScore,
+	DoneReason_HighScore_GoBack,
 	DoneReason_EndScreenDone,
 
 	DoneReason_Unknown
