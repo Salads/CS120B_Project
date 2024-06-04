@@ -10,11 +10,13 @@ EndScreenLevel::EndScreenLevel()
 	int xPos = (SCREEN_WIDTH / 2) - (m_label->GetWidth() / 2);
 	int yPos = (SCREEN_HEIGHT / 4);
 	m_label->SetPosition(xPos, yPos);
+	m_label->SetInitialized();
 
 	m_menu = new GUIMenu(kEndScreenConfig);
 	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu->GetWidth() / 2);
 	uint8_t yMenuPos = SCREEN_HEIGHT / 2;
 	m_menu->SetPosition(xMenuPos, yMenuPos);
+	m_menu->SetInitialized();
 }
 
 EndScreenLevel::~EndScreenLevel()

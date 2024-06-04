@@ -41,16 +41,6 @@ GUIMenu::GUIMenu(const GUIMenuConfig& config)
 
 	UpdateLayout();
 
-	// Set all objects positions to themselves, since we want to 
-	// make sure last position isn't different upon first initialization.
-	// Ideally we would want a flag or something that prevents setting it...
-	for(uint8_t i = 0; i < m_numOptions; i++)
-	{
-		m_textObjects[i]->SetPosition(m_textObjects[i]->GetPosition());
-	}
-
-	m_cursor->SetPosition(m_cursor->GetPosition());
-
 	SetRenderDirty(true);
 }
 
@@ -98,13 +88,15 @@ void GUIMenu::UpdateLayout()
 	{
 		m_optionYPositions[i] = yPos;
 		m_textObjects[i]->SetPosition(m_optionXPosition, m_optionYPositions[i]);
+		m_textObjects[i]->SetInitialized();
 		yPos += m_textObjects[i]->GetHeight();
 		
 		m_height += m_textObjects[i]->GetHeight();
 	}
 
 	m_cursor->SetPosition(xCursorPos, m_optionYPositions[m_selectedIdx]);
-
+	m_cursor->SetInitialized();
+	
 	SetRenderDirty(true);
 }
 

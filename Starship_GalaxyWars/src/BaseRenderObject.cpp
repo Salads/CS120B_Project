@@ -10,6 +10,16 @@ BaseRenderObject::BaseRenderObject(BaseRenderObject* parent)
 BaseRenderObject::~BaseRenderObject()
 {}
 
+void BaseRenderObject::SetInitialized()
+{
+	m_initialized = true;
+}
+
+bool BaseRenderObject::GetInitialized()
+{
+	return m_initialized;
+}
+
 void BaseRenderObject::ClearFromDisplay()
 {
 	// Have the renderer clear our current region with background color
@@ -39,8 +49,17 @@ void BaseRenderObject::SetPosition(int16_t x, int16_t y)
 	x = clamp(x, 0, SCREEN_WIDTH - m_width - 1);
 	y = clamp(y, 0, SCREEN_HEIGHT - m_height - 1);
 
-	m_lastRenderedPosition = m_position;
-	m_position = XYCoord(x, y);
+	if(GetInitialized())
+	{
+		m_lastRenderedPosition = m_position;
+		m_position = XYCoord(x, y);
+	}
+	else
+	{
+		XYCoord newPosition = XYCoord(x, y);
+		m_lastRenderedPosition = newPosition;
+		m_position = newPosition;
+	}
 	
 	SetRenderDirty(true);
 
@@ -58,8 +77,16 @@ void BaseRenderObject::SetPosition(XYCoord newPosition)
 	newPosition.m_x = clamp(newPosition.m_x, 0, SCREEN_WIDTH - m_width - 1);
 	newPosition.m_y = clamp(newPosition.m_y, 0, SCREEN_HEIGHT - m_height - 1);
 
-	m_lastRenderedPosition = m_position;
-	m_position = newPosition;
+	if(GetInitialized())
+	{
+		m_lastRenderedPosition = m_position;
+		m_position = newPosition;
+	}
+	else
+	{
+		m_lastRenderedPosition = newPosition;
+		m_position = newPosition;
+	}
 	
 	SetRenderDirty(true);
 

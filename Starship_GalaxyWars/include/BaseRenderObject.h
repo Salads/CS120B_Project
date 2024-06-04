@@ -18,6 +18,11 @@ public:
 	ScreenRegion GetLastRenderRegion();
 	ScreenRegion GetRenderRegion();
 
+	// These Initialized functions are for whether we should set the "last position" of render objects.
+	// This way, we don't accidentally clear a previous position due to constructor routines.
+	void SetInitialized();
+	bool GetInitialized();
+
 	uint8_t GetWidth();
 	uint8_t GetHeight();
 
@@ -35,5 +40,8 @@ protected:
 
 	XYCoord 		  m_position;
 	XYCoord 		  m_lastRenderedPosition;
+
+private:
+	bool              m_initialized = false;
 
 };

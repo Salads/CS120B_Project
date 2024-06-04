@@ -15,6 +15,7 @@ MainMenuLevel::MainMenuLevel()
 	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu->GetWidth() / 2);
 	uint8_t yMenuPos = (SCREEN_HEIGHT / 4);
 	m_menu->SetPosition(xMenuPos, yMenuPos);
+	m_menu->SetInitialized();
 }
 
 MainMenuLevel::~MainMenuLevel()

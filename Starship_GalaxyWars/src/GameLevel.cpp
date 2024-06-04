@@ -18,11 +18,13 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 
     m_player = new Player();
     m_player->SetPosition((SCREEN_WIDTH / 2) - (m_player->GetWidth() / 2), SCREEN_HEIGHT - BOTTOM_HUD_HEIGHT - m_player->GetHeight() - 1);
-    m_player->SetRenderDirty(true);
+    m_player->SetInitialized();
 
     m_scoreText = new TextRenderObject();
     m_scoreText->SetPosition(5, 1);
     m_scoreText->SetPosition(m_scoreText->GetPosition());
+    m_scoreText->SetInitialized();
+
 }
 
 GameLevel::~GameLevel()
@@ -142,7 +144,7 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
 
     for(uint8_t i = 0; i < m_numEnemies; i++)
     {
-        m_enemies[i]->SetPosition(m_enemies[i]->GetPosition());
+        m_enemies[i]->SetInitialized();
     }
 }
 
@@ -205,6 +207,7 @@ void GameLevel::Update()
         spawnPos.m_x += (m_player->GetWidth() / 2) - 1;
         spawnPos.m_y -= 5;
         newBullet->SetPosition(spawnPos);
+        newBullet->SetInitialized();
         AddBullet(newBullet);
         
     }
