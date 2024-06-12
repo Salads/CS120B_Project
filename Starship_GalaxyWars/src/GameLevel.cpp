@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "TimerISR.h"
+#include "Crab.h"
+#include "Fly.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -156,7 +158,7 @@ Enemy* GameLevel::CreateEnemyFromType(EntityType type)
     {
         case EntityType_Fly: return new Fly(); break;
 	    case EntityType_GreenMonster: // TODO
-	    case EntityType_Crab: // TODO
+	    case EntityType_Crab: return new Crab();
         default: return nullptr;
     }
 
