@@ -47,6 +47,10 @@ void EndScreenLevel::Update()
 	if(m_menu->GetAcceptedSelection())
 	{
 		m_doneReason = DoneReason_EndScreenDone;
+
+		GameState& gameState = GameState::Get();
+		gameState.m_playerLives = 0;
+		gameState.m_score = 0;
 	}
 }
 

@@ -26,6 +26,7 @@ public:
     bool              m_initialized = false;
 
     Level*            m_currentLevel = nullptr;
+    uint8_t           m_playerLives = 0;
 
     uint8_t           m_scores[K_MAX_HIGHSCORES];
     uint8_t           m_numScores = 0;

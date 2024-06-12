@@ -30,6 +30,12 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies, uint8_t level
 
     m_livesText = new TextRenderObject();
 
+    GameState& gameState = GameState::Get();
+    if(gameState.m_playerLives > 0)
+    {
+        m_player->SetHP(gameState.m_playerLives);
+    }
+
     char text[11];
     sprintf(text, "Lives: %d", m_player->GetHP());
     m_livesText->SetText(text);
@@ -283,6 +289,7 @@ void GameLevel::Update()
                     char text[11];
                     sprintf(text, "Lives: %d", m_player->GetHP());
                     m_livesText->SetText(text);
+                    gameState.m_playerLives = m_player->GetHP();
 
                     if(!m_player->GetIsAlive())
                     {
@@ -324,7 +331,7 @@ void GameLevel::Update()
             XYCoord desiredPosition = enemy->GetDesiredPos();
             XYCoord currentPosition = enemy->GetPosition();
             //Debug_PrintLine("current x: %d, desired x: %d", currentPosition.m_x, desiredPosition.m_x);
-            double  enemyIdleSpeed = 0.1;
+            double  enemyIdleSpeed = 0.07;
             uint8_t newX = 0;
 
             enemy->UpdateDesiredPosition();
@@ -352,7 +359,7 @@ void GameLevel::Update()
             uint32_t tNow = gameState.m_lastFrameTimeMS + gameState.m_deltaTimeMS;
             uint32_t timeSinceLastFire = (tNow - enemy->m_timeLastFire);
             m_timeSinceLastEnemyFire += gameState.m_deltaTimeMS;
-            if(timeSinceLastFire >= 450 && m_timeSinceLastEnemyFire >= 100 && m_numBullets < K_MAX_BULLETS)
+            if(timeSinceLastFire >= 450 && m_timeSinceLastEnemyFire >= 25 && m_numBullets < K_MAX_BULLETS)
             {
                 Bullet* newBullet = new Bullet(BulletType_EnemyNormal);
                 XYCoord spawnPos = enemy->GetPosition();

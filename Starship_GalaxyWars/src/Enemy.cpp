@@ -6,32 +6,30 @@ uint8_t Enemy::GetScoreValue()
 	return m_scoreValue;
 }
 
+static bool idleStart = false; // Keep enemies from moving same direction at first
 void Enemy::UpdateIdlePositions()
 {
 	m_idlePosLeft = m_position;
-	m_idlePosLeft.m_x -= 5;
+	m_idlePosLeft.m_x -= 3;
 
 	m_idlePosRight = m_position;
-	m_idlePosRight.m_x += 5;
+	m_idlePosRight.m_x += 3;
+
+	m_desiredPos = (idleStart ? m_idlePosLeft : m_idlePosRight);
+	idleStart = !idleStart;
 }
 
 void Enemy::UpdateDesiredPosition()
 {
 	if(m_mode == EnemyMode_Idle)
 	{
-		// Debug_PrintLine("px %d, py %d, ix %d, iy %d", 
-		// 	m_position.m_x, m_position.m_y, 
-		// 	m_idlePosLeft.m_x, m_idlePosLeft.m_y);
-
 		if(m_position.m_x <= m_idlePosLeft.m_x && m_position.m_y <= m_idlePosLeft.m_y)
 		{
 			m_desiredPos = m_idlePosRight;
-			//Debug_PrintLine("Idle Right");
 		}
 		else if(m_position.m_x >= m_idlePosRight.m_x && m_position.m_y >= m_idlePosRight.m_y)
 		{
 			m_desiredPos = m_idlePosLeft;
-			//Debug_PrintLine("Idle Left");
 		}
 	}
 }

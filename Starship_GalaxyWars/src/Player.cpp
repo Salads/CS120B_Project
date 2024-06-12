@@ -28,3 +28,4 @@ Player::Player()
 
 	m_hp = 3;
 }
+

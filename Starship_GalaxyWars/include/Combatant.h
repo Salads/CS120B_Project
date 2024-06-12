@@ -12,6 +12,7 @@ public:
 	bool 			GetIsAlive();
 	void 			TakeDamage(uint8_t damage);
 	virtual void 	FireBullet();
+	void			SetHP(uint8_t newHP);
 
 	uint32_t m_timeLastFire = 0;
 protected:
