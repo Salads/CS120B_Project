@@ -17,13 +17,17 @@ Level* GetNextLevel(DoneReason completeReason)
 			newLevel = new MainMenuLevel(); 
 			break;
 		case DoneReason_StartGame:
-			newLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies);
+			newLevel = new GameLevel(kLevel1Enemies, kNumLevel1Enemies, 1);
 			break;
 		case DoneReason_ViewHighScore:
 			newLevel = new HighScoreLevel();
 			break;
-		case DoneReason_GameOverVictory:
-		case DoneReason_GameOverDefeat:
+		case DoneReason_Lvl1GameOverVictory:
+			newLevel = new GameLevel(kLevel2Enemies, kNumLevel2Enemies, 2);
+			break;
+		case DoneReason_Lvl1GameOverDefeat:
+		case DoneReason_Lvl2GameOverVictory:
+		case DoneReason_Lvl2GameOverDefeat:
 			newLevel = new EndScreenLevel(completeReason);
 			break;
 		case DoneReason_EndScreenDone:

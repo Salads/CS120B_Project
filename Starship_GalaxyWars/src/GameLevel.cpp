@@ -9,10 +9,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
+GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies, uint8_t level)
 {
     Debug_PrintLine("GameLevel::GameLevel()");
 	m_type = LevelType_Game;
+    m_level = level;
 
     m_bullets = new Bullet*[K_MAX_BULLETS];
     m_numBullets = 0;
@@ -226,7 +227,6 @@ void GameLevel::Update()
         newBullet->SetPosition(spawnPos);
         newBullet->SetInitialized();
         AddBullet(newBullet);
-        
     }
     else
     {
@@ -286,7 +286,15 @@ void GameLevel::Update()
 
                     if(!m_player->GetIsAlive())
                     {
-                        m_doneReason = DoneReason_GameOverDefeat;
+                        switch(m_level)
+                        {
+                            case 1:
+                                m_doneReason = DoneReason_Lvl1GameOverDefeat;
+                                break;
+                            case 2:
+                                m_doneReason = DoneReason_Lvl2GameOverDefeat;
+                                break;
+                        }
                     }
                     bullet->SetIsMarkedForDeletion(true);
                 }
@@ -386,7 +394,15 @@ void GameLevel::Update()
 
     if(m_numEnemies <= 0)
     {
-        m_doneReason = DoneReason_GameOverVictory;
+        switch(m_level)
+        {
+            case 1:
+                m_doneReason = DoneReason_Lvl1GameOverVictory;
+                break;
+            case 2:
+                m_doneReason = DoneReason_Lvl2GameOverVictory;
+                break;
+        }
     }
 }
 

@@ -7,7 +7,8 @@ EndScreenLevel::EndScreenLevel(DoneReason reason)
 {
 	Debug_PrintLine("EndScreenLevel::EndScreenLevel()");
 	m_label = new TextRenderObject();
-	m_label->SetText(reason == DoneReason_GameOverVictory ? "Victory!" : "Defeat");
+	bool isVictory = reason == DoneReason_Lvl1GameOverVictory || reason == DoneReason_Lvl2GameOverVictory;
+	m_label->SetText(isVictory ? "Victory!" : "Defeat");
 
 	int xPos = (SCREEN_WIDTH / 2) - (m_label->GetWidth() / 2);
 	int yPos = (SCREEN_HEIGHT / 4);

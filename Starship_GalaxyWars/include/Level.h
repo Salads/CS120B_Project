@@ -12,8 +12,10 @@ enum LevelType : uint8_t
 enum DoneReason : uint8_t
 {
 	DoneReason_None,
-	DoneReason_GameOverVictory,
-	DoneReason_GameOverDefeat,
+	DoneReason_Lvl1GameOverVictory,
+	DoneReason_Lvl1GameOverDefeat,
+	DoneReason_Lvl2GameOverVictory,
+	DoneReason_Lvl2GameOverDefeat,
 	DoneReason_StartGame,
 	DoneReason_ViewHighScore,
 	DoneReason_HighScore_GoBack,

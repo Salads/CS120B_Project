@@ -9,7 +9,7 @@
 struct GameLevel : public Level
 {
 public:
-	GameLevel(EntityType* enemiesArray, uint8_t numEnemies);
+	GameLevel(EntityType* enemiesArray, uint8_t numEnemiesm, uint8_t level);
 	~GameLevel();
 	void Update();
 	void Render();
@@ -28,6 +28,8 @@ private:
 
 public:
 	Player*   		  m_player;
+
+	uint8_t			  m_level = 0;
 
 	Enemy**   		  m_enemies;
 	uint8_t   		  m_numEnemies = 0;
