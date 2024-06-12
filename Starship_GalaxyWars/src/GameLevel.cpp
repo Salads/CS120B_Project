@@ -243,11 +243,16 @@ void GameLevel::Update()
             float dY = (float)K_BULLET_SPEED * gameState.m_deltaTimeMS;
             XYCoord currentPosition = bullet->GetPosition();
 
+            if(bullet->GetType() == BulletType_EnemyNormal)
+            {
+                dY *= -1;
+            }
+
             // Check for entity collision
             for(uint8_t eIdx = 0; eIdx < m_numEnemies; eIdx++)
             {	
                 Enemy* enemy = m_enemies[eIdx];
-                if(bullet->GetCollides(*enemy))
+                if(bullet->GetType() == BulletType_PlayerNormal && bullet->GetCollides(*enemy))
                 {
                     enemy->SetIsMarkedForDeletion(true);
                     bullet->SetIsMarkedForDeletion(true);
@@ -259,7 +264,7 @@ void GameLevel::Update()
             // Check if bullet is out of play area
             if (!bullet->GetIsMarkedForDeletion())
             {
-                if(currentPosition.m_y <= TOP_HUD_HEIGHT || currentPosition.m_y - dY <= TOP_HUD_HEIGHT)
+                if(currentPosition.m_y <= TOP_HUD_HEIGHT || currentPosition.m_y - dY >= SCREEN_HEIGHT - TOP_HUD_HEIGHT)
                 {
                     bullet->SetIsMarkedForDeletion(true);
                 }
@@ -303,6 +308,24 @@ void GameLevel::Update()
             }
 
             enemy->UpdateLastMoveTime();
+
+            // Enemy shooting
+            uint32_t tNow = gameState.m_lastFrameTimeMS + gameState.m_deltaTimeMS;
+            uint32_t timeSinceLastFire = (tNow - enemy->m_timeLastFire);
+            m_timeSinceLastEnemyFire += gameState.m_deltaTimeMS;
+            if(timeSinceLastFire >= 450 && m_timeSinceLastEnemyFire >= 100 && m_numBullets < K_MAX_BULLETS)
+            {
+                Bullet* newBullet = new Bullet(BulletType_EnemyNormal);
+                XYCoord spawnPos = enemy->GetPosition();
+                spawnPos.m_x += (enemy->GetWidth() / 2) - 1;
+                spawnPos.m_y += enemy->GetHeight() + 5;
+                newBullet->SetPosition(spawnPos);
+                newBullet->SetInitialized();
+                AddBullet(newBullet);
+
+                enemy->m_timeLastFire = gameState.m_lastFrameTimeMS + gameState.m_deltaTimeMS;
+                m_timeSinceLastEnemyFire = 0;
+            }
         }
 
 

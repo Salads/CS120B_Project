@@ -13,6 +13,7 @@ class Bullet : public Entity
 {
 public:
     Bullet(BulletType type);
+	BulletType GetType();
 private:
 	BulletType m_bulletType;
 };

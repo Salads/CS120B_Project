@@ -2,9 +2,8 @@
 #include <avr/pgmspace.h>
 
 // 'enemy_bullet', 2x4px
-const uint16_t texture_enemy_bullet [] PROGMEM = 
-{
-	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe8, 0xe4, 0xe8, 0xe4, 0xe8, 0xe4, 0xe8, 0xe4
+const uint16_t texture_enemy_bullet [] PROGMEM = {
+	0xffff, 0xffff, 0xffff, 0xffff, 0xe8e4, 0xe8e4, 0xe8e4, 0xe8e4
 };
 
 // 'player_bullet', 2x4px
@@ -55,4 +54,11 @@ Bullet::Bullet(BulletType type)
 			m_textureFormat = TextureFormat_16Bit;
 			break;
 	}
+
+	m_bulletType = type;
+}
+
+BulletType Bullet::GetType()
+{
+	return m_bulletType;
 }

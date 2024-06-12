@@ -34,6 +34,7 @@ public:
 
 	Bullet**  		  m_bullets;
 	uint8_t   		  m_numBullets = 0;
+	uint32_t		  m_timeSinceLastEnemyFire = UINT32_MAX;
 
 	TextRenderObject* m_scoreText;
 
