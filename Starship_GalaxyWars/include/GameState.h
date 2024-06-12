@@ -7,6 +7,8 @@
 #include "JoystickDirection.h"
 #include "GameLevel.h"
 
+#define K_MAX_HIGHSCORES 5
+
 class GameState
 {
 public:
@@ -15,11 +17,18 @@ public:
 
     FORCE_INLINE void Initialize();
     FORCE_INLINE void UpdateDeltaTime();
+    FORCE_INLINE void ClearHighScores();
+    FORCE_INLINE void LoadHighScores();
+    FORCE_INLINE void SaveHighScores();
+    FORCE_INLINE void InsertScore(uint8_t newScore);
 
 public:
     bool              m_initialized = false;
 
     Level*            m_currentLevel = nullptr;
+
+    uint8_t           m_scores[K_MAX_HIGHSCORES];
+    uint8_t           m_numScores = 0;
  
     uint8_t           m_score = 0;
  

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <avr/io.h>
-
+#include <avr/eeprom.h>
 #include "GameState.h"
 #include "Fly.h"
 #include "Player.h"
@@ -13,6 +13,58 @@
 
 GameState::GameState()
 {
+	
+}
+
+void GameState::ClearHighScores()
+{
+	for(uint8_t i = 0; i < K_MAX_HIGHSCORES; i++)
+	{
+		eeprom_busy_wait();
+		eeprom_write_byte((uint8_t*)0 + i, 0);
+	}
+
+	m_numScores = 0;
+}
+
+void GameState::LoadHighScores()
+{
+	m_numScores = 0;
+	for(uint8_t i = 0; i < K_MAX_HIGHSCORES; i++)
+	{
+		eeprom_busy_wait();
+		m_scores[i] = eeprom_read_byte((uint8_t*)0 + i);
+		if(m_scores[i] > 0)
+		{
+			m_numScores++;
+		}
+	}
+}
+
+void GameState::SaveHighScores()
+{
+	for(uint8_t i = 0; i < K_MAX_HIGHSCORES; i++)
+	{
+		eeprom_busy_wait();
+		eeprom_write_byte((uint8_t*)0 + i, m_scores[i]);
+	}
+}
+
+void GameState::InsertScore(uint8_t newScore)
+{
+	for(uint8_t i = 0; i < K_MAX_HIGHSCORES; i++)
+	{
+        if (newScore > m_scores[i])
+        {
+			for(int x = K_MAX_HIGHSCORES - 1; x > i; x--)
+			{
+				m_scores[x] = m_scores[x - 1];
+			}
+            m_scores[i] = newScore;
+			m_numScores = clamp(m_numScores + 1, 0, K_MAX_HIGHSCORES);
+			return;
+        }
+	}
 	
 }
 

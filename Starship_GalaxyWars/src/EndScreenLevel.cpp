@@ -1,9 +1,11 @@
 #include "EndScreenLevel.h"
 #include "GUIMenuConfigs.h"
 #include "SerialMonitor.h"
+#include "GameState.h"
 
 EndScreenLevel::EndScreenLevel(DoneReason reason)
 {
+	Debug_PrintLine("EndScreenLevel::EndScreenLevel()");
 	m_label = new TextRenderObject();
 	m_label->SetText(reason == DoneReason_GameOverVictory ? "Victory!" : "Defeat");
 
@@ -12,11 +14,16 @@ EndScreenLevel::EndScreenLevel(DoneReason reason)
 	m_label->SetPosition(xPos, yPos);
 	m_label->SetInitialized();
 
-	m_menu = new GUIMenu(kEndScreenConfig);
+	m_menu = new GUIMenu();
+	m_menu->AddOption("Continue");
 	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu->GetWidth() / 2);
 	uint8_t yMenuPos = SCREEN_HEIGHT / 2;
 	m_menu->SetPosition(xMenuPos, yMenuPos);
 	m_menu->SetInitialized();
+
+	GameState& gameState = GameState::Get();
+	gameState.InsertScore(gameState.m_score);
+	gameState.SaveHighScores();
 }
 
 EndScreenLevel::~EndScreenLevel()

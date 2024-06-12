@@ -13,8 +13,6 @@ void Enemy::UpdateIdlePositions()
 
 	m_idlePosRight = m_position;
 	m_idlePosRight.m_x += 5;
-
-	Debug_PrintLine("Pos: %d,%d - ix: %d, ir: %d", m_position.m_x, m_position.m_y, m_idlePosLeft.m_x, m_idlePosRight.m_x);
 }
 
 void Enemy::UpdateDesiredPosition()

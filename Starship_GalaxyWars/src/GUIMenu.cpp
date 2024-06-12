@@ -20,32 +20,29 @@ const Texture kCursorTexture =
 	TextureFormat_16Bit
 };
 
-GUIMenu::GUIMenu(const GUIMenuConfig& config)
+void GUIMenu::AddOption(const char* newOptionText)
 {
-	m_numOptions = config.m_numOptions;
+	const char* optionText = newOptionText;
+	m_textObjects[m_numOptions] = new TextRenderObject();
+	m_textObjects[m_numOptions]->SetText(optionText);
+	
+	m_largestOptionWidth = max(m_largestOptionWidth, m_textObjects[m_numOptions]->GetWidth());
+	m_numOptions++;
+
+	UpdateLayout();
+	SetRenderDirty(true);
+}
+
+GUIMenu::GUIMenu()
+{
 	m_width = 0;
 	m_height = 0;
+	m_numOptions = 0;
 	
 	m_largestOptionWidth = 0;
 
-	for(uint8_t i = 0; i < m_numOptions; i++)
-	{
-		const char* optionText = config.m_optionTexts[i];
-		m_textObjects[i] = new TextRenderObject();
-		m_textObjects[i]->SetText(optionText);
-		
-		m_largestOptionWidth = max(m_largestOptionWidth, m_textObjects[i]->GetWidth());
-	}
-
-	if(!m_isDumbList)
-	{
-		m_cursorTexture = kCursorTexture;
-		m_cursor = new SimpleRenderObject(m_cursorTexture);
-	}
-
-	UpdateLayout();
-
-	SetRenderDirty(true);
+	m_cursorTexture = kCursorTexture;
+	m_cursor = new SimpleRenderObject(m_cursorTexture);
 }
 
 GUIMenu::~GUIMenu()
@@ -79,11 +76,8 @@ void GUIMenu::UpdateLayout()
 	// Options are left-justified
 	uint8_t cursorWidth = 0;
 	uint8_t cursorGap = 0;
-	if(!m_isDumbList)
-	{
-		cursorWidth = m_cursor->GetWidth();
-		cursorGap = 5;
-	}
+	cursorWidth = m_cursor->GetWidth();
+	cursorGap = 5;
 	
 	uint8_t xCursorPos = currentMenuPos.m_x + m_borderThickness + m_borderGap;
 
@@ -108,18 +102,10 @@ void GUIMenu::UpdateLayout()
 
 	m_height += m_borderThickness + m_borderGap; // The bottom extra space
 
-	if(!m_isDumbList)
-	{
-		m_cursor->SetPosition(xCursorPos, m_optionYPositions[m_selectedIdx]);
-		m_cursor->SetInitialized();
-	}
-	
-	SetRenderDirty(true);
-}
+	m_cursor->SetPosition(xCursorPos, m_optionYPositions[m_selectedIdx]);
+	m_cursor->SetInitialized();
 
-void GUIMenu::SetIsDumbList()
-{
-	m_isDumbList = true;
+	SetRenderDirty(true);
 }
 
 void GUIMenu::OnSetPosition()
@@ -135,7 +121,6 @@ bool GUIMenu::GetAcceptedSelection()
 void GUIMenu::SelectPreviousOption()
 {
 	if(m_selectedIdx <= 0) return;
-	if(m_isDumbList) return;
 	m_selectedIdx--;
 	m_cursor->SetPosition(m_optionXPosition - m_cursor->GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
 }
@@ -143,7 +128,6 @@ void GUIMenu::SelectPreviousOption()
 void GUIMenu::SelectNextOption()
 {
 	if(m_selectedIdx >= m_numOptions - 1) return;
-	if(m_isDumbList) return;
 	m_selectedIdx++;
 	m_cursor->SetPosition(m_optionXPosition - m_cursor->GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
 }
@@ -169,13 +153,18 @@ void GUIMenu::Update()
 			SelectPreviousOption();
 		}
 
-		if(!m_isDumbList && gameState.m_fireButton && !gameState.m_fireButtonHeld) // only "fresh" on downs
+		if(gameState.m_fireButton && !gameState.m_fireButtonHeld) // only "fresh" on downs
 		{
 			m_acceptedSelection = true;
 		}
 	}
 
 	lastDirection = gameState.m_joystickDirectionY;
+}
+
+void GUIMenu::Unlock()
+{
+	m_acceptedSelection = false;
 }
 
 void GUIMenu::OnSetRenderDirty(bool newDirty)
@@ -192,11 +181,7 @@ void GUIMenu::OnSetRenderDirty(bool newDirty)
 		m_textObjects[i]->SetRenderDirty(true);
 	}
 
-	if(!m_isDumbList)
-	{
-		m_cursor->SetRenderDirty(true);
-	}
-	
+	m_cursor->SetRenderDirty(true);
 }
 
 void GUIMenu::Render(bool clearLastPosition)
@@ -240,8 +225,5 @@ void GUIMenu::Render(bool clearLastPosition)
 		object->Render();
 	}
 
-	if(!m_isDumbList)
-	{
-		m_cursor->Render();
-	}
+	m_cursor->Render();
 }

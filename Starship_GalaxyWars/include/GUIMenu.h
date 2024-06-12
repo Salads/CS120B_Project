@@ -9,14 +9,14 @@
 struct GUIMenu : public BaseRenderObject
 {
 public:
-	GUIMenu(const GUIMenuConfig& config);
+	GUIMenu();
 	~GUIMenu();
+	void	AddOption(const char* newOptionText);
 	void 	SelectPreviousOption();
 	void 	SelectNextOption();
 	uint8_t GetSelectedOptionIdx();
 	bool	GetAcceptedSelection();
-
-	void    SetIsDumbList();
+	void	Unlock();
 
 	uint8_t GetCursorLessSpace(); // Gets the width of the gap between the text options and left edge of container.
 	void	Update();
@@ -44,5 +44,4 @@ protected:
 private:
 	const uint8_t		m_borderThickness = 2;
 	const uint8_t		m_borderGap		  = 5;
-	bool                m_isDumbList      = false; // If true, 
 };

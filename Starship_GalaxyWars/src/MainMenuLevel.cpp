@@ -201,6 +201,7 @@ Texture kTextureTitleImage =
 
 MainMenuLevel::MainMenuLevel()
 {
+	//Debug_PrintLine("MainMenuLevel::MainMenuLevel()");
 	m_titleImage = new SimpleRenderObject();
 	m_titleImage->SetTexture(kTextureTitleImage);
 	uint8_t xTitlePos = (SCREEN_WIDTH / 2) - (m_titleImage->GetWidth() / 2);
@@ -212,13 +213,18 @@ MainMenuLevel::MainMenuLevel()
 	// It can't be an empty string either. SIIIIIIIGH
 	// At least it's "loading" code, so it doesn't affect performance.
 	Debug_PrintLine("MainMenuLevel() - Creating new GUIMenu");
-	m_menu = new GUIMenu(kMainMenuConfig);
+	m_menu = new GUIMenu();
+	m_menu->AddOption("Start");
+	m_menu->AddOption("High Scores");
+	m_menu->AddOption("Clear Scores");
 	m_type = LevelType_Menu;
 
 	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu->GetWidth() / 2);
 	uint8_t yMenuPos = m_titleImage->GetPosition().m_y + 50;
 	m_menu->SetPosition(xMenuPos, yMenuPos);
 	m_menu->SetInitialized();
+
+	Debug_PrintLine("MainMenuLevel() - GUIMenu Done");
 
 	GameState& gameState = GameState::Get();
 	gameState.m_score = 0;
@@ -244,6 +250,12 @@ void MainMenuLevel::Update()
 		else if(m_menu->GetSelectedOptionIdx() == 1)
 		{
 			m_doneReason = DoneReason_ViewHighScore;
+		}
+		else if(m_menu->GetSelectedOptionIdx() == 2)
+		{
+			GameState& gameState = GameState::Get();
+			gameState.ClearHighScores();
+			m_menu->Unlock();
 		}
 	}
 }

@@ -11,6 +11,7 @@
 
 GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 {
+    Debug_PrintLine("GameLevel::GameLevel()");
 	m_type = LevelType_Game;
 
     m_bullets = new Bullet*[K_MAX_BULLETS];
