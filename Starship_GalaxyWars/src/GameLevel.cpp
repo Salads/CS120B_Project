@@ -144,7 +144,9 @@ void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t n
 
     for(uint8_t i = 0; i < m_numEnemies; i++)
     {
+        m_enemies[i]->UpdateIdlePositions();
         m_enemies[i]->SetInitialized();
+        m_enemies[i]->UpdateLastMoveTime();
     }
 }
 
@@ -269,16 +271,37 @@ void GameLevel::Update()
         }
 
         // Enemies
-        // static bool b = true;
-        // for (uint8_t i = 0; i < m_numEnemies; i++)
-        // {
-        //     Enemy* enemy = m_enemies[i];
-        //     uint8_t mul = (b ? 1 : -1);
-        //     XYCoord curPos = enemy->GetPosition();
-        //     curPos.m_x = curPos.m_x + (mul * 5);
-        //     enemy->SetPosition(curPos);
-        // }
-        // b = !b;
+        for(int x = 0; x < m_numEnemies; x++)
+        {
+            Enemy* enemy = m_enemies[x];
+
+            XYCoord desiredPosition = enemy->GetDesiredPos();
+            XYCoord currentPosition = enemy->GetPosition();
+            //Debug_PrintLine("current x: %d, desired x: %d", currentPosition.m_x, desiredPosition.m_x);
+            double  enemyIdleSpeed = 0.1;
+            uint8_t newX = 0;
+
+            enemy->UpdateDesiredPosition();
+            if(!enemy->GetMoveDebtPaid(enemyIdleSpeed))
+            {
+                enemy->UpdateMoveTimeDebt(gameState.m_deltaTimeMS);
+                continue;
+            }
+
+            if(desiredPosition.m_x < currentPosition.m_x)
+            {
+                newX = clamp(currentPosition.m_x - 1, desiredPosition.m_x, currentPosition.m_x);
+                enemy->SetPosition(newX, currentPosition.m_y);
+            }
+            else
+            {
+                
+                newX = clamp(currentPosition.m_x + 1, currentPosition.m_x, desiredPosition.m_x);
+                enemy->SetPosition(newX, currentPosition.m_y);
+            }
+
+            enemy->UpdateLastMoveTime();
+        }
 
 
     // Delete to-be-deleted entities

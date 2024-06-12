@@ -24,3 +24,8 @@ constexpr int16_t clamp(int16_t val, int16_t minVal, int16_t maxVal)
 {
 	return min(maxVal, max(val, minVal));
 };
+
+constexpr int16_t lerp(int16_t minVal, int16_t maxVal, float t)
+{
+	return minVal + (maxVal - minVal) * t;
+};

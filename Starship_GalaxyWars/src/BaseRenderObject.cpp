@@ -48,20 +48,23 @@ void BaseRenderObject::SetPosition(int16_t x, int16_t y)
 {
 	x = clamp(x, 1, SCREEN_WIDTH - m_width - 1);
 	y = clamp(y, 1, SCREEN_HEIGHT - m_height - 1);
+	XYCoord newPosition = XYCoord(x, y);
+
+	if(m_position.m_x != newPosition.m_x || m_position.m_y != newPosition.m_y)
+	{
+		SetRenderDirty(true);
+	}
 
 	if(GetInitialized())
 	{
 		m_lastRenderedPosition = m_position;
-		m_position = XYCoord(x, y);
+		m_position = newPosition;
 	}
 	else
 	{
-		XYCoord newPosition = XYCoord(x, y);
 		m_lastRenderedPosition = newPosition;
 		m_position = newPosition;
 	}
-	
-	SetRenderDirty(true);
 
 	OnSetPosition();
 }
@@ -82,6 +85,11 @@ void BaseRenderObject::SetPosition(XYCoord newPosition)
 {
 	newPosition.m_x = clamp(newPosition.m_x, 1, SCREEN_WIDTH - m_width - 1);
 	newPosition.m_y = clamp(newPosition.m_y, 1, SCREEN_HEIGHT - m_height - 1);
+
+	if(m_position.m_x != newPosition.m_x || m_position.m_y != newPosition.m_y)
+	{
+		SetRenderDirty(true);
+	}
 
 	if(GetInitialized())
 	{

@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "ScreenRegion.h"
 #include "ST7735SClient.h"
+#include "GameState.h"
 
 Entity::Entity() {}
 
@@ -12,6 +13,22 @@ Entity::Entity(Texture& texture)
 Entity::~Entity()
 {
 	
+}
+
+void Entity::UpdateLastMoveTime()
+{
+	m_lastMoveTime = GetTimeMS();
+	m_timeSinceLastMove = 0;
+}
+
+void Entity::UpdateMoveTimeDebt(uint32_t dt)
+{
+	m_timeSinceLastMove += dt;
+}
+
+bool Entity::GetMoveDebtPaid(float moveSpeed)
+{
+	return ((float)m_timeSinceLastMove * moveSpeed >= 1.0f);
 }
 
 bool Entity::GetIsMarkedForDeletion()

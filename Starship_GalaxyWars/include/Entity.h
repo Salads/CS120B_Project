@@ -26,12 +26,18 @@ public:
 	
 	bool    GetIsMarkedForDeletion();
 	void    SetIsMarkedForDeletion(bool shouldDelete);
+	bool	GetMoveDebtPaid(float moveSpeed);
+	void	UpdateLastMoveTime();
+	void	UpdateMoveTimeDebt(uint32_t dt);
 	
 protected:
 
 	// Working with integers at faster update rates, we end up with
 	// "move" deltas like .10 pixels and so on. This is used to accumulate 
 	// the updating if we aren't able to represent a change.
-	uint32_t  m_timeSinceLastUpdate = 0;
+	uint32_t  m_lastMoveTime = 0;
+	uint32_t  m_timeSinceLastMove = 0;
 	bool      m_markedForDelete = false;
+
+
 };
