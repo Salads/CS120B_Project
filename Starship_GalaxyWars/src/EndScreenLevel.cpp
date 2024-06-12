@@ -2,10 +2,10 @@
 #include "GUIMenuConfigs.h"
 #include "SerialMonitor.h"
 
-EndScreenLevel::EndScreenLevel()
+EndScreenLevel::EndScreenLevel(DoneReason reason)
 {
 	m_label = new TextRenderObject();
-	m_label->SetText("Victory!");
+	m_label->SetText(reason == DoneReason_GameOverVictory ? "Victory!" : "Defeat");
 
 	int xPos = (SCREEN_WIDTH / 2) - (m_label->GetWidth() / 2);
 	int yPos = (SCREEN_HEIGHT / 4);

@@ -7,7 +7,7 @@
 class EndScreenLevel : public Level
 {
 public:
-	EndScreenLevel();
+	EndScreenLevel(DoneReason reason);
 	~EndScreenLevel();
 	void Update();
 	void Render();

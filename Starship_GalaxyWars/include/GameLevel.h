@@ -37,6 +37,7 @@ public:
 	uint32_t		  m_timeSinceLastEnemyFire = UINT32_MAX;
 
 	TextRenderObject* m_scoreText;
+	TextRenderObject* m_livesText;
 
 	bool      		  m_isGameOver = false;
 	bool			  m_initialized = false;

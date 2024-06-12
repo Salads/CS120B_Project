@@ -28,4 +28,5 @@ Crab::Crab()
 	m_textureFormat = TextureFormat_16Bit;
 
 	m_scoreValue = 2;
+	m_hp = 2;
 }

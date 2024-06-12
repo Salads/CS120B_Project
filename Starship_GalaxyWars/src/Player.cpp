@@ -25,4 +25,6 @@ Player::Player()
 	m_width = 14;
 	m_height = 12;
 	m_textureFormat = TextureFormat_16Bit;
+
+	m_hp = 3;
 }

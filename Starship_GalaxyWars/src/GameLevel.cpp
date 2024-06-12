@@ -24,15 +24,22 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies)
 
     m_scoreText = new TextRenderObject();
     m_scoreText->SetPosition(5, 1);
-    m_scoreText->SetPosition(m_scoreText->GetPosition());
     m_scoreText->SetInitialized();
 
+    m_livesText = new TextRenderObject();
+
+    char text[11];
+    sprintf(text, "Lives: %d", m_player->GetHP());
+    m_livesText->SetText(text);
+    m_livesText->SetPosition(0, SCREEN_HEIGHT - m_livesText->GetHeight());
+    m_livesText->SetInitialized();
 }
 
 GameLevel::~GameLevel()
 {
     if(m_player) delete m_player;
     if(m_scoreText) delete m_scoreText;
+    if(m_livesText) delete m_livesText;
 
     for(int i = 0; i < m_numBullets; i++)
     {
@@ -199,6 +206,11 @@ void GameLevel::Update()
         m_initialized = true;
     }
 
+    if(m_doneReason != DoneReason_None)
+    {
+        return;
+    }
+
     // Update Gamestate with Input
     if(gameState.m_fireButton && 
       (gameState.m_timeSinceLastFireMS >= gameState.m_timeNextFireMS) && m_numBullets < K_MAX_BULLETS)
@@ -252,12 +264,30 @@ void GameLevel::Update()
             for(uint8_t eIdx = 0; eIdx < m_numEnemies; eIdx++)
             {	
                 Enemy* enemy = m_enemies[eIdx];
-                if(bullet->GetType() == BulletType_PlayerNormal && bullet->GetCollides(*enemy))
+                if(!bullet->GetIsMarkedForDeletion() && bullet->GetType() == BulletType_PlayerNormal && bullet->GetCollides(*enemy))
                 {
-                    enemy->SetIsMarkedForDeletion(true);
+                    enemy->TakeDamage(1);
+                    if(!enemy->GetIsAlive())
+                    {
+                        enemy->SetIsMarkedForDeletion(true);
+                        gameState.m_score += enemy->GetScoreValue();
+                        UpdateScoreText(gameState.m_score);
+                    }
                     bullet->SetIsMarkedForDeletion(true);
-                    gameState.m_score += enemy->GetScoreValue();
-                    UpdateScoreText(gameState.m_score);
+                }
+                else if(!bullet->GetIsMarkedForDeletion() && bullet->GetType() == BulletType_EnemyNormal && bullet->GetCollides(*m_player))
+                {
+                    m_player->TakeDamage(1);
+
+                    char text[11];
+                    sprintf(text, "Lives: %d", m_player->GetHP());
+                    m_livesText->SetText(text);
+
+                    if(!m_player->GetIsAlive())
+                    {
+                        m_doneReason = DoneReason_GameOverDefeat;
+                    }
+                    bullet->SetIsMarkedForDeletion(true);
                 }
             }
 
@@ -362,6 +392,7 @@ void GameLevel::Update()
 void GameLevel::Render()
 {
     m_scoreText->Render();
+    m_livesText->Render();
     
 	for(int i = 0; i < m_numEnemies; i++)
 	{

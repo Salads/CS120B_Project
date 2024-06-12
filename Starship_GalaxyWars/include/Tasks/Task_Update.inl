@@ -24,7 +24,7 @@ Level* GetNextLevel(DoneReason completeReason)
 			break;
 		case DoneReason_GameOverVictory:
 		case DoneReason_GameOverDefeat:
-			newLevel = new EndScreenLevel();
+			newLevel = new EndScreenLevel(completeReason);
 			break;
 		case DoneReason_EndScreenDone:
 		case DoneReason_HighScore_GoBack:
