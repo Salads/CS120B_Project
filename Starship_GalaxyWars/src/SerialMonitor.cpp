@@ -70,6 +70,7 @@ void Serial_PrintLine(long num, int base)
 
 void Debug_Print(const char* format, ...)
 {
+#if DEBUGPRINT_ENABLED
 	va_list args;
 	va_start(args, format);
 
@@ -78,10 +79,12 @@ void Debug_Print(const char* format, ...)
 	va_end(args);
 
 	Serial_Print(strBuffer);
+#endif
 }
 
 void Debug_PrintLine(const char* format, ...)
 {
+#if DEBUGPRINT_ENABLED
 	va_list args;
 	va_start(args, format);
 
@@ -90,4 +93,5 @@ void Debug_PrintLine(const char* format, ...)
 	va_end(args);
 
 	Serial_PrintLine(strBuffer);
+#endif
 }

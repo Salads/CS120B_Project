@@ -8,6 +8,7 @@
 // TODO(Darrell): Macro magic to take out serial monitor printing? (it's slow)
 
 #define DEBUGPRINT_MAXCHARS 128
+#define DEBUGPRINT_ENABLED false
 
 void Debug_Print(const char* format, ...);
 void Debug_PrintLine(const char* format, ...);
