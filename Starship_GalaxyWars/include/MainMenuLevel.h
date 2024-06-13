@@ -13,7 +13,7 @@ public:
 	DoneReason GetDoneReason();
 
 protected:
-	SimpleRenderObject* m_titleImage;
-	GUIMenu*   			m_menu;
+	SimpleRenderObject  m_titleImage;
+	GUIMenu   			m_menu;
 	DoneReason 			m_doneReason = DoneReason_None;
 };

@@ -13,6 +13,7 @@ BaseRenderObject::~BaseRenderObject()
 void BaseRenderObject::SetInitialized()
 {
 	m_initialized = true;
+	SetRenderDirty(true);
 }
 
 bool BaseRenderObject::GetInitialized()

@@ -36,8 +36,8 @@ protected:
 	BaseRenderObject* m_parent = nullptr;
     bool 			  m_renderDirty = false;
 
-	uint8_t 		  m_width = 25;
-	uint8_t 		  m_height = 25;
+	uint8_t 		  m_width = 0;
+	uint8_t 		  m_height = 0;
 
 	XYCoord 		  m_position;
 	XYCoord 		  m_lastRenderedPosition;

@@ -156,6 +156,12 @@ void ST7735SClient::FillCurrentScreenRegionTexture(const uint8_t* textureData, u
 	}	
 }
 
+// [0-7] PORTD (8bit)
+// [8-13] PORTB (6bit)
+// [A0-A5] PORTC (6bit)
+// Output: DDR=1, PORT=0
+// PINx: Read Input
+// PORTx: Set Output
 void ST7735SClient::SetHardwareResetPin(bool val)
 {
 	PORTB = SetBit(PORTB, PORTB4, val);
@@ -163,12 +169,12 @@ void ST7735SClient::SetHardwareResetPin(bool val)
 
 void ST7735SClient::SendCommand(uint8_t command)
 {
-	PORTB = SetBit(PORTB, PORTB1, 0);
+	PORTD = SetBit(PORTD, PORTD6, 0);
 	SPI_SEND(command);
 }
 
 void ST7735SClient::SendData(uint8_t data)
 {
-	PORTB = SetBit(PORTB, PORTB1, 1);
+	PORTD = SetBit(PORTD, PORTD6, 1);
 	SPI_SEND(data);
 }

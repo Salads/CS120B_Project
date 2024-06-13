@@ -8,6 +8,7 @@
 #include "Fly.h"
 #include <string.h>
 #include <stdlib.h>
+#include "AudioPlayer.h"
 
 GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies, uint8_t level)
 {
@@ -41,6 +42,8 @@ GameLevel::GameLevel(EntityType* enemiesArray, uint8_t numEnemies, uint8_t level
     m_livesText->SetText(text);
     m_livesText->SetPosition(0, SCREEN_HEIGHT - m_livesText->GetHeight());
     m_livesText->SetInitialized();
+
+    gAudioPlayer.LoadSong(song_mq_battle2_data, song_mq_battle2_datasize, song_mq_battle2_bpm, AudioPlayerMode_Repeat);
 }
 
 GameLevel::~GameLevel()
@@ -62,6 +65,8 @@ GameLevel::~GameLevel()
     }
 
     delete m_enemies;
+
+    gAudioPlayer.Stop();
 }
 
 void GameLevel::InitializeEnemiesFromTypeArray(EntityType* enemyArray, uint8_t numEnemies)

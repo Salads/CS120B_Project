@@ -19,13 +19,18 @@ void TimerOn()
 {
 	SREG   = 0b10000000; // Enable Global Interrupts
 
-	// Task Timer
-	TCCR0A = 0b00000011; // Fast PWM Mode.
-	TCCR0B = 0b00001011; // prescalar 64 (4 microsecond tick), or 4 microseconds per timer count increment
+	// Task Timer0
+	TCCR0A = 0b00000010; // CTC
+	TCCR0B = 0b00000011; // prescalar 64 (4 microsecond tick), or 4 microseconds per timer count increment
 	OCR0A  = 250;        // 1000 microseconds (1ms) / 4 microsecond tick = 250 exactly. 
 						 // 	This will let us have an (overflow) interrupt every 1 milisecond.
 	TCNT0  = 0;          // Initialize counter to 0.
 	TIMSK0 = 0b00000010; // Enable Compare match interrupt (A), No Overflow
+
+	// Timer1 for passive buzzer
+	TCCR1A = (1 << COM1A0);  			 // Toggle OC1A on Compare Match
+	TCCR1B = (1 << WGM12) | (1 << CS10); // CTC mode, no prescaler
+	OCR1A = 0;
 
 	// Timer2 
 	TCCR2A = 0b00000010; // CTC

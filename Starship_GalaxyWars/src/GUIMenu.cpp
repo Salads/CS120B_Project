@@ -12,19 +12,19 @@ const uint16_t texture_cursor [] PROGMEM =
 	0x2589, 0x0000, 0x0000, 0x2589, 0x2589, 0x0000, 0x0000, 0x0000, 0x2589, 0x0000, 0x0000, 0x0000, 0x0000
 };
 
-const Texture kCursorTexture = 
-{
+Texture kCursorTexture(
 	(uint8_t*)texture_cursor,
 	5*9,
 	5,9,
-	TextureFormat_16Bit
-};
+	TextureFormat_16Bit);
+
 
 void GUIMenu::AddOption(const char* newOptionText)
 {
-	const char* optionText = newOptionText;
+	if(m_numOptions >= GUIMENU_MAX_OPTIONS) {return;}
+
 	m_textObjects[m_numOptions] = new TextRenderObject();
-	m_textObjects[m_numOptions]->SetText(optionText);
+	m_textObjects[m_numOptions]->SetText(newOptionText);
 	
 	m_largestOptionWidth = max(m_largestOptionWidth, m_textObjects[m_numOptions]->GetWidth());
 	m_numOptions++;
@@ -41,8 +41,7 @@ GUIMenu::GUIMenu()
 	
 	m_largestOptionWidth = 0;
 
-	m_cursorTexture = kCursorTexture;
-	m_cursor = new SimpleRenderObject(m_cursorTexture);
+	m_cursor.SetTexture(kCursorTexture);
 }
 
 GUIMenu::~GUIMenu()
@@ -53,11 +52,6 @@ GUIMenu::~GUIMenu()
 		{
 			delete m_textObjects[i];
 		}
-	}
-
-	if(m_cursor)
-	{
-		delete m_cursor;
 	}
 }
 
@@ -76,7 +70,7 @@ void GUIMenu::UpdateLayout()
 	// Options are left-justified
 	uint8_t cursorWidth = 0;
 	uint8_t cursorGap = 0;
-	cursorWidth = m_cursor->GetWidth();
+	cursorWidth = m_cursor.GetWidth();
 	cursorGap = 5;
 	
 	uint8_t xCursorPos = currentMenuPos.m_x + m_borderThickness + m_borderGap;
@@ -102,8 +96,15 @@ void GUIMenu::UpdateLayout()
 
 	m_height += m_borderThickness + m_borderGap; // The bottom extra space
 
-	m_cursor->SetPosition(xCursorPos, m_optionYPositions[m_selectedIdx]);
-	m_cursor->SetInitialized();
+	m_cursor.SetPosition(xCursorPos, m_optionYPositions[m_selectedIdx]);
+	m_cursor.SetInitialized();
+
+	// if(m_numOptions > 0)
+	// {
+	// 	Debug_PrintLine("Cursor Pos: %d, %d - FIrst Option: %d, %d", 
+	// 		m_cursor.GetPosition().m_x, m_cursor.GetPosition().m_y, 
+	// 		m_textObjects[0]->GetPosition().m_x, m_textObjects[0]->GetPosition().m_y);
+	// }
 
 	SetRenderDirty(true);
 }
@@ -121,15 +122,15 @@ bool GUIMenu::GetAcceptedSelection()
 void GUIMenu::SelectPreviousOption()
 {
 	if(m_selectedIdx <= 0) return;
-	m_selectedIdx--;
-	m_cursor->SetPosition(m_optionXPosition - m_cursor->GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
+	m_selectedIdx = clamp(m_selectedIdx - 1, 0, m_numOptions - 1);
+	m_cursor.SetPosition(m_optionXPosition - m_cursor.GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
 }
 
 void GUIMenu::SelectNextOption()
 {
 	if(m_selectedIdx >= m_numOptions - 1) return;
-	m_selectedIdx++;
-	m_cursor->SetPosition(m_optionXPosition - m_cursor->GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
+	m_selectedIdx = clamp(m_selectedIdx + 1, 0, m_numOptions - 1);
+	m_cursor.SetPosition(m_optionXPosition - m_cursor.GetWidth() - 5, m_optionYPositions[m_selectedIdx]);
 }
 
 uint8_t GUIMenu::GetSelectedOptionIdx()
@@ -181,7 +182,7 @@ void GUIMenu::OnSetRenderDirty(bool newDirty)
 		m_textObjects[i]->SetRenderDirty(true);
 	}
 
-	m_cursor->SetRenderDirty(true);
+	m_cursor.SetRenderDirty(true);
 }
 
 void GUIMenu::Render(bool clearLastPosition)
@@ -214,8 +215,6 @@ void GUIMenu::Render(bool clearLastPosition)
 		hollowRegion.m_endY   -= m_borderThickness;
 		renderer.SetRegion(hollowRegion);
 		renderer.FillCurrentScreenRegionPacked16(renderer.m_backgroundColor);
-
-		SetRenderDirty(false);
 	}
 
 	// Now we render the rest of our child objects on top of this.
@@ -225,5 +224,7 @@ void GUIMenu::Render(bool clearLastPosition)
 		object->Render();
 	}
 
-	m_cursor->Render();
+	m_cursor.Render();
+
+	SetRenderDirty(false);
 }

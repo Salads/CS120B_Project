@@ -3,13 +3,14 @@
 #include "BaseRenderObject.h"
 #include "SimpleRenderObject.h"
 
-#define MAX_STR_LEN 25
+#define MAX_STR_LEN 18
 
 extern Texture kFullFontTexture;
 
 class TextRenderObject : public BaseRenderObject
 {
 public:
+	TextRenderObject();
 	~TextRenderObject();
 	void Render(bool clearLastPosition = true);
 	void SetText(const char* newText);
@@ -21,7 +22,7 @@ private:
 	void UpdateChildPositions();
 
 protected:
-	char      		    m_text[MAX_STR_LEN];
+	char      		    m_text[MAX_STR_LEN] = {};
 	SimpleRenderObject* m_renderObjects[MAX_STR_LEN] = {nullptr};
-	uint8_t   		    m_textSize;
+	uint8_t   		    m_textSize = 0;
 };

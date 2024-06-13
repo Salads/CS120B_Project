@@ -32,7 +32,7 @@ int main()
 
 	Serial_Init(9600);
 
-	DDRD = 0x00; PORTD = 0xFF;
+	DDRD = 0b01000000; PORTD = 0b10111111;
 	DDRB = 0xFF; PORTB = 0;
 	DDRC = 0x00; PORTC = 0xFF;
 
@@ -42,7 +42,8 @@ int main()
 	gTasks[0] = {TS_BUTTONS_INIT , PERIOD_BUTTONS , PERIOD_BUTTONS , &Tick_Buttons};
 	gTasks[1] = {TS_JOYSTICK_INIT, PERIOD_JOYSTICK, PERIOD_JOYSTICK, &Tick_Joystick};
 	gTasks[2] = {TS_UPDATE_INIT  , PERIOD_UPDATE  , PERIOD_UPDATE  , &Tick_Update};
-	gTasks[3] = {TS_RENDER_INIT  , PERIOD_RENDER  , PERIOD_RENDER  , &Tick_Render};
+	gTasks[3] = {TS_AUDIO_WAIT   , PERIOD_AUDIO   , PERIOD_AUDIO   , &Tick_Audio};
+	gTasks[4] = {TS_RENDER_INIT  , PERIOD_RENDER  , PERIOD_RENDER  , &Tick_Render};
 
 	gTasks[NUM_TASKS - 1] = {TS_TIMING_INIT, PERIOD_TIMING, PERIOD_TIMING, &Tick_Timing};
 

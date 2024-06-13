@@ -676,7 +676,7 @@ Texture GetCharTexture(char ch)
 {
 	if (ch < 32) 
 	{
-		return {nullptr, 0, 0, 0};
+		return Texture();
 	}
 
 	// The textures for text chars are all from ascii, 
@@ -685,6 +685,6 @@ Texture GetCharTexture(char ch)
 	uint8_t textureIdx = ch - 32;
 	const uint8_t* textureData = allArray[textureIdx];
 
-	Texture result = {textureData, 8, 7, 9, TextureFormat_1Bit}; 
+	Texture result(textureData, 8, 7, 9, TextureFormat_1Bit); 
 	return result;
 }

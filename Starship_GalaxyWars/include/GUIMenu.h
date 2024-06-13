@@ -6,6 +6,8 @@
 #include "GUIMenuConfig.h"
 #include "TextRenderObject.h"
 
+#define GUIMENU_MAX_OPTIONS 5
+
 struct GUIMenu : public BaseRenderObject
 {
 public:
@@ -33,12 +35,11 @@ protected:
 	uint8_t   			m_selectedIdx = 0;
 	bool				m_acceptedSelection = false;
 
-	Texture   		    m_cursorTexture;
-	SimpleRenderObject* m_cursor;
+	SimpleRenderObject  m_cursor;
 	
-	TextRenderObject*   m_textObjects[5];
+	TextRenderObject*   m_textObjects[GUIMENU_MAX_OPTIONS] = {nullptr};
 	uint8_t   		    m_optionXPosition = 0;
-	uint8_t   		    m_optionYPositions[5];
+	uint8_t   		    m_optionYPositions[GUIMENU_MAX_OPTIONS];
 	uint8_t   		    m_numOptions = 0;
 	uint8_t				m_largestOptionWidth = 0;
 private:

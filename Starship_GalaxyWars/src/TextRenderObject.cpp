@@ -3,6 +3,12 @@
 #include <string.h>
 #include "TextTextures.h"
 #include "ST7735SClient.h"
+#include <Arduino.h>
+
+TextRenderObject::TextRenderObject()
+{
+	m_textSize = 0;
+}
 
 TextRenderObject::~TextRenderObject()
 {
@@ -37,6 +43,7 @@ void TextRenderObject::SetText(const char* newText)
 	uint8_t totalHeight = 0;
 
 	uint8_t newLen = strlen(newText);
+	//Debug_PrintLine("SetText - '%s' - newlen=%d, curTextSize=%d", newText, newLen, m_textSize);
 	if (newLen > m_textSize)
 	{
 		for(uint8_t i = 0; i < newLen; i++)
@@ -54,6 +61,7 @@ void TextRenderObject::SetText(const char* newText)
 			totalWidth += m_renderObjects[i]->GetWidth();
 			totalHeight = max(totalHeight, m_renderObjects[i]->GetHeight());
 		}
+
 	}
 	else if (newLen < m_textSize)
 	{
@@ -86,7 +94,12 @@ void TextRenderObject::SetText(const char* newText)
 		}
 	}
 
-	strcpy(m_text, newText);
+	for(uint8_t i = 0; i < newLen; i++)
+	{
+		m_text[i] = newText[i];
+	}
+	
+	m_text[newLen] = 0;
 	m_textSize = newLen;
 	m_width = totalWidth;
 	m_height = totalHeight;

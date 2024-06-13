@@ -4,6 +4,7 @@
 #include "SerialMonitor.h"
 #include "GameState.h"
 #include <avr/pgmspace.h>
+#include "AudioPlayer.h"
 
 // 'title_screen_1_cropped', 100x29px
 const uint16_t texture_title_image [] PROGMEM = {
@@ -191,79 +192,72 @@ const uint16_t texture_title_image [] PROGMEM = {
 	0x30e8, 0x2107, 0x20e7, 0x1907
 };
 
-Texture kTextureTitleImage =
-{
+Texture kTextureTitleImage
+(
 	(const uint8_t*)texture_title_image,
 	2900,
 	100, 29,
 	TextureFormat_16Bit
-};
+);
 
 MainMenuLevel::MainMenuLevel()
 {
-	//Debug_PrintLine("MainMenuLevel::MainMenuLevel()");
-	m_titleImage = new SimpleRenderObject();
-	m_titleImage->SetTexture(kTextureTitleImage);
-	uint8_t xTitlePos = (SCREEN_WIDTH / 2) - (m_titleImage->GetWidth() / 2);
+	m_titleImage.SetTexture(kTextureTitleImage);
+	uint8_t xTitlePos = (SCREEN_WIDTH / 2) - (m_titleImage.GetWidth() / 2);
 	uint8_t yTitlePos = SCREEN_HEIGHT * 0.15;
-	m_titleImage->SetPosition(xTitlePos, yTitlePos);
-	m_titleImage->SetInitialized();
+	m_titleImage.SetPosition(xTitlePos, yTitlePos);
+	m_titleImage.SetInitialized();
 
-	// If I don't put this here, this gets optimized out when we go from end screen to main menu. siiiiiigh
-	// It can't be an empty string either. SIIIIIIIGH
-	// At least it's "loading" code, so it doesn't affect performance.
-	Debug_PrintLine("MainMenuLevel() - Creating new GUIMenu");
-	m_menu = new GUIMenu();
-	m_menu->AddOption("Start");
-	m_menu->AddOption("High Scores");
-	m_menu->AddOption("Clear Scores");
+	m_menu.AddOption("Start");
+	m_menu.AddOption("High Scores");
+	m_menu.AddOption("Clear Scores");
 	m_type = LevelType_Menu;
 
-	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu->GetWidth() / 2);
-	uint8_t yMenuPos = m_titleImage->GetPosition().m_y + 50;
-	m_menu->SetPosition(xMenuPos, yMenuPos);
-	m_menu->SetInitialized();
-
-	Debug_PrintLine("MainMenuLevel() - GUIMenu Done");
+	uint8_t xMenuPos = (SCREEN_WIDTH / 2) - (m_menu.GetWidth() / 2);
+	uint8_t yMenuPos = m_titleImage.GetPosition().m_y + 50;
+	m_menu.SetPosition(xMenuPos, yMenuPos);
+	m_menu.SetInitialized();
 
 	GameState& gameState = GameState::Get();
 	gameState.m_score = 0;
+
+	if(!gAudioPlayer.IsPlaying())
+	{
+		gAudioPlayer.LoadSong(song_sf_controls_data, song_sf_controls_datasize, song_sf_controls_bpm, AudioPlayerMode_Repeat);
+	}
 }
 
 MainMenuLevel::~MainMenuLevel()
 {
-	if(m_menu)
-	{
-		delete m_menu;
-	}
+
 }
 
 void MainMenuLevel::Update()
 {
-	m_menu->Update();
-	if(m_doneReason == DoneReason_None && m_menu->GetAcceptedSelection())
+	m_menu.Update();
+	if(m_doneReason == DoneReason_None && m_menu.GetAcceptedSelection())
 	{
-		if(m_menu->GetSelectedOptionIdx() == 0)
+		if(m_menu.GetSelectedOptionIdx() == 0)
 		{
 			m_doneReason = DoneReason_StartGame;
 		}
-		else if(m_menu->GetSelectedOptionIdx() == 1)
+		else if(m_menu.GetSelectedOptionIdx() == 1)
 		{
 			m_doneReason = DoneReason_ViewHighScore;
 		}
-		else if(m_menu->GetSelectedOptionIdx() == 2)
+		else if(m_menu.GetSelectedOptionIdx() == 2)
 		{
 			GameState& gameState = GameState::Get();
 			gameState.ClearHighScores();
-			m_menu->Unlock();
+			m_menu.Unlock();
 		}
 	}
 }
 
 void MainMenuLevel::Render()
 {
-	m_titleImage->Render();
-	m_menu->Render();
+	m_titleImage.Render();
+	m_menu.Render();
 }
 
 DoneReason MainMenuLevel::GetDoneReason()

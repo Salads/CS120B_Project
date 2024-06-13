@@ -23,6 +23,7 @@ void SimpleRenderObject::SetTexture(Texture& newTexture)
 	m_textureDataSize = newTexture.dataSize;
 	m_textureFormat   = newTexture.textureFormat;
 
+	//Debug_PrintLine("Texture Set: data %d, %dx%d", m_textureData != 0, m_width, m_height);
 	SetRenderDirty(true);
 }
 
@@ -50,6 +51,8 @@ void SimpleRenderObject::Render(bool clearLastPosition)
 	#endif
 
 	renderer.SetRegion(newRegion);
+	// Debug_PrintLine("Render Params: data=%d, dataSize=%u, texFmt=%d, w=%u, h=%d",
+	// 	m_textureData, m_textureDataSize, m_textureFormat, m_width, m_height);
 	renderer.FillCurrentScreenRegionTexture(m_textureData, m_textureDataSize, m_textureFormat, m_width, m_height);
 
 	SetRenderDirty(false);
